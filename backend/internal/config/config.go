@@ -8,6 +8,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 )
+
 // MailConfig drives the transactional mail package. Provider selects the
 // transport at runtime ("smtp" -> Mailpit/SMTP, "ses" -> AWS SES, anything else
 // -> the log transport, which prints the message to the server log). Switching
@@ -18,9 +19,9 @@ type MailConfig struct {
 	SenderName    string `yaml:"sender_name"`
 	AppName       string `yaml:"app_name"`
 	// BaseURL is the public app URL used to build links (token verification method).
-	BaseURL string `yaml:"base_url"`
-	SMTP SMTPConfig `yaml:"smtp"`
-	SES  SESConfig  `yaml:"ses"`
+	BaseURL string     `yaml:"base_url"`
+	SMTP    SMTPConfig `yaml:"smtp"`
+	SES     SESConfig  `yaml:"ses"`
 }
 
 type SMTPConfig struct {
@@ -96,6 +97,7 @@ func Load(path string) (*Config, error) {
 		Token:         TokenConfig{ExpiryHours: 1, RefreshExpiryHours: 720},
 	}
 
+	// #nosec G304 -- path is the operator-supplied config file, not user input.
 	if b, err := os.ReadFile(path); err == nil {
 		if err := yaml.Unmarshal(b, cfg); err != nil {
 			return nil, err

@@ -1,0 +1,107 @@
+# Install with:  pre-commit install && pre-commit install --hook-type pre-push
+#
+# Hooks are split by stage:
+#   pre-commit — fast, file-scoped: formatting, hygiene, spec lint.
+#   pre-push   — slow, whole-project: golangci-lint, flutter analyze, fitness checks.
+# Run everything manually with: pre-commit run --all-files --hook-stage manual
+
+default_install_hook_types: [pre-commit, pre-push]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^(backend/gen/|backend/internal/database/|packages/shared_api_client/lib/)
+      - id: end-of-file-fixer
+        exclude: ^(backend/gen/|backend/internal/database/|packages/shared_api_client/lib/)
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: check-case-conflict
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+  - repo: local
+    hooks:
+      # ---------------------------------------------------------------- backend
+      - id: go-fmt
+        name: go fmt (backend)
+        entry: gofmt -l -w
+        language: system
+        types: [go]
+        exclude: ^backend/(gen/|internal/database/)
+
+      - id: go-mod-tidy
+        name: go mod tidy (backend)
+        entry: bash -c 'cd backend && go mod tidy'
+        language: system
+        files: ^backend/(go\.mod|go\.sum)$
+        pass_filenames: false
+
+      - id: go-vet
+        name: go vet (backend)
+        entry: bash -c 'cd backend && go vet ./...'
+        language: system
+        files: ^backend/.*\.go$
+        pass_filenames: false
+
+      - id: golangci-lint
+        name: golangci-lint (backend)
+        entry: bash -c 'cd backend && golangci-lint run'
+        language: system
+        files: ^backend/.*\.go$
+        pass_filenames: false
+        stages: [pre-push, manual]
+
+      - id: go-test
+        name: go test (backend)
+        entry: bash -c 'cd backend && make test'
+        language: system
+        files: ^backend/
+        pass_filenames: false
+        stages: [pre-push, manual]
+
+      # --------------------------------------------------------------- frontend
+      - id: dart-format
+        name: dart format (frontend + packages)
+        entry: dart format
+        language: system
+        types: [dart]
+        exclude: ^(frontend/lib/(api|icons)/|packages/shared_api_client/lib/)
+
+      - id: flutter-analyze
+        name: flutter analyze + custom_lint (frontend)
+        entry: bash -c 'cd frontend && flutter analyze && dart run custom_lint'
+        language: system
+        files: ^(frontend/|packages/)
+        pass_filenames: false
+        stages: [pre-push, manual]
+
+      # Skips cleanly while frontend/test is still empty.
+      - id: flutter-test
+        name: flutter test (frontend)
+        entry: bash -c 'cd frontend && if find test -name "*_test.dart" -print -quit | grep -q .; then flutter test; fi'
+        language: system
+        files: ^(frontend/|packages/)
+        pass_filenames: false
+        stages: [pre-push, manual]
+
+      # -------------------------------------------------------------------- api
+      # The spec is the contract — lint it before anything downstream is generated.
+      - id: redocly-lint
+        name: redocly lint (api spec)
+        entry: bash -c 'cd api && npm run --silent lint'
+        language: system
+        files: ^api/.*\.ya?ml$
+        pass_filenames: false
+
+      # --------------------------------------------------------- fitness checks
+      - id: fitness-checks
+        name: fitness checks
+        entry: bash fitness_checks/run_all.sh
+        language: system
+        pass_filenames: false
+        always_run: true

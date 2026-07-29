@@ -1,0 +1,54 @@
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  default: standard # errcheck, govet, ineffassign, staticcheck, unused
+  enable:
+    - bodyclose
+    - contextcheck
+    - errorlint
+    - gosec
+    - misspell
+    - nilerr
+    - noctx
+    - revive
+    - rowserrcheck
+    - sqlclosecheck
+    - unconvert
+    - unparam
+    - wastedassign
+
+  settings:
+    errcheck:
+      check-type-assertions: true
+    revive:
+      rules:
+        - name: unused-parameter
+          disabled: true
+    gosec:
+      excludes:
+        - G104 # duplicated by errcheck
+
+  exclusions:
+    generated: lax
+    paths:
+      # sqlc and oapi-codegen output — regenerate, don't hand-lint.
+      - internal/database
+      - gen/api
+    rules:
+      - path: _test\.go
+        linters: [errcheck, gosec, unparam, bodyclose, noctx]
+      # Test-only helper package; same relaxations as _test.go files.
+      - path: internal/testsupport/
+        linters: [errcheck, gosec, unparam, bodyclose, noctx]
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  exclusions:
+    paths:
+      - internal/database
+      - gen/api

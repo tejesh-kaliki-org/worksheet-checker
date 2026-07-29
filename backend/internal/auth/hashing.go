@@ -80,6 +80,7 @@ func compareHash(encodedHash, password string) (bool, error) {
 		return false, err
 	}
 
+	// #nosec G115 -- want is a decoded argon2 hash; its length is bounded well below uint32.
 	got := argon2.IDKey([]byte(password), salt, p.iterations, p.memory, p.parallelism, uint32(len(want)))
 	return subtle.ConstantTimeCompare(got, want) == 1, nil
 }

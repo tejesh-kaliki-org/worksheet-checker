@@ -19,10 +19,14 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.4.0
+  # analysis_options.yaml enables the custom_lint analyzer plugin; these two
+  # packages are what actually supply it and the Riverpod rule set.
+  custom_lint: ^0.7.0
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
   riverpod_generator: ^2.4.0
+  riverpod_lint: ^2.6.0
   # `flutter create` writes an analysis_options.yaml that includes this ruleset.
   very_good_analysis: ^10.2.0
 

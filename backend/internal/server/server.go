@@ -12,16 +12,16 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/exaring/otelpgx"
+	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/auth"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/config"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/mail"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/migrate"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/observability"
-	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/auth"
-	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/mail"
 )
 
 func Run() {

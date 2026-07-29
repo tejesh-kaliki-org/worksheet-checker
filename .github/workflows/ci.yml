@@ -33,6 +33,18 @@ jobs:
           go build ./...
           go test ./...
 
+  backend-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+      - uses: golangci/golangci-lint-action@v8
+        with:
+          version: v2.11.4
+          working-directory: backend
+
   api:
     runs-on: ubuntu-latest
     steps:
@@ -45,6 +57,9 @@ jobs:
         run: |
           npm install
           npm run build:local
+      - name: Lint spec
+        working-directory: api
+        run: npm run lint
 
   frontend:
     runs-on: ubuntu-latest
@@ -57,7 +72,20 @@ jobs:
         working-directory: frontend
         run: |
           flutter pub get
+          # Generated client code (lib/api, lib/icons) is excluded, same as in
+          # analysis_options.yaml — regenerate it rather than reformatting it.
+          find lib test -name '*.dart' -not -path 'lib/api/*' -not -path 'lib/icons/*' -print0 \
+            | xargs -0 --no-run-if-empty dart format --output=none --set-exit-if-changed
           flutter analyze
+          dart run custom_lint
+      - name: Test
+        working-directory: frontend
+        run: |
+          if find test -name '*_test.dart' -print -quit | grep -q .; then
+            flutter test
+          else
+            echo "no test files yet — skipping"
+          fi
 
   fitness:
     runs-on: ubuntu-latest
@@ -69,3 +97,19 @@ jobs:
       - run: go install github.com/fzipp/gocyclo/cmd/gocyclo@latest
       - name: Run fitness checks
         run: bash fitness_checks/run_all.sh
+
+  # Hygiene hooks only (formatting, YAML, merge markers). The heavier hooks —
+  # golangci-lint, flutter analyze, tests — are their own jobs above, so this
+  # skips them rather than running the toolchains twice.
+  pre-commit:
+    runs-on: ubuntu-latest
+    env:
+      SKIP: go-fmt,go-mod-tidy,go-vet,golangci-lint,go-test,dart-format,flutter-analyze,flutter-test,redocly-lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: --all-files --hook-stage manual

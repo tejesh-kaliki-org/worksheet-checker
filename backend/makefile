@@ -2,7 +2,9 @@
 SQLC_VERSION := v1.27.0
 OAPI_VERSION := v2.4.1
 
-.PHONY: build test test-up test-down generate sqlc oapi
+GOLANGCI_VERSION := v2.11.4
+
+.PHONY: build test test-up test-down generate sqlc oapi lint fmt
 
 TEST_COMPOSE := docker compose -f docker/docker-compose-test.yaml
 
@@ -20,6 +22,14 @@ test-up:
 
 test-down:
 	$(TEST_COMPOSE) down -v
+
+# Lint config lives in .golangci.yaml. Generated code (internal/database,
+# gen/api) is excluded there — regenerate it, don't hand-fix lint findings.
+lint:
+	go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@$(GOLANGCI_VERSION) run
+
+fmt:
+	go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@$(GOLANGCI_VERSION) fmt
 
 # Regenerate all code from sql/queries and api/services specs.
 generate: sqlc oapi

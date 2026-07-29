@@ -68,15 +68,15 @@ func pickTransport(cfg config.MailConfig) transport {
 
 func (m *templatedMailer) SendVerification(ctx context.Context, to, credential string) error {
 	return m.send(ctx, to, m.subject("Verify your email"), "verification.html",
-		m.data(credential, "/verify"))
+		m.data(credential))
 }
 
 func (m *templatedMailer) SendPasswordReset(ctx context.Context, to, credential string) error {
 	return m.send(ctx, to, m.subject("Reset your password"), "password_reset.html",
-		m.data(credential, "/reset-password"))
+		m.data(credential))
 }
 
-func (m *templatedMailer) data(credential, path string) templateData {
+func (m *templatedMailer) data(credential string) templateData {
 	d := templateData{AppName: m.appName(), Year: time.Now().Year()}
 	d.Code = credential
 	return d

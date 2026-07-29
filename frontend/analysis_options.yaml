@@ -1,0 +1,12 @@
+include: package:very_good_analysis/analysis_options.yaml
+analyzer:
+  plugins:
+    - custom_lint
+  exclude:
+    - lib/api/**/*
+    - lib/icons/*
+linter:
+  rules:
+    public_member_api_docs: false
+    avoid_positional_boolean_parameters: false
+    document_ignores: false

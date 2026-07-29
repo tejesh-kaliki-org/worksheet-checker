@@ -1,0 +1,20 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY.
+# Records the answers used to generate this project so `copier update` works.
+_commit: v1.2.0
+_src_path: gh:tejesh-kaliki/kaliki-template
+app_bundle_id: com.mizustack.genai.worksheet-checker
+auth: jwt
+caching: none
+db_name: worksheet_checker
+eventing: none
+go_module_path: github.com/tejesh-kaliki/worksheet-checker/backend
+include_example_domain: false
+include_frontend: true
+object_storage: none
+org_domain: genai.mizustack.com
+payments: none
+project_name: Worksheet Checker
+project_slug: worksheet-checker
+push_notifications: none
+verification_method: otp
+

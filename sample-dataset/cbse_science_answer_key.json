@@ -1,0 +1,324 @@
+{
+  "subject": "CBSE Class 10 Science",
+  "questions": [
+    {
+      "id": "sci-001",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Chemical Reactions",
+      "type": "mcq",
+      "marks": 1,
+      "question_text": "Which of the following is a physical change?",
+      "options": {
+        "A": "Rusting of iron",
+        "B": "Burning of paper",
+        "C": "Melting of wax",
+        "D": "Digestion of food"
+      },
+      "answer_key": {
+        "correct_answer": "C",
+        "distractor_reasoning": {
+          "A": "Rusting is a chemical change (forms iron oxide, new substance) -- commonly mistaken as physical.",
+          "B": "Burning is a chemical change (combustion produces new substances).",
+          "D": "Digestion involves chemical breakdown of food into new substances."
+        }
+      }
+    },
+    {
+      "id": "sci-002",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Life Processes",
+      "type": "mcq",
+      "marks": 1,
+      "question_text": "The functional unit of the kidney is called the:",
+      "options": {
+        "A": "Neuron",
+        "B": "Nephron",
+        "C": "Alveolus",
+        "D": "Villus"
+      },
+      "answer_key": {
+        "correct_answer": "B",
+        "distractor_reasoning": {
+          "A": "Confuses the kidney's functional unit with the nervous system's functional unit.",
+          "C": "Confuses with the functional unit of the lungs.",
+          "D": "Confuses with the structure in the small intestine responsible for absorption."
+        }
+      }
+    },
+    {
+      "id": "sci-003",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Electricity",
+      "type": "mcq",
+      "marks": 1,
+      "question_text": "The SI unit of electrical resistance is the:",
+      "options": {
+        "A": "Ampere",
+        "B": "Volt",
+        "C": "Ohm",
+        "D": "Watt"
+      },
+      "answer_key": {
+        "correct_answer": "C",
+        "distractor_reasoning": {
+          "A": "This is the unit of current, not resistance.",
+          "B": "This is the unit of potential difference, not resistance.",
+          "D": "This is the unit of power, not resistance."
+        }
+      }
+    },
+    {
+      "id": "sci-004",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Light",
+      "type": "mcq",
+      "marks": 1,
+      "question_text": "A concave mirror always forms a virtual image when the object is placed:",
+      "options": {
+        "A": "Beyond the centre of curvature",
+        "B": "At the focus",
+        "C": "Between the pole and the focus",
+        "D": "At the centre of curvature"
+      },
+      "answer_key": {
+        "correct_answer": "C",
+        "distractor_reasoning": {
+          "A": "Object beyond C gives a real, diminished image, not virtual.",
+          "B": "At focus, the image forms at infinity (real, highly enlarged), not virtual.",
+          "D": "At C, the image forms at C itself, real and same size, not virtual."
+        }
+      }
+    },
+    {
+      "id": "sci-005",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Natural Resources",
+      "type": "mcq",
+      "marks": 1,
+      "question_text": "The ozone layer protects the Earth from which type of radiation?",
+      "options": {
+        "A": "Infrared",
+        "B": "Ultraviolet",
+        "C": "Microwave",
+        "D": "Radio waves"
+      },
+      "answer_key": {
+        "correct_answer": "B",
+        "distractor_reasoning": {
+          "A": "Confuses UV with infrared, both often grouped loosely as 'invisible radiation' by students.",
+          "C": "Not typically associated with atmospheric filtering at this level.",
+          "D": "Not typically associated with atmospheric filtering at this level."
+        }
+      }
+    },
+    {
+      "id": "sci-006",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Acids Bases and Salts",
+      "type": "mcq",
+      "marks": 1,
+      "question_text": "The pH of a neutral solution at room temperature is:",
+      "options": {
+        "A": "0",
+        "B": "7",
+        "C": "14",
+        "D": "1"
+      },
+      "answer_key": {
+        "correct_answer": "B",
+        "distractor_reasoning": {
+          "A": "Confuses neutral pH with the most acidic end of the scale.",
+          "C": "Confuses neutral pH with the most basic end of the scale.",
+          "D": "Assumes a strongly acidic value is 'neutral', a common early misconception."
+        }
+      }
+    },
+    {
+      "id": "sci-007",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Chemical Reactions",
+      "type": "true_false",
+      "marks": 1,
+      "question_text": "True or False: A balanced chemical equation must have an equal number of atoms of each element on both sides.",
+      "answer_key": {
+        "correct_answer": true,
+        "explanation": "True -- this reflects the law of conservation of mass."
+      }
+    },
+    {
+      "id": "sci-008",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Life Processes",
+      "type": "true_false",
+      "marks": 1,
+      "question_text": "True or False: Respiration in plants occurs only during the day.",
+      "answer_key": {
+        "correct_answer": false,
+        "explanation": "False -- respiration occurs continuously (day and night); only photosynthesis is light-dependent."
+      }
+    },
+    {
+      "id": "sci-009",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Electricity",
+      "type": "true_false",
+      "marks": 1,
+      "question_text": "True or False: Connecting resistors in parallel always increases the total resistance of the circuit.",
+      "answer_key": {
+        "correct_answer": false,
+        "explanation": "False -- parallel combination always decreases the total (equivalent) resistance."
+      }
+    },
+    {
+      "id": "sci-010",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Heredity",
+      "type": "true_false",
+      "marks": 1,
+      "question_text": "True or False: Traits acquired by an organism during its lifetime can be passed on to its offspring.",
+      "answer_key": {
+        "correct_answer": false,
+        "explanation": "False -- acquired characteristics are not heritable; only genetic (germline) changes are passed on."
+      }
+    },
+    {
+      "id": "sci-011",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Electricity",
+      "type": "numeric",
+      "marks": 3,
+      "question_text": "A resistor of 5 \u03a9 carries a current of 2 A. Find the potential difference across it, in volts.",
+      "answer_key": {
+        "correct_answer": "10",
+        "unit": "V",
+        "tolerance_note": "accept 10 or 10.0"
+      }
+    },
+    {
+      "id": "sci-012",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Electricity",
+      "type": "numeric",
+      "marks": 3,
+      "question_text": "Calculate the power dissipated in a device that draws 3 A of current at 20 V, in watts.",
+      "answer_key": {
+        "correct_answer": "60",
+        "unit": "W",
+        "tolerance_note": "accept 60 or 60.0"
+      }
+    },
+    {
+      "id": "sci-013",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Light",
+      "type": "numeric",
+      "marks": 3,
+      "question_text": "An object is placed 20 cm in front of a concave mirror of focal length 10 cm. Find the image distance, in cm.",
+      "answer_key": {
+        "correct_answer": "20",
+        "unit": "cm",
+        "tolerance_note": "accept 20 or 20.0"
+      }
+    },
+    {
+      "id": "sci-014",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Acids Bases and Salts",
+      "type": "numeric",
+      "marks": 3,
+      "question_text": "How many grams of NaOH (molar mass 40 g/mol) are needed to make 0.5 mol of solution?",
+      "answer_key": {
+        "correct_answer": "20",
+        "unit": "g",
+        "tolerance_note": "accept 20 or 20.0"
+      }
+    },
+    {
+      "id": "sci-015",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Life Processes",
+      "type": "fill_in",
+      "marks": 1,
+      "question_text": "The green pigment in plants that absorbs light for photosynthesis is called ____.",
+      "answer_key": {
+        "correct_answer": "chlorophyll",
+        "accepted_variants": [
+          "Chlorophyll"
+        ]
+      }
+    },
+    {
+      "id": "sci-016",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Natural Resources",
+      "type": "fill_in",
+      "marks": 1,
+      "question_text": "The process by which water changes from a liquid to a gas is called ____.",
+      "answer_key": {
+        "correct_answer": "evaporation",
+        "accepted_variants": [
+          "Evaporation"
+        ]
+      }
+    },
+    {
+      "id": "sci-017",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Heredity",
+      "type": "fill_in",
+      "marks": 1,
+      "question_text": "The basic unit of heredity that is passed from parents to offspring is called a ____.",
+      "answer_key": {
+        "correct_answer": "gene",
+        "accepted_variants": [
+          "Gene"
+        ]
+      }
+    },
+    {
+      "id": "sci-018",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Life Processes",
+      "type": "open_response",
+      "marks": 3,
+      "question_text": "Explain why the small intestine in humans is long and has a highly folded inner surface.",
+      "answer_key": {
+        "rubric_points": [
+          "States the small intestine is the main site of digestion and absorption of nutrients",
+          "Explains the folded surface (villi/microvilli) increases surface area",
+          "Connects greater surface area to more efficient absorption of digested food into the blood"
+        ]
+      }
+    },
+    {
+      "id": "sci-019",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Chemical Reactions",
+      "type": "open_response",
+      "marks": 3,
+      "question_text": "Explain why displacement reactions occur between metals, using the example of iron reacting with copper sulphate solution.",
+      "answer_key": {
+        "rubric_points": [
+          "States a more reactive metal displaces a less reactive metal from its salt solution",
+          "Identifies iron is more reactive than copper (based on reactivity series)",
+          "Describes iron displacing copper: Fe + CuSO4 -> FeSO4 + Cu, with the blue solution fading and a reddish-brown deposit forming"
+        ]
+      }
+    },
+    {
+      "id": "sci-020",
+      "subject": "CBSE Class 10 Science",
+      "topic": "Natural Resources",
+      "type": "open_response",
+      "marks": 3,
+      "question_text": "Explain how deforestation contributes to soil erosion.",
+      "answer_key": {
+        "rubric_points": [
+          "States tree roots bind soil particles together, holding topsoil in place",
+          "Explains that without tree cover, rain/wind directly hits and washes away exposed topsoil",
+          "Notes the loss of topsoil reduces fertility and can lead to desertification over time"
+        ]
+      }
+    }
+  ]
+}

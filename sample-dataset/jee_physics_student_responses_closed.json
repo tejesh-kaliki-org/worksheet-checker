@@ -1,0 +1,1536 @@
+{
+  "subject": "JEE Physics",
+  "note": "Each closed-type question has 15 simulated student responses in a fixed, documented distribution: 8 correct (phrasing/format variants), 3 incorrect via a specific misconception, 2 boundary/format-edge-case, 1 blank, 1 gibberish/off-topic. gold_label is the ground truth for scoring grader accuracy -- it is NOT input to the grader under test.",
+  "responses": [
+    {
+      "student_id": "S01",
+      "question_id": "phy-001",
+      "answer_text": "A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-001",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-001",
+      "answer_text": "It's B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-001",
+      "answer_text": "I think B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-001",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-001",
+      "answer_text": "BC",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-001",
+      "answer_text": "ans: B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-001",
+      "answer_text": "(B)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-001",
+      "answer_text": "(A)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-001",
+      "answer_text": "Option B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-001",
+      "answer_text": "B.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-001",
+      "answer_text": "B or C",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-001",
+      "answer_text": "B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-001",
+      "answer_text": "b",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-001",
+      "answer_text": "Option A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-002",
+      "answer_text": "(B)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-002",
+      "answer_text": "BC",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-002",
+      "answer_text": "(A)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-002",
+      "answer_text": "It's B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-002",
+      "answer_text": "B.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-002",
+      "answer_text": "I think B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-002",
+      "answer_text": "ans: B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-002",
+      "answer_text": "Option A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-002",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-002",
+      "answer_text": "A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-002",
+      "answer_text": "B or C",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-002",
+      "answer_text": "Option B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-002",
+      "answer_text": "b",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-002",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-002",
+      "answer_text": "B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-003",
+      "answer_text": "It's C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-003",
+      "answer_text": "A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-003",
+      "answer_text": "Option C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-003",
+      "answer_text": "C or B",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-003",
+      "answer_text": "Option A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-003",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-003",
+      "answer_text": "c",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-003",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-003",
+      "answer_text": "ans: C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-003",
+      "answer_text": "I think C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-003",
+      "answer_text": "(C)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-003",
+      "answer_text": "C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-003",
+      "answer_text": "CB",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-003",
+      "answer_text": "C.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-003",
+      "answer_text": "(A)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-004",
+      "answer_text": "BC",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-004",
+      "answer_text": "A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-004",
+      "answer_text": "I think B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-004",
+      "answer_text": "(B)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-004",
+      "answer_text": "Option A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-004",
+      "answer_text": "B or C",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-004",
+      "answer_text": "Option B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-004",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-004",
+      "answer_text": "It's B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-004",
+      "answer_text": "B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-004",
+      "answer_text": "B.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-004",
+      "answer_text": "(A)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-004",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-004",
+      "answer_text": "ans: B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-004",
+      "answer_text": "b",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-005",
+      "answer_text": "A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-005",
+      "answer_text": "(C)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-005",
+      "answer_text": "ans: C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-005",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-005",
+      "answer_text": "Option A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-005",
+      "answer_text": "It's C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-005",
+      "answer_text": "I think C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-005",
+      "answer_text": "CB",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-005",
+      "answer_text": "C.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-005",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-005",
+      "answer_text": "C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-005",
+      "answer_text": "c",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-005",
+      "answer_text": "C or B",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-005",
+      "answer_text": "Option C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-005",
+      "answer_text": "(A)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-006",
+      "answer_text": "B",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-006",
+      "answer_text": "It's A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-006",
+      "answer_text": "A or C",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-006",
+      "answer_text": "a",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-006",
+      "answer_text": "A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-006",
+      "answer_text": "I think A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-006",
+      "answer_text": "(B)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-006",
+      "answer_text": "A.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-006",
+      "answer_text": "Option A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-006",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-006",
+      "answer_text": "AC",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-006",
+      "answer_text": "(A)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-006",
+      "answer_text": "ans: A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-006",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-006",
+      "answer_text": "Option B",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-007",
+      "answer_text": "true",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-007",
+      "answer_text": "what does this even mean",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-007",
+      "answer_text": "Partially true",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-007",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-007",
+      "answer_text": "false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-007",
+      "answer_text": "False",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-007",
+      "answer_text": "Not always",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-007",
+      "answer_text": "incorrect",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-007",
+      "answer_text": "False.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-007",
+      "answer_text": "True",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-007",
+      "answer_text": "T",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-007",
+      "answer_text": "No",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-007",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-007",
+      "answer_text": "definitely false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-007",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-008",
+      "answer_text": "what does this even mean",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-008",
+      "answer_text": "True",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-008",
+      "answer_text": "False",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-008",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-008",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-008",
+      "answer_text": "Partially true",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-008",
+      "answer_text": "T",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-008",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-008",
+      "answer_text": "definitely false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-008",
+      "answer_text": "Not always",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-008",
+      "answer_text": "incorrect",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-008",
+      "answer_text": "true",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-008",
+      "answer_text": "False.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-008",
+      "answer_text": "false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-008",
+      "answer_text": "No",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-009",
+      "answer_text": "definitely true",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-009",
+      "answer_text": "T",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-009",
+      "answer_text": "True",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-009",
+      "answer_text": "True.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-009",
+      "answer_text": "what does this even mean",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-009",
+      "answer_text": "Not always",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-009",
+      "answer_text": "true",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-009",
+      "answer_text": "correct",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-009",
+      "answer_text": "F",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-009",
+      "answer_text": "T",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-009",
+      "answer_text": "false",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-009",
+      "answer_text": "Yes",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-009",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-009",
+      "answer_text": "False",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-009",
+      "answer_text": "Partially true",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-010",
+      "answer_text": "True",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-010",
+      "answer_text": "False",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-010",
+      "answer_text": "incorrect",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-010",
+      "answer_text": "Partially true",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-010",
+      "answer_text": "definitely false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-010",
+      "answer_text": "No",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-010",
+      "answer_text": "False.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-010",
+      "answer_text": "true",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-010",
+      "answer_text": "what does this even mean",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-010",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-010",
+      "answer_text": "Not always",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-010",
+      "answer_text": "T",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-010",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-010",
+      "answer_text": "false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-010",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-011",
+      "answer_text": "4.0 approx",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-011",
+      "answer_text": "8.0 s",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-011",
+      "answer_text": "4.0",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-011",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-011",
+      "answer_text": "~4.0",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-011",
+      "answer_text": "≈4.0",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-011",
+      "answer_text": "4.0s",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-011",
+      "answer_text": "4.000",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-011",
+      "answer_text": "about 4.0",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-011",
+      "answer_text": "4.0",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-011",
+      "answer_text": "8.0",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-011",
+      "answer_text": "dunno, didn't attempt",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-011",
+      "answer_text": "4.0 s",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-011",
+      "answer_text": "4.0 min",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-011",
+      "answer_text": "8.0s",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-012",
+      "answer_text": "~6.0",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-012",
+      "answer_text": "18.0 mN",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-012",
+      "answer_text": "about 6.0",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-012",
+      "answer_text": "6.0",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-012",
+      "answer_text": "6.0 approx",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-012",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-012",
+      "answer_text": "18.0mN",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-012",
+      "answer_text": "≈6.0",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-012",
+      "answer_text": "6.0 N",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-012",
+      "answer_text": "6.0",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-012",
+      "answer_text": "6.0 mN",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-012",
+      "answer_text": "dunno, didn't attempt",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-012",
+      "answer_text": "6.0mN",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-012",
+      "answer_text": "6.000",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-012",
+      "answer_text": "18.0",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-013",
+      "answer_text": "124500",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-013",
+      "answer_text": "1245J",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-013",
+      "answer_text": "1245 approx",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-013",
+      "answer_text": "dunno, didn't attempt",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-013",
+      "answer_text": "1245 cal",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-013",
+      "answer_text": "830",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-013",
+      "answer_text": "830J",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-013",
+      "answer_text": "830 J",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-013",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-013",
+      "answer_text": "≈1245",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-013",
+      "answer_text": "1245",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-013",
+      "answer_text": "about 1245",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-013",
+      "answer_text": "1245 J",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-013",
+      "answer_text": "1245",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-013",
+      "answer_text": "~1245",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-014",
+      "answer_text": "15",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-014",
+      "answer_text": "≈15",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-014",
+      "answer_text": "about 15",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-014",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-014",
+      "answer_text": "1500",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-014",
+      "answer_text": "7.5 cm",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-014",
+      "answer_text": "15 cm",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-014",
+      "answer_text": "15 approx",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-014",
+      "answer_text": "15 m",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-014",
+      "answer_text": "15",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-014",
+      "answer_text": "dunno, didn't attempt",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-014",
+      "answer_text": "7.5",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-014",
+      "answer_text": "~15",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-014",
+      "answer_text": "7.5cm",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-014",
+      "answer_text": "15cm",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-015",
+      "answer_text": "tesla",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-015",
+      "answer_text": "Weber",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-015",
+      "answer_text": "WEBER",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-015",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-015",
+      "answer_text": "weber or tesla",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-015",
+      "answer_text": "weber.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-015",
+      "answer_text": "weber",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-015",
+      "answer_text": "the answer is weber",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-015",
+      "answer_text": "weber (maybe)",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-015",
+      "answer_text": "Tesla",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-015",
+      "answer_text": " weber ",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-015",
+      "answer_text": "weber",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-015",
+      "answer_text": "???",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-015",
+      "answer_text": "tesla",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-015",
+      "answer_text": "I believe it's weber",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-016",
+      "answer_text": "nuclear fission.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-016",
+      "answer_text": "the answer is nuclear fission",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-016",
+      "answer_text": "nuclear fusion",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-016",
+      "answer_text": "nuclear fusion",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-016",
+      "answer_text": "I believe it's nuclear fission",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-016",
+      "answer_text": "NUCLEAR FISSION",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-016",
+      "answer_text": "Nuclear fission",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-016",
+      "answer_text": "nuclear fission or nuclear fusion",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-016",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-016",
+      "answer_text": " nuclear fission ",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-016",
+      "answer_text": "???",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-016",
+      "answer_text": "Nuclear fusion",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-016",
+      "answer_text": "nuclear fission (maybe)",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-016",
+      "answer_text": "nuclear fission",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-016",
+      "answer_text": "nuclear fission",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-017",
+      "answer_text": "Doppler.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-017",
+      "answer_text": "Doppler or Zeeman",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-017",
+      "answer_text": "Doppler",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-017",
+      "answer_text": "doppler",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-017",
+      "answer_text": "the answer is Doppler",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-017",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-017",
+      "answer_text": "Doppler",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-017",
+      "answer_text": "???",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-017",
+      "answer_text": "I believe it's Doppler",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-017",
+      "answer_text": "Zeeman",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-017",
+      "answer_text": "zeeman",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-017",
+      "answer_text": "Doppler (maybe)",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-017",
+      "answer_text": "DOPPLER",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-017",
+      "answer_text": "Zeeman",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-017",
+      "answer_text": " Doppler ",
+      "gold_label": "correct"
+    }
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "subject": "CBSE Class 10 Science",
+  "note": "Generated per OPEN_RESPONSE_GENERATION_HANDOFF.md via Claude Code sub-agents, single model (Claude), one sub-agent per question.",
+  "responses": [
+    {
+      "student_id": "S01",
+      "question_id": "sci-018",
+      "answer_text": "Digestion and absorption of most of our food happens in the small intestine, so it is folded into villi and microvilli to give more surface area, which lets more nutrients pass into blood quickly.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-018",
+      "answer_text": "The inner wall has tiny finger like structures called villi which increase the surface area a lot, because the small intestine is where absorption of digested food into blood takes place.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-018",
+      "answer_text": "It is long and folded so that there is more area for the digested nutrients to get absorbed into our bloodstream, since this organ is basically where all the absorption happens.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-018",
+      "answer_text": "More surface area means more absorption, and thats why villi are present on the folds, the small intestine being the main place for digestion and absorption of food.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-018",
+      "answer_text": "Sir told us the small intestine is the main site where digestion finishes and absorption starts, and its folded lining with villi increases surface area so nutrients can enter blood efficiently.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-018",
+      "answer_text": "Villi and microvilli on the folded walls increase surface area, this helps because small intestine has to absorb digested food into blood and more area means more absorption happening at once.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-018",
+      "answer_text": "Because it is the main organ for digestion and absorption, the small intestine needs a large surface, so folding and villi give it that without the body getting too big.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-018",
+      "answer_text": "The folds with villi increase the area available for absorbing nutrients into the blood, and since the small intestine is where most digestion and absorption occurs this makes it more efficient.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-018",
+      "answer_text": "I think its long so it can hold more food inside since we eat a lot in one meal and it needs space to store everything before passing it out.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-018",
+      "answer_text": "The folds are there to slow down the food movement so it stays longer and gets digested properly, it has nothing to do with surface area really.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-018",
+      "answer_text": "Those folded parts called villi are actually muscles that squeeze and push the food forward through the intestine faster, thats their main job.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-018",
+      "answer_text": "Small intestine is folded so there is more surface, but I forget why exactly that matters for digestion, I think it just makes it stronger.",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-018",
+      "answer_text": "This is the part of body where digestion and absorption of nutrients happens mainly, thats why its so long, though I'm not sure what the folding actually does.",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-018",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-018",
+      "answer_text": "umm intestine is a organ in body and its pink colour i think, not sure what to write here sir",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-019",
+      "answer_text": "A more reactive metal always pushes out a less reactive metal from its salt solution, that is why iron can remove copper from copper sulphate. Since iron is above copper in reactivity series, Fe reacts with CuSO4 to give FeSO4 and Cu, and we see the blue colour turning light green while brownish copper sticks to the nail.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-019",
+      "answer_text": "Displacement happens because one metal is more reactive than the other and it takes the place of the less reactive one in the compound. Here iron is more reactive than copper so it kicks copper out of copper sulphate, forming iron sulphate, and copper gets deposited as a reddish brown layer while the blue colour fades away.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-019",
+      "answer_text": "In reactivity series iron comes before copper so it has more tendency to lose electrons and form ions. When we dip an iron nail in blue CuSO4 solution the iron replaces copper, Fe + CuSO4 -> FeSO4 + Cu, and the solution becomes pale green as copper coats the nail.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-019",
+      "answer_text": "This type of reaction is called a displacement reaction and it only happens when the metal reacting is higher in the reactivity series than the metal already in the compound. Iron being more reactive than copper displaces it from copper sulphate solution making iron sulphate and free copper metal deposits on the nail turning it brownish.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-019",
+      "answer_text": "The reason such reactions take place is that metals differ in how much they want to react, some are strong and some are weak, and the strong one always wins over the weak one in a salt solution. Iron is stronger than copper so it takes copper's spot in CuSO4, we get FeSO4 and the blue solution loses its colour as copper settles at bottom.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-019",
+      "answer_text": "Iron nail when put into copper sulphate solution shows that iron is more reactive, so according to reactivity series it displaces the copper ions and takes their place forming FeSO4. This is basically because more reactive metals can push less reactive ones out of their salts, and thats why the blue solution fades to green with a copper coating forming.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-019",
+      "answer_text": "Whenever a metal placed in a salt solution is more reactive than the metal in that salt, it displaces it, this is the basic rule of displacement reaction. As iron is more reactive it displaces copper from CuSO4 to give FeSO4 + Cu and we observe reddish brown copper forming on the nail with blue colour disappearing slowly.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-019",
+      "answer_text": "Because reactivity series tells us which metal is stronger, and stronger metals replace weaker ones in their compounds. Fe reacting with CuSO4 is an example, iron is above copper so it forms FeSO4 and pushes copper out as solid, changing the blue solution to greenish and depositing brown copper on nail surface.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-019",
+      "answer_text": "Copper is actually more reactive than iron so when we put iron nail in copper sulphate the copper attacks the iron and displaces it, that's why we see the change in the nail. This proves copper wins over iron in the reactivity series.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-019",
+      "answer_text": "The blue colour of the solution is actually the iron itself dissolving and turning blue as it mixes with the liquid, that's why the solution changes colour. So basically iron just becomes part of the liquid and gives it that blue shade before settling down.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-019",
+      "answer_text": "The reddish brown stuff that forms on the nail is rust forming because the iron is exposed to the copper sulphate solution which is like water and causes rusting. This rust is what makes the nail look brownish after the reaction.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-019",
+      "answer_text": "Iron reacts with copper sulphate solution because it is more reactive than copper, this is the main reason displacement happens. The nail changes colour a bit but I don't remember the exact equation or what exactly gets deposited.",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-019",
+      "answer_text": "When iron nail is dipped in copper sulphate the blue solution slowly turns light green and a brown layer forms on the nail, this is what we observed in the lab experiment. I think it happens because the two substances just react together but not sure about the reactivity series part.",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-019",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-019",
+      "answer_text": "umm this is about metals and stuff, my pen ran out of ink during the exam so i couldn't finish writing the reaction properly sorry sir",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-020",
+      "answer_text": "Roots of trees hold the soil tightly like a net, so when trees are cut the soil has nothing holding it and rain just carries it away.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-020",
+      "answer_text": "When forest is cleared the top layer of soil is left open, and heavy rain or strong wind removes it easily because there are no roots to stop that.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-020",
+      "answer_text": "In a forest the tree roots bind the particles of soil together, but after deforestation this binding is gone and topsoil gets washed off in rain, making land less fertile.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-020",
+      "answer_text": "Trees act like a shield for soil, their roots grip the soil particles firmly, so cutting them down means the fertile top layer is exposed and slowly eroded by wind and rain, and over years the land can even turn into desert.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-020",
+      "answer_text": "Without tree roots binding it, the loose topsoil is directly hit by rain drops and gets washed into rivers, so the land loses its fertility bit by bit.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-020",
+      "answer_text": "Deforestation removes the roots which used to hold soil in place, and then wind and water erode the exposed soil, which can cause desertification if it continues for long time.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-020",
+      "answer_text": "The main reason is roots, they clutch onto the soil particles tightly, and once trees are gone there is nothing to stop rain from sweeping the fertile topsoil away.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-020",
+      "answer_text": "If we cut down forests the ground is left bare, rain and wind directly strike the topsoil and carry it off since roots are not there anymore to anchor it, this lowers fertility and can lead to desert-like land.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-020",
+      "answer_text": "Deforestation causes soil erosion because without trees the soil dries out completely and then it just crumbles and blows away like dust, its mainly about the dryness not anything with roots.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-020",
+      "answer_text": "I think soil erosion mostly happens due to floods and rivers overflowing, deforestation is a different topic and doesn't really connect to erosion much.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-020",
+      "answer_text": "When we cut trees the soil actually becomes more fertile because no leaves are falling on it to block sunlight, but this extra fertility is what causes the erosion process to speed up.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-020",
+      "answer_text": "Deforestation leads to soil erosion because tree roots keep the soil particles bound together, without that binding the land becomes weak over time.",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-020",
+      "answer_text": "Cutting trees means rain falls straight onto the ground and washes soil away since there is no leaf cover to block it first.",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-020",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-020",
+      "answer_text": "umm trees are green and important for oxygen i think, not sure how this connects to soil sir",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    }
+  ]
+}

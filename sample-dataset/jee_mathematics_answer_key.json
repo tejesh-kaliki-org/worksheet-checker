@@ -1,0 +1,326 @@
+{
+  "subject": "JEE Mathematics",
+  "questions": [
+    {
+      "id": "math-001",
+      "subject": "JEE Mathematics",
+      "topic": "Calculus",
+      "type": "mcq",
+      "marks": 4,
+      "question_text": "The derivative of sin(x\u00b2) with respect to x is:",
+      "options": {
+        "A": "cos(x\u00b2)",
+        "B": "2x cos(x\u00b2)",
+        "C": "2x sin(x\u00b2)",
+        "D": "x\u00b2 cos(x\u00b2)"
+      },
+      "answer_key": {
+        "correct_answer": "B",
+        "distractor_reasoning": {
+          "A": "Forgets to apply the chain rule (misses the derivative of the inner function x\u00b2).",
+          "C": "Confuses the derivative of sine with cosine.",
+          "D": "Multiplies by x\u00b2 instead of the correct chain-rule factor 2x."
+        }
+      }
+    },
+    {
+      "id": "math-002",
+      "subject": "JEE Mathematics",
+      "topic": "Coordinate Geometry",
+      "type": "mcq",
+      "marks": 4,
+      "question_text": "The distance between the points (3, 4) and (7, 1) is:",
+      "options": {
+        "A": "5",
+        "B": "7",
+        "C": "25",
+        "D": "\u221a41"
+      },
+      "answer_key": {
+        "correct_answer": "A",
+        "distractor_reasoning": {
+          "C": "Forgets to take the square root of the sum of squares.",
+          "D": "Computes 4\u00b2 + 5\u00b2 instead of 4\u00b2 + 3\u00b2 (mixes up the coordinate differences).",
+          "B": "Simply adds the coordinate differences instead of using the distance formula."
+        }
+      }
+    },
+    {
+      "id": "math-003",
+      "subject": "JEE Mathematics",
+      "topic": "Algebra",
+      "type": "mcq",
+      "marks": 4,
+      "question_text": "If the roots of x\u00b2 - 5x + 6 = 0 are \u03b1 and \u03b2, the value of \u03b1\u00b2 + \u03b2\u00b2 is:",
+      "options": {
+        "A": "13",
+        "B": "25",
+        "C": "1",
+        "D": "19"
+      },
+      "answer_key": {
+        "correct_answer": "A",
+        "distractor_reasoning": {
+          "B": "Computes (\u03b1+\u03b2)\u00b2 directly without subtracting 2\u03b1\u03b2.",
+          "C": "Computes (\u03b1-\u03b2)\u00b2 instead of \u03b1\u00b2+\u03b2\u00b2.",
+          "D": "Arithmetic slip while expanding (\u03b1+\u03b2)\u00b2 - 2\u03b1\u03b2."
+        }
+      }
+    },
+    {
+      "id": "math-004",
+      "subject": "JEE Mathematics",
+      "topic": "Trigonometry",
+      "type": "mcq",
+      "marks": 4,
+      "question_text": "The value of sin(30\u00b0) + cos(60\u00b0) is:",
+      "options": {
+        "A": "1",
+        "B": "0.5",
+        "C": "1.5",
+        "D": "\u221a3/2"
+      },
+      "answer_key": {
+        "correct_answer": "A",
+        "distractor_reasoning": {
+          "B": "Adds only one of the two terms (forgets cos(60\u00b0) also equals 0.5).",
+          "D": "Confuses cos(60\u00b0) with cos(30\u00b0).",
+          "C": "Mistakenly uses sin(60\u00b0) instead of sin(30\u00b0)."
+        }
+      }
+    },
+    {
+      "id": "math-005",
+      "subject": "JEE Mathematics",
+      "topic": "Probability",
+      "type": "mcq",
+      "marks": 4,
+      "question_text": "Two dice are rolled. The probability of getting a sum of 7 is:",
+      "options": {
+        "A": "1/6",
+        "B": "1/12",
+        "C": "6/36",
+        "D": "Both A and C"
+      },
+      "answer_key": {
+        "correct_answer": "D",
+        "distractor_reasoning": {
+          "A": "Correct value but doesn't recognize it's equivalent to 6/36, so wouldn't select the 'both' option.",
+          "B": "Miscounts the favorable outcomes for sum=7 as 3 instead of 6.",
+          "C": "Correct fraction but doesn't simplify or recognize equivalence to 1/6."
+        }
+      }
+    },
+    {
+      "id": "math-006",
+      "subject": "JEE Mathematics",
+      "topic": "Vectors",
+      "type": "mcq",
+      "marks": 4,
+      "question_text": "If vectors a and b are perpendicular, then a\u00b7b equals:",
+      "options": {
+        "A": "|a||b|",
+        "B": "0",
+        "C": "1",
+        "D": "|a|+|b|"
+      },
+      "answer_key": {
+        "correct_answer": "B",
+        "distractor_reasoning": {
+          "A": "Confuses the perpendicular condition with the formula for parallel vectors.",
+          "C": "Confuses dot product with the cosine of the angle itself.",
+          "D": "Confuses dot product rule with vector magnitude addition, unrelated concept."
+        }
+      }
+    },
+    {
+      "id": "math-007",
+      "subject": "JEE Mathematics",
+      "topic": "Calculus",
+      "type": "true_false",
+      "marks": 2,
+      "question_text": "True or False: Every continuous function is differentiable everywhere.",
+      "answer_key": {
+        "correct_answer": false,
+        "explanation": "False -- e.g. f(x) = |x| is continuous everywhere but not differentiable at x=0."
+      }
+    },
+    {
+      "id": "math-008",
+      "subject": "JEE Mathematics",
+      "topic": "Algebra",
+      "type": "true_false",
+      "marks": 2,
+      "question_text": "True or False: A quadratic equation with real coefficients can have exactly one real root.",
+      "answer_key": {
+        "correct_answer": true,
+        "explanation": "True -- when the discriminant is zero, the equation has one repeated real root."
+      }
+    },
+    {
+      "id": "math-009",
+      "subject": "JEE Mathematics",
+      "topic": "Matrices",
+      "type": "true_false",
+      "marks": 2,
+      "question_text": "True or False: Matrix multiplication is commutative in general, i.e. AB = BA for all matrices A and B.",
+      "answer_key": {
+        "correct_answer": false,
+        "explanation": "False -- matrix multiplication is generally non-commutative; AB \u2260 BA in most cases."
+      }
+    },
+    {
+      "id": "math-010",
+      "subject": "JEE Mathematics",
+      "topic": "Sequences and Series",
+      "type": "true_false",
+      "marks": 2,
+      "question_text": "True or False: The sum of an infinite geometric series always converges regardless of the common ratio.",
+      "answer_key": {
+        "correct_answer": false,
+        "explanation": "False -- it converges only when the absolute value of the common ratio is less than 1."
+      }
+    },
+    {
+      "id": "math-011",
+      "subject": "JEE Mathematics",
+      "topic": "Calculus",
+      "type": "numeric",
+      "marks": 4,
+      "question_text": "Evaluate the definite integral of 2x from x=0 to x=3.",
+      "answer_key": {
+        "correct_answer": "9",
+        "unit": "",
+        "tolerance_note": "accept 9 or 9.0"
+      }
+    },
+    {
+      "id": "math-012",
+      "subject": "JEE Mathematics",
+      "topic": "Coordinate Geometry",
+      "type": "numeric",
+      "marks": 4,
+      "question_text": "Find the slope of the line passing through points (2, 3) and (6, 11).",
+      "answer_key": {
+        "correct_answer": "2",
+        "unit": "",
+        "tolerance_note": "accept 2 or 2.0"
+      }
+    },
+    {
+      "id": "math-013",
+      "subject": "JEE Mathematics",
+      "topic": "Algebra",
+      "type": "numeric",
+      "marks": 4,
+      "question_text": "If log(2) = 0.301, find the value of log(8), correct to 3 decimal places.",
+      "answer_key": {
+        "correct_answer": "0.903",
+        "unit": "",
+        "tolerance_note": "accept 0.903 \u00b1 0.002"
+      }
+    },
+    {
+      "id": "math-014",
+      "subject": "JEE Mathematics",
+      "topic": "Probability",
+      "type": "numeric",
+      "marks": 4,
+      "question_text": "A bag contains 5 red and 3 blue balls. Find the probability of drawing a red ball, correct to 3 decimal places.",
+      "answer_key": {
+        "correct_answer": "0.625",
+        "unit": "",
+        "tolerance_note": "accept 0.625 or 5/8"
+      }
+    },
+    {
+      "id": "math-015",
+      "subject": "JEE Mathematics",
+      "topic": "Trigonometry",
+      "type": "fill_in",
+      "marks": 2,
+      "question_text": "The value of tan(45\u00b0) is ____.",
+      "answer_key": {
+        "correct_answer": "1",
+        "accepted_variants": [
+          "1.0"
+        ]
+      }
+    },
+    {
+      "id": "math-016",
+      "subject": "JEE Mathematics",
+      "topic": "Sets",
+      "type": "fill_in",
+      "marks": 2,
+      "question_text": "A set that contains no elements is called the ____ set.",
+      "answer_key": {
+        "correct_answer": "empty",
+        "accepted_variants": [
+          "null",
+          "void"
+        ]
+      }
+    },
+    {
+      "id": "math-017",
+      "subject": "JEE Mathematics",
+      "topic": "Complex Numbers",
+      "type": "fill_in",
+      "marks": 2,
+      "question_text": "The value of i\u00b2 (where i is the imaginary unit) is ____.",
+      "answer_key": {
+        "correct_answer": "-1",
+        "accepted_variants": [
+          "negative 1",
+          "-1.0"
+        ]
+      }
+    },
+    {
+      "id": "math-018",
+      "subject": "JEE Mathematics",
+      "topic": "Calculus",
+      "type": "open_response",
+      "marks": 3,
+      "question_text": "Explain the geometric meaning of the derivative of a function at a point.",
+      "answer_key": {
+        "rubric_points": [
+          "States the derivative gives the slope of the tangent line to the curve at that point",
+          "Explains it as the limit of the slope of secant lines as the second point approaches the first",
+          "Connects this to instantaneous rate of change of the function"
+        ]
+      }
+    },
+    {
+      "id": "math-019",
+      "subject": "JEE Mathematics",
+      "topic": "Algebra",
+      "type": "open_response",
+      "marks": 3,
+      "question_text": "Explain why the discriminant of a quadratic equation determines the nature of its roots.",
+      "answer_key": {
+        "rubric_points": [
+          "States the discriminant is b\u00b2 - 4ac",
+          "Explains D>0 gives two distinct real roots, D=0 gives one repeated real root, D<0 gives complex roots",
+          "Connects this to the square root term in the quadratic formula being real, zero, or imaginary"
+        ]
+      }
+    },
+    {
+      "id": "math-020",
+      "subject": "JEE Mathematics",
+      "topic": "Probability",
+      "type": "open_response",
+      "marks": 3,
+      "question_text": "Explain the difference between independent events and mutually exclusive events in probability.",
+      "answer_key": {
+        "rubric_points": [
+          "Independent events: occurrence of one does not affect the probability of the other, P(A\u2229B)=P(A)P(B)",
+          "Mutually exclusive events: cannot occur at the same time, P(A\u2229B)=0",
+          "Notes that two events with nonzero probability can't be both independent and mutually exclusive"
+        ]
+      }
+    }
+  ]
+}

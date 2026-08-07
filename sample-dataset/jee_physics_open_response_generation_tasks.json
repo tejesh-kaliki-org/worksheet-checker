@@ -1,0 +1,221 @@
+{
+  "subject": "JEE Physics",
+  "tasks": [
+    {
+      "question_id": "phy-018",
+      "subject": "JEE Physics",
+      "question_text": "State Gauss's law and explain why it is useful for calculating the electric field of symmetric charge distributions.",
+      "rubric_points": [
+        "States Gauss's law: total electric flux through a closed surface = enclosed charge / \u03b50",
+        "Notes the closed surface is a chosen 'Gaussian surface', not a physical object",
+        "Explains it simplifies field calculation when symmetry lets E be pulled out of the flux integral (spherical/cylindrical/planar symmetry)"
+      ],
+      "students_to_generate": [
+        {
+          "student_id": "S01",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S02",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S03",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S04",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S05",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S06",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S07",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S08",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S09",
+          "gold_label": "incorrect_misconception"
+        },
+        {
+          "student_id": "S10",
+          "gold_label": "incorrect_misconception"
+        },
+        {
+          "student_id": "S11",
+          "gold_label": "incorrect_misconception"
+        },
+        {
+          "student_id": "S12",
+          "gold_label": "boundary_or_partial"
+        },
+        {
+          "student_id": "S13",
+          "gold_label": "boundary_or_partial"
+        },
+        {
+          "student_id": "S14",
+          "gold_label": "malformed_blank"
+        },
+        {
+          "student_id": "S15",
+          "gold_label": "malformed_gibberish_or_offtopic"
+        }
+      ]
+    },
+    {
+      "question_id": "phy-019",
+      "subject": "JEE Physics",
+      "question_text": "Explain the difference between an isothermal and an adiabatic process for an ideal gas.",
+      "rubric_points": [
+        "Isothermal: temperature constant, requires heat exchange with surroundings",
+        "Adiabatic: no heat exchange (Q=0), temperature changes as work is done",
+        "Notes the adiabatic PV curve is steeper than the isothermal one (different exponent, gamma vs 1)"
+      ],
+      "students_to_generate": [
+        {
+          "student_id": "S01",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S02",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S03",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S04",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S05",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S06",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S07",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S08",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S09",
+          "gold_label": "incorrect_misconception"
+        },
+        {
+          "student_id": "S10",
+          "gold_label": "incorrect_misconception"
+        },
+        {
+          "student_id": "S11",
+          "gold_label": "incorrect_misconception"
+        },
+        {
+          "student_id": "S12",
+          "gold_label": "boundary_or_partial"
+        },
+        {
+          "student_id": "S13",
+          "gold_label": "boundary_or_partial"
+        },
+        {
+          "student_id": "S14",
+          "gold_label": "malformed_blank"
+        },
+        {
+          "student_id": "S15",
+          "gold_label": "malformed_gibberish_or_offtopic"
+        }
+      ]
+    },
+    {
+      "question_id": "phy-020",
+      "subject": "JEE Physics",
+      "question_text": "Explain why a figure skater spins faster when they pull their arms inward.",
+      "rubric_points": [
+        "Identifies conservation of angular momentum (L = I\u03c9) as no external torque acts",
+        "Explains pulling arms in reduces moment of inertia I",
+        "Concludes angular velocity \u03c9 must increase to keep L constant"
+      ],
+      "students_to_generate": [
+        {
+          "student_id": "S01",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S02",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S03",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S04",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S05",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S06",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S07",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S08",
+          "gold_label": "correct"
+        },
+        {
+          "student_id": "S09",
+          "gold_label": "incorrect_misconception"
+        },
+        {
+          "student_id": "S10",
+          "gold_label": "incorrect_misconception"
+        },
+        {
+          "student_id": "S11",
+          "gold_label": "incorrect_misconception"
+        },
+        {
+          "student_id": "S12",
+          "gold_label": "boundary_or_partial"
+        },
+        {
+          "student_id": "S13",
+          "gold_label": "boundary_or_partial"
+        },
+        {
+          "student_id": "S14",
+          "gold_label": "malformed_blank"
+        },
+        {
+          "student_id": "S15",
+          "gold_label": "malformed_gibberish_or_offtopic"
+        }
+      ]
+    }
+  ]
+}

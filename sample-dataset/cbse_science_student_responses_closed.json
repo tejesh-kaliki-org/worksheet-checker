@@ -1,0 +1,1536 @@
+{
+  "subject": "CBSE Class 10 Science",
+  "note": "Each closed-type question has 15 simulated student responses in a fixed, documented distribution: 8 correct (phrasing/format variants), 3 incorrect via a specific misconception, 2 boundary/format-edge-case, 1 blank, 1 gibberish/off-topic. gold_label is the ground truth for scoring grader accuracy -- it is NOT input to the grader under test.",
+  "responses": [
+    {
+      "student_id": "S01",
+      "question_id": "sci-001",
+      "answer_text": "c",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-001",
+      "answer_text": "It's C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-001",
+      "answer_text": "(A)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-001",
+      "answer_text": "C.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-001",
+      "answer_text": "(C)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-001",
+      "answer_text": "C or B",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-001",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-001",
+      "answer_text": "I think C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-001",
+      "answer_text": "ans: C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-001",
+      "answer_text": "Option C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-001",
+      "answer_text": "Option A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-001",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-001",
+      "answer_text": "CB",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-001",
+      "answer_text": "A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-001",
+      "answer_text": "C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-002",
+      "answer_text": "It's B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-002",
+      "answer_text": "Option B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-002",
+      "answer_text": "B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-002",
+      "answer_text": "b",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-002",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-002",
+      "answer_text": "(B)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-002",
+      "answer_text": "BC",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-002",
+      "answer_text": "(A)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-002",
+      "answer_text": "ans: B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-002",
+      "answer_text": "I think B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-002",
+      "answer_text": "Option A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-002",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-002",
+      "answer_text": "A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-002",
+      "answer_text": "B.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-002",
+      "answer_text": "B or C",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-003",
+      "answer_text": "Option C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-003",
+      "answer_text": "c",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-003",
+      "answer_text": "ans: C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-003",
+      "answer_text": "It's C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-003",
+      "answer_text": "CB",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-003",
+      "answer_text": "C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-003",
+      "answer_text": "A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-003",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-003",
+      "answer_text": "C.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-003",
+      "answer_text": "(A)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-003",
+      "answer_text": "(C)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-003",
+      "answer_text": "C or B",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-003",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-003",
+      "answer_text": "I think C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-003",
+      "answer_text": "Option A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-004",
+      "answer_text": "I think C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-004",
+      "answer_text": "C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-004",
+      "answer_text": "(C)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-004",
+      "answer_text": "Option C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-004",
+      "answer_text": "C.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-004",
+      "answer_text": "c",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-004",
+      "answer_text": "C or B",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-004",
+      "answer_text": "A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-004",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-004",
+      "answer_text": "It's C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-004",
+      "answer_text": "ans: C",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-004",
+      "answer_text": "Option A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-004",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-004",
+      "answer_text": "(A)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-004",
+      "answer_text": "CB",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-005",
+      "answer_text": "Option B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-005",
+      "answer_text": "BC",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-005",
+      "answer_text": "B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-005",
+      "answer_text": "B or C",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-005",
+      "answer_text": "(B)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-005",
+      "answer_text": "It's B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-005",
+      "answer_text": "I think B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-005",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-005",
+      "answer_text": "ans: B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-005",
+      "answer_text": "(A)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-005",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-005",
+      "answer_text": "A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-005",
+      "answer_text": "B.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-005",
+      "answer_text": "b",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-005",
+      "answer_text": "Option A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-006",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-006",
+      "answer_text": "(B)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-006",
+      "answer_text": "A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-006",
+      "answer_text": "BC",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-006",
+      "answer_text": "Option A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-006",
+      "answer_text": "B.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-006",
+      "answer_text": "ans: B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-006",
+      "answer_text": "I think B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-006",
+      "answer_text": "B or C",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-006",
+      "answer_text": "b",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-006",
+      "answer_text": "(A)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-006",
+      "answer_text": "It's B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-006",
+      "answer_text": "Option B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-006",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-006",
+      "answer_text": "B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-007",
+      "answer_text": "False",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-007",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-007",
+      "answer_text": "Not always",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-007",
+      "answer_text": "definitely true",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-007",
+      "answer_text": "Yes",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-007",
+      "answer_text": "correct",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-007",
+      "answer_text": "false",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-007",
+      "answer_text": "what does this even mean",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-007",
+      "answer_text": "T",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-007",
+      "answer_text": "true",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-007",
+      "answer_text": "True",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-007",
+      "answer_text": "Partially true",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-007",
+      "answer_text": "F",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-007",
+      "answer_text": "T",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-007",
+      "answer_text": "True.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-008",
+      "answer_text": "False",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-008",
+      "answer_text": "Not always",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-008",
+      "answer_text": "T",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-008",
+      "answer_text": "true",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-008",
+      "answer_text": "No",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-008",
+      "answer_text": "False.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-008",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-008",
+      "answer_text": "incorrect",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-008",
+      "answer_text": "True",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-008",
+      "answer_text": "Partially true",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-008",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-008",
+      "answer_text": "definitely false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-008",
+      "answer_text": "false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-008",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-008",
+      "answer_text": "what does this even mean",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-009",
+      "answer_text": "False",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-009",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-009",
+      "answer_text": "incorrect",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-009",
+      "answer_text": "false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-009",
+      "answer_text": "True",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-009",
+      "answer_text": "T",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-009",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-009",
+      "answer_text": "true",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-009",
+      "answer_text": "False.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-009",
+      "answer_text": "No",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-009",
+      "answer_text": "Not always",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-009",
+      "answer_text": "definitely false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-009",
+      "answer_text": "Partially true",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-009",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-009",
+      "answer_text": "what does this even mean",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-010",
+      "answer_text": "T",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-010",
+      "answer_text": "False",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-010",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-010",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-010",
+      "answer_text": "True",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-010",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-010",
+      "answer_text": "definitely false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-010",
+      "answer_text": "what does this even mean",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-010",
+      "answer_text": "true",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-010",
+      "answer_text": "incorrect",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-010",
+      "answer_text": "Not always",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-010",
+      "answer_text": "False.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-010",
+      "answer_text": "No",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-010",
+      "answer_text": "Partially true",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-010",
+      "answer_text": "false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-011",
+      "answer_text": "10V",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-011",
+      "answer_text": "2.5 V",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-011",
+      "answer_text": "10",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-011",
+      "answer_text": "2.5V",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-011",
+      "answer_text": "1000",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-011",
+      "answer_text": "10",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-011",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-011",
+      "answer_text": "~10",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-011",
+      "answer_text": "2.5",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-011",
+      "answer_text": "about 10",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-011",
+      "answer_text": "dunno, didn't attempt",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-011",
+      "answer_text": "10 approx",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-011",
+      "answer_text": "10 V",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-011",
+      "answer_text": "≈10",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-011",
+      "answer_text": "10 mV",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-012",
+      "answer_text": "60W",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-012",
+      "answer_text": "dunno, didn't attempt",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-012",
+      "answer_text": "6.67W",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-012",
+      "answer_text": "60 W",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-012",
+      "answer_text": "6.67",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-012",
+      "answer_text": "≈60",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-012",
+      "answer_text": "60 kW",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-012",
+      "answer_text": "60",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-012",
+      "answer_text": "about 60",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-012",
+      "answer_text": "60",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-012",
+      "answer_text": "~60",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-012",
+      "answer_text": "60 approx",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-012",
+      "answer_text": "6.67 W",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-012",
+      "answer_text": "6000",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-012",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-013",
+      "answer_text": "2000",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-013",
+      "answer_text": "10 cm",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-013",
+      "answer_text": "dunno, didn't attempt",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-013",
+      "answer_text": "20 mm",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-013",
+      "answer_text": "20 cm",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-013",
+      "answer_text": "≈20",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-013",
+      "answer_text": "10",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-013",
+      "answer_text": "20cm",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-013",
+      "answer_text": "10cm",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-013",
+      "answer_text": "about 20",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-013",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-013",
+      "answer_text": "20",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-013",
+      "answer_text": "~20",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-013",
+      "answer_text": "20 approx",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-013",
+      "answer_text": "20",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-014",
+      "answer_text": "80",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-014",
+      "answer_text": "about 20",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-014",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-014",
+      "answer_text": "2000",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-014",
+      "answer_text": "dunno, didn't attempt",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-014",
+      "answer_text": "80 g",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-014",
+      "answer_text": "≈20",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-014",
+      "answer_text": "20",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-014",
+      "answer_text": "20",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-014",
+      "answer_text": "20 kg",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-014",
+      "answer_text": "~20",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-014",
+      "answer_text": "20g",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-014",
+      "answer_text": "20 approx",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-014",
+      "answer_text": "80g",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-014",
+      "answer_text": "20 g",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-015",
+      "answer_text": "chloroplast",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-015",
+      "answer_text": " chlorophyll ",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-015",
+      "answer_text": "chlorophyll (maybe)",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-015",
+      "answer_text": "CHLOROPHYLL",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-015",
+      "answer_text": "chloroplast",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-015",
+      "answer_text": "Chloroplast",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-015",
+      "answer_text": "the answer is chlorophyll",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-015",
+      "answer_text": "chlorophyll",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-015",
+      "answer_text": "I believe it's chlorophyll",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-015",
+      "answer_text": "chlorophyll",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-015",
+      "answer_text": "???",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-015",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-015",
+      "answer_text": "chlorophyll.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-015",
+      "answer_text": "Chlorophyll",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-015",
+      "answer_text": "chlorophyll or chloroplast",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-016",
+      "answer_text": "the answer is evaporation",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-016",
+      "answer_text": "evaporation.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-016",
+      "answer_text": "I believe it's evaporation",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-016",
+      "answer_text": "condensation",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-016",
+      "answer_text": "condensation",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-016",
+      "answer_text": "Evaporation",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-016",
+      "answer_text": "evaporation",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-016",
+      "answer_text": "EVAPORATION",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-016",
+      "answer_text": "evaporation (maybe)",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-016",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-016",
+      "answer_text": " evaporation ",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-016",
+      "answer_text": "???",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-016",
+      "answer_text": "evaporation",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-016",
+      "answer_text": "Condensation",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-016",
+      "answer_text": "evaporation or condensation",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "sci-017",
+      "answer_text": " gene ",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "sci-017",
+      "answer_text": "Gene",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "sci-017",
+      "answer_text": "chromosome",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "sci-017",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "sci-017",
+      "answer_text": "gene or chromosome",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "sci-017",
+      "answer_text": "gene",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "sci-017",
+      "answer_text": "???",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "sci-017",
+      "answer_text": "Chromosome",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "sci-017",
+      "answer_text": "gene",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "sci-017",
+      "answer_text": "chromosome",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "sci-017",
+      "answer_text": "GENE",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "sci-017",
+      "answer_text": "the answer is gene",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "sci-017",
+      "answer_text": "gene.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "sci-017",
+      "answer_text": "gene (maybe)",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "sci-017",
+      "answer_text": "I believe it's gene",
+      "gold_label": "correct"
+    }
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "subject": "JEE Physics",
+  "note": "Generated per OPEN_RESPONSE_GENERATION_HANDOFF.md via Claude Code sub-agents, single model (Claude), one sub-agent per question.",
+  "responses": [
+    {
+      "student_id": "S01",
+      "question_id": "phy-018",
+      "answer_text": "Gauss's law says that if you take the total electric flux passing through any closed surface, it equals the charge enclosed inside divided by epsilon naught. Since we get to pick a surface with the same symmetry as the charge, E becomes constant on it and comes straight out of the integral, so we just solve for E algebraically instead of doing a nasty integral.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-018",
+      "answer_text": "For me the whole point of Gauss's law is that flux through closed surface = q_enclosed/ε0, and the surface itself is imaginary, we just draw it wherever is convenient. That's why for spherical or cylindrical charges we can make E come out constant on the surface and skip integrating a messy field expression.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-018",
+      "answer_text": "Basically total flux out of a closed surface is qenc/epsilon0, that's the law in one line. It's useful because if the charge distribution has symmetry we can choose an imaginary Gaussian surface where E is same magnitude everywhere on it and perpendicular, so E times area equals qenc/epsilon0 and we solve directly.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-018",
+      "answer_text": "There's this thing where you close off a region with a hypothetical surface (doesn't have to exist physically) and then the net flux leaving it is just qenc/ε0. This is super handy for like a charged sphere or infinite line because you pick the surface shape to match the symmetry and then E just pulls out of the flux integral leaving simple algebra.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-018",
+      "answer_text": "Flux through a closed surface equals enclosed charge over epsilon0, that's Gauss's law in short. What makes it powerful is when there's spherical, cylindrical or planar symmetry, since then the field is uniform over the chosen (not real) surface and you avoid integrating E dot dA piece by piece.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-018",
+      "answer_text": "Sir taught us it as ∮E·dA = qenc/ε0 over any closed surface we imagine, called Gaussian surface. Whenever the setup has symmetry we can orient this imaginary surface so E is constant along it, then the integral becomes just E times area which makes solving way faster than Coulomb's law integration.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-018",
+      "answer_text": "Honestly the trick with Gauss's law is choosing a smart closed surface, not a real object, around the charge such that the flux equation ∮E·dA=qenc/ε0 simplifies because E is same value all over that surface due to symmetry, then you just take E out and multiply by area.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-018",
+      "answer_text": "The law states total flux through any closed surface is proportional to charge enclosed, divided by ε0. What makes it good for symmetric cases like spheres and infinite cylinders is that we get to define the surface ourselves so that E is perpendicular and constant on it, letting the flux integral reduce to just E·A.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-018",
+      "answer_text": "Gauss's law is E = qenc/ε0, basically it directly gives you the electric field value at any point using the charge inside, that's why we use it for symmetric problems.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-018",
+      "answer_text": "It states flux = qenc/ε0, and to apply it we actually have to construct a real physical sphere or cylinder made of some material around the charge, that's the Gaussian surface, and that's why it only works for objects like conducting shells.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-018",
+      "answer_text": "Gauss's law says flux through closed surface equals qenc/μ0 and its useful because for symmetric charges the field is same everywhere so we can pull it out of integral easily.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-018",
+      "answer_text": "Gauss's law is about flux through a closed surface being related to the charge inside it, divided by epsilon naught. It's useful for symmetric distributions but I don't fully remember why the surface being 'chosen' matters, I think it's just because sphere formulas are easy.",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-018",
+      "answer_text": "We use an imaginary Gaussian surface, like a sphere around a point charge, that we pick ourselves and don't have to be a physical thing. I forget the exact formula but I think it involves flux and charge somehow, and it's used for symmetric cases.",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-018",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-018",
+      "answer_text": "umm electric field is like when charges push each other and gauss was a mathematician i think, not sure what surface means here, maybe skip this one and come back later",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-019",
+      "answer_text": "Isothermal means the temperature stays fixed throughout, so the gas has to keep exchanging heat with its surroundings to balance out the work done. Adiabatic on the other hand has no heat transfer at all, Q is zero, so if the gas does work its internal energy and temperature actually drop.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-019",
+      "answer_text": "In an adiabatic process the system is basically sealed off thermally, no heat in or out, so all the work comes at the cost of internal energy and temp changes. Isothermal is opposite, temp is held constant by letting heat flow in/out as needed.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-019",
+      "answer_text": "the way i remember it is isothermal = slow process with T constant and heat flowing to keep it that way, adiabatic = fast/insulated process where no heat can escape so T changes. also on a pV graph the adiabatic curve falls more steeply than isothermal because gamma > 1.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-019",
+      "answer_text": "PV = constant for isothermal but for adiabatic its PV^gamma = constant, and since gamma is bigger than 1 the adiabatic curve is steeper. That steepness comes from the fact that adiabatic has no heat exchange so temperature is not being held fixed like in isothermal.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-019",
+      "answer_text": "Honestly the core difference is just heat exchange - isothermal allows it (thats literally how T stays same) while adiabatic completely blocks it. As a result adiabatic expansion cools the gas down since energy for work comes from within.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-019",
+      "answer_text": "If u insulate a container so no heat gets in/out, thats adiabatic, and temperature will rise or fall depending on compression/expansion. Isothermal needs a good conductor wall or very slow process so heat keeps flowing and T doesnt change, and its pV curve is less steep than adiabatic's.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-019",
+      "answer_text": "so basically these are two extremes - one where the system is in perfect thermal contact with environment (isothermal, T const) and one where its totally isolated thermally (adiabatic, Q=0). in the second case work done by/on gas directly changes its internal energy hence temp changes.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-019",
+      "answer_text": "Adiabatic process has Q=0 by definition, meaning the container walls dont let any heat pass, and because of that the temperature isnt constant - it varies as the gas expands or compresses. Isothermal is the reverse case, heat is exchanged freely so T is constant, and if u plot both on same pV diagram the isothermal line is more gradual compared to adiabatic.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-019",
+      "answer_text": "I think adiabatic also keeps temperature constant just like isothermal, the only difference is that adiabatic doesnt allow heat exchange but somehow the gas manages to keep T same anyway using the work done.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-019",
+      "answer_text": "isothermal process basically has zero heat transfer too, thats why the name has 'thermal' in it meaning no heat is moving in the system, only adiabatic allows some heat flow through the walls.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-019",
+      "answer_text": "on a PV diagram the isothermal curve is always steeper than the adiabatic one because isothermal drops faster due to constant temperature restricting the gas more.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-019",
+      "answer_text": "Isothermal is when temperature of the gas doesn't change during the whole process, thats the main thing about it. Adiabatic is kind of the same concept just applied differently, not totally sure how the heat part fits in exactly.",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-019",
+      "answer_text": "For adiabatic Q=0 so no heat goes in or out of system, this one I'm confident about. Not sure about the exact curve difference on pV graph or how isothermal fits into all this though.",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-019",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-019",
+      "answer_text": "wait is this the one with the piston and spring? i thought this chapter was about SHM not gas laws, lemme check my notes again idk",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "phy-020",
+      "answer_text": "Since no external torque is acting on the skater, angular momentum L=Iω stays constant, so when I decreases by pulling arms in, ω has to shoot up to compensate.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "phy-020",
+      "answer_text": "Moment of inertia depends on how far the mass is from the axis, so bringing arms closer reduces I a lot, and because L is conserved (no torque from outside), ω increases.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "phy-020",
+      "answer_text": "I think of it like this - angular momentum is fixed throughout the spin bcoz ice is frictionless enough that no torque acts, so I going down forces ω going up to keep L=Iω same.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "phy-020",
+      "answer_text": "The skater's body mass gets redistributed closer to the rotation axis when arms are pulled in, lowering moment of inertia, and since angular momentum can't change without torque, the spin speed rises.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "phy-020",
+      "answer_text": "L = Iω is conserved here as there's no net external torque on the system, and pulling arms in lowers I so ω must go up, thats basic reason.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "phy-020",
+      "answer_text": "What happens is I (moment of inertia) drops a lot when arms come closer to body, and to conserve L which stays const due to no ext torque, ω increases proportionally.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "phy-020",
+      "answer_text": "Angular momentum conservation is the key idea, no torque means L is const, and reducing I by pulling arms in directly makes ω larger since L=Iω.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "phy-020",
+      "answer_text": "Its bcoz the r decreases when arms pulled in which lowers I (I is like sum of mr²), and with L constant (no external torque) the ω must rise to balance eqn.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "phy-020",
+      "answer_text": "I believe when the skater pulls arms in, air resistance on the body reduces a lot since less surface area is exposed, so there's less drag slowing them down and they spin faster.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "phy-020",
+      "answer_text": "This is simply energy conservation - the KE was stored and when arms come in the same energy gets concentrated into a smaller body so speed increases automatically.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "phy-020",
+      "answer_text": "Pulling the arms in actually increases the torque on the body because muscles are applying force, and this extra torque is what spins the skater faster.",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "phy-020",
+      "answer_text": "The skater spins faster due to conservation of angular momentum, since L stays same throughout the motion as no torque acts on the system.",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "phy-020",
+      "answer_text": "When arms are pulled inward the moment of inertia decreases because mass is now nearer to the axis of rotation, and this somehow causes the skater to spin faster.",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "phy-020",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "phy-020",
+      "answer_text": "umm this is about ice skating right, i think its something to do with balance and center of gravity or maybe the ice being slippery, not really sure how to explain the physics part tbh",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    }
+  ]
+}

@@ -1,0 +1,1536 @@
+{
+  "subject": "JEE Mathematics",
+  "note": "Each closed-type question has 15 simulated student responses in a fixed, documented distribution: 8 correct (phrasing/format variants), 3 incorrect via a specific misconception, 2 boundary/format-edge-case, 1 blank, 1 gibberish/off-topic. gold_label is the ground truth for scoring grader accuracy -- it is NOT input to the grader under test.",
+  "responses": [
+    {
+      "student_id": "S01",
+      "question_id": "math-001",
+      "answer_text": "(A)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-001",
+      "answer_text": "B.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-001",
+      "answer_text": "BC",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-001",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-001",
+      "answer_text": "(B)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-001",
+      "answer_text": "Option B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-001",
+      "answer_text": "A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-001",
+      "answer_text": "b",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-001",
+      "answer_text": "B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-001",
+      "answer_text": "It's B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-001",
+      "answer_text": "B or C",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-001",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-001",
+      "answer_text": "ans: B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-001",
+      "answer_text": "I think B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-001",
+      "answer_text": "Option A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-002",
+      "answer_text": "Option B",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-002",
+      "answer_text": "(B)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-002",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-002",
+      "answer_text": "ans: A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-002",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-002",
+      "answer_text": "A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-002",
+      "answer_text": "a",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-002",
+      "answer_text": "AC",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-002",
+      "answer_text": "A.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-002",
+      "answer_text": "A or C",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-002",
+      "answer_text": "I think A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-002",
+      "answer_text": "(A)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-002",
+      "answer_text": "It's A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-002",
+      "answer_text": "B",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-002",
+      "answer_text": "Option A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-003",
+      "answer_text": "A or C",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-003",
+      "answer_text": "A.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-003",
+      "answer_text": "ans: A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-003",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-003",
+      "answer_text": "A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-003",
+      "answer_text": "B",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-003",
+      "answer_text": "Option B",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-003",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-003",
+      "answer_text": "(B)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-003",
+      "answer_text": "It's A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-003",
+      "answer_text": "I think A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-003",
+      "answer_text": "(A)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-003",
+      "answer_text": "Option A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-003",
+      "answer_text": "AC",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-003",
+      "answer_text": "a",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-004",
+      "answer_text": "Option A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-004",
+      "answer_text": "Option B",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-004",
+      "answer_text": "A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-004",
+      "answer_text": "ans: A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-004",
+      "answer_text": "(A)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-004",
+      "answer_text": "(B)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-004",
+      "answer_text": "a",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-004",
+      "answer_text": "A or C",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-004",
+      "answer_text": "B",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-004",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-004",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-004",
+      "answer_text": "It's A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-004",
+      "answer_text": "AC",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-004",
+      "answer_text": "A.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-004",
+      "answer_text": "I think A",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-005",
+      "answer_text": "Option D",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-005",
+      "answer_text": "Option A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-005",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-005",
+      "answer_text": "d",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-005",
+      "answer_text": "I think D",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-005",
+      "answer_text": "D.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-005",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-005",
+      "answer_text": "(D)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-005",
+      "answer_text": "A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-005",
+      "answer_text": "It's D",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-005",
+      "answer_text": "(A)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-005",
+      "answer_text": "DB",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-005",
+      "answer_text": "D",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-005",
+      "answer_text": "ans: D",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-005",
+      "answer_text": "D or B",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-006",
+      "answer_text": "B or C",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-006",
+      "answer_text": "ans: B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-006",
+      "answer_text": "asdkj not sure lol",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-006",
+      "answer_text": "(B)",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-006",
+      "answer_text": "A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-006",
+      "answer_text": "It's B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-006",
+      "answer_text": "B.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-006",
+      "answer_text": "B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-006",
+      "answer_text": "BC",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-006",
+      "answer_text": "(A)",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-006",
+      "answer_text": "b",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-006",
+      "answer_text": "I think B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-006",
+      "answer_text": "Option B",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-006",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-006",
+      "answer_text": "Option A",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-007",
+      "answer_text": "Not always",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-007",
+      "answer_text": "true",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-007",
+      "answer_text": "false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-007",
+      "answer_text": "definitely false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-007",
+      "answer_text": "False",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-007",
+      "answer_text": "True",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-007",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-007",
+      "answer_text": "what does this even mean",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-007",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-007",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-007",
+      "answer_text": "No",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-007",
+      "answer_text": "False.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-007",
+      "answer_text": "incorrect",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-007",
+      "answer_text": "Partially true",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-007",
+      "answer_text": "T",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-008",
+      "answer_text": "True",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-008",
+      "answer_text": "F",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-008",
+      "answer_text": "Not always",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-008",
+      "answer_text": "T",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-008",
+      "answer_text": "Partially true",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-008",
+      "answer_text": "false",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-008",
+      "answer_text": "definitely true",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-008",
+      "answer_text": "what does this even mean",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-008",
+      "answer_text": "correct",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-008",
+      "answer_text": "T",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-008",
+      "answer_text": "Yes",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-008",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-008",
+      "answer_text": "True.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-008",
+      "answer_text": "False",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-008",
+      "answer_text": "true",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-009",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-009",
+      "answer_text": "False.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-009",
+      "answer_text": "incorrect",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-009",
+      "answer_text": "what does this even mean",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-009",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-009",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-009",
+      "answer_text": "definitely false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-009",
+      "answer_text": "false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-009",
+      "answer_text": "No",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-009",
+      "answer_text": "Partially true",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-009",
+      "answer_text": "False",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-009",
+      "answer_text": "True",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-009",
+      "answer_text": "T",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-009",
+      "answer_text": "Not always",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-009",
+      "answer_text": "true",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-010",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-010",
+      "answer_text": "True",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-010",
+      "answer_text": "false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-010",
+      "answer_text": "Not always",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-010",
+      "answer_text": "T",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-010",
+      "answer_text": "False",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-010",
+      "answer_text": "F",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-010",
+      "answer_text": "definitely false",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-010",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-010",
+      "answer_text": "Partially true",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-010",
+      "answer_text": "incorrect",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-010",
+      "answer_text": "False.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-010",
+      "answer_text": "true",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-010",
+      "answer_text": "what does this even mean",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-010",
+      "answer_text": "No",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-011",
+      "answer_text": "9 ",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-011",
+      "answer_text": "6",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-011",
+      "answer_text": "9 approx",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-011",
+      "answer_text": "dunno, didn't attempt",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-011",
+      "answer_text": "≈9",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-011",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-011",
+      "answer_text": "6 ",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-011",
+      "answer_text": "~9",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-011",
+      "answer_text": "9 sq units",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-011",
+      "answer_text": "9",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-011",
+      "answer_text": "6",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-011",
+      "answer_text": "9",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-011",
+      "answer_text": "900",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-011",
+      "answer_text": "about 9",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-011",
+      "answer_text": "9",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-012",
+      "answer_text": "2 approx",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-012",
+      "answer_text": "2",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-012",
+      "answer_text": "0.5 ",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-012",
+      "answer_text": "~2",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-012",
+      "answer_text": "0.5",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-012",
+      "answer_text": "2 ",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-012",
+      "answer_text": "≈2",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-012",
+      "answer_text": "200",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-012",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-012",
+      "answer_text": "about 2",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-012",
+      "answer_text": "2",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-012",
+      "answer_text": "0.5",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-012",
+      "answer_text": "2",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-012",
+      "answer_text": "2°",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-012",
+      "answer_text": "dunno, didn't attempt",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-013",
+      "answer_text": "0.903 dB",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-013",
+      "answer_text": "0.903",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-013",
+      "answer_text": "0.903",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-013",
+      "answer_text": "~0.903",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-013",
+      "answer_text": "0.602 ",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-013",
+      "answer_text": "0.602",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-013",
+      "answer_text": "0.903",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-013",
+      "answer_text": "0.903 approx",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-013",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-013",
+      "answer_text": "0.903 ",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-013",
+      "answer_text": "0.90300",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-013",
+      "answer_text": "0.602",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-013",
+      "answer_text": "≈0.903",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-013",
+      "answer_text": "about 0.903",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-013",
+      "answer_text": "dunno, didn't attempt",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-014",
+      "answer_text": "0.625%",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-014",
+      "answer_text": "0.375 ",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-014",
+      "answer_text": "~0.625",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-014",
+      "answer_text": "0.375",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-014",
+      "answer_text": "0.62500",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-014",
+      "answer_text": "0.375",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-014",
+      "answer_text": "0.625 ",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-014",
+      "answer_text": "0.625",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-014",
+      "answer_text": "≈0.625",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-014",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-014",
+      "answer_text": "about 0.625",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-014",
+      "answer_text": "0.625",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-014",
+      "answer_text": "0.625",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-014",
+      "answer_text": "0.625 approx",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-014",
+      "answer_text": "dunno, didn't attempt",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-015",
+      "answer_text": "0",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-015",
+      "answer_text": "1 or 0",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-015",
+      "answer_text": "1",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-015",
+      "answer_text": "1",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-015",
+      "answer_text": "0",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-015",
+      "answer_text": "1",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-015",
+      "answer_text": "1 (maybe)",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-015",
+      "answer_text": "1",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-015",
+      "answer_text": "0",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-015",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-015",
+      "answer_text": "1.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-015",
+      "answer_text": "the answer is 1",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-015",
+      "answer_text": "I believe it's 1",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-015",
+      "answer_text": "???",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-015",
+      "answer_text": " 1 ",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-016",
+      "answer_text": "I believe it's empty",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-016",
+      "answer_text": " empty ",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-016",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-016",
+      "answer_text": "empty",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-016",
+      "answer_text": "EMPTY",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-016",
+      "answer_text": "universal",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-016",
+      "answer_text": "empty",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-016",
+      "answer_text": "???",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-016",
+      "answer_text": "empty (maybe)",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-016",
+      "answer_text": "Empty",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-016",
+      "answer_text": "universal",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-016",
+      "answer_text": "Universal",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-016",
+      "answer_text": "the answer is empty",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-016",
+      "answer_text": "empty.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-016",
+      "answer_text": "empty or universal",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S01",
+      "question_id": "math-017",
+      "answer_text": "1",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S02",
+      "question_id": "math-017",
+      "answer_text": "-1 or 1",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S03",
+      "question_id": "math-017",
+      "answer_text": "???",
+      "gold_label": "malformed_gibberish_or_offtopic"
+    },
+    {
+      "student_id": "S04",
+      "question_id": "math-017",
+      "answer_text": "-1",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S05",
+      "question_id": "math-017",
+      "answer_text": "I believe it's -1",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S06",
+      "question_id": "math-017",
+      "answer_text": "-1.",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S07",
+      "question_id": "math-017",
+      "answer_text": " -1 ",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S08",
+      "question_id": "math-017",
+      "answer_text": "",
+      "gold_label": "malformed_blank"
+    },
+    {
+      "student_id": "S09",
+      "question_id": "math-017",
+      "answer_text": "-1 (maybe)",
+      "gold_label": "boundary_or_partial"
+    },
+    {
+      "student_id": "S10",
+      "question_id": "math-017",
+      "answer_text": "1",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S11",
+      "question_id": "math-017",
+      "answer_text": "the answer is -1",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S12",
+      "question_id": "math-017",
+      "answer_text": "-1",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S13",
+      "question_id": "math-017",
+      "answer_text": "1",
+      "gold_label": "incorrect_misconception"
+    },
+    {
+      "student_id": "S14",
+      "question_id": "math-017",
+      "answer_text": "-1",
+      "gold_label": "correct"
+    },
+    {
+      "student_id": "S15",
+      "question_id": "math-017",
+      "answer_text": "-1",
+      "gold_label": "correct"
+    }
+  ]
+}

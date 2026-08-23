@@ -51,7 +51,7 @@ func newSeedQuestionsCmd() *cobra.Command {
 				return fmt.Errorf("invalid --exam-subject-id: %w", err)
 			}
 
-			raw, err := os.ReadFile(datasetPath)
+			raw, err := os.ReadFile(datasetPath) //nolint:gosec // dataset path is an operator-supplied CLI flag, not untrusted input
 			if err != nil {
 				return fmt.Errorf("read dataset: %w", err)
 			}

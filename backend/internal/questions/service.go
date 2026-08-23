@@ -57,7 +57,7 @@ func (s *Service) ListQuestions(c *gin.Context, examSubjectID uuid.UUID) {
 	if !ok {
 		return
 	}
-	if _, ok := s.ownedExamSubject(c, examSubjectID, uid); !ok {
+	if !s.ownedExamSubject(c, examSubjectID, uid) {
 		return
 	}
 	list, err := s.store.ListQuestionsByExamSubject(c.Request.Context(), examSubjectID)
@@ -79,7 +79,7 @@ func (s *Service) CreateQuestion(c *gin.Context, examSubjectID uuid.UUID) {
 	if !ok {
 		return
 	}
-	if _, ok := s.ownedExamSubject(c, examSubjectID, uid); !ok {
+	if !s.ownedExamSubject(c, examSubjectID, uid) {
 		return
 	}
 	var body gen.CreateQuestionJSONRequestBody
@@ -87,7 +87,7 @@ func (s *Service) CreateQuestion(c *gin.Context, examSubjectID uuid.UUID) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	_, configBytes, err := decodeConfig(body.Type, body.Config)
+	configBytes, err := decodeConfig(body.Type, body.Config)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -122,7 +122,7 @@ func (s *Service) GetQuestion(c *gin.Context, examSubjectID uuid.UUID, questionI
 	if !ok {
 		return
 	}
-	if _, ok := s.ownedExamSubject(c, examSubjectID, uid); !ok {
+	if !s.ownedExamSubject(c, examSubjectID, uid) {
 		return
 	}
 	question, ok := s.scopedQuestion(c, examSubjectID, questionID)
@@ -143,7 +143,7 @@ func (s *Service) UpdateQuestion(c *gin.Context, examSubjectID uuid.UUID, questi
 	if !ok {
 		return
 	}
-	if _, ok := s.ownedExamSubject(c, examSubjectID, uid); !ok {
+	if !s.ownedExamSubject(c, examSubjectID, uid) {
 		return
 	}
 	if _, ok := s.scopedQuestion(c, examSubjectID, questionID); !ok {
@@ -154,7 +154,7 @@ func (s *Service) UpdateQuestion(c *gin.Context, examSubjectID uuid.UUID, questi
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	_, configBytes, err := decodeConfig(body.Type, body.Config)
+	configBytes, err := decodeConfig(body.Type, body.Config)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -189,7 +189,7 @@ func (s *Service) DeleteQuestion(c *gin.Context, examSubjectID uuid.UUID, questi
 	if !ok {
 		return
 	}
-	if _, ok := s.ownedExamSubject(c, examSubjectID, uid); !ok {
+	if !s.ownedExamSubject(c, examSubjectID, uid) {
 		return
 	}
 	if _, ok := s.scopedQuestion(c, examSubjectID, questionID); !ok {
@@ -204,60 +204,56 @@ func (s *Service) DeleteQuestion(c *gin.Context, examSubjectID uuid.UUID, questi
 
 // decodeConfig re-encodes the request body's generic `config` map to JSON and
 // hands it to internal/questionconfig for type-specific decoding and
-// validation — the only path by which request config reaches storage.
-func decodeConfig(qType gen.QuestionType, raw map[string]interface{}) (questionconfig.Config, []byte, error) {
+// validation — the only path by which request config reaches storage. It
+// returns the canonical bytes Marshal produces, not whatever shape the
+// client happened to send.
+func decodeConfig(qType gen.QuestionType, raw map[string]interface{}) ([]byte, error) {
 	buf, err := json.Marshal(raw)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 	cfg, err := questionconfig.Unmarshal(questionconfig.Type(qType), buf)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
-	// Re-marshal through the boundary so the stored bytes are always the
-	// canonical shape Marshal produces, not whatever the client happened to send.
-	canonical, err := questionconfig.Marshal(cfg)
-	if err != nil {
-		return nil, nil, err
-	}
-	return cfg, canonical, nil
+	return questionconfig.Marshal(cfg)
 }
 
-// ownedExamSubject loads an Exam Subject and verifies the requesting user
-// owns its Exam's Class, walking Exam Subject -> Exam -> Class -> owner.
-func (s *Service) ownedExamSubject(c *gin.Context, examSubjectID, uid uuid.UUID) (database.ExamSubject, bool) {
+// ownedExamSubject verifies the requesting user owns the Class of the Exam
+// Subject with the given id, walking Exam Subject -> Exam -> Class -> owner.
+func (s *Service) ownedExamSubject(c *gin.Context, examSubjectID, uid uuid.UUID) bool {
 	examSubject, err := s.store.GetExamSubjectByID(c.Request.Context(), examSubjectID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load exam subject"})
-			return database.ExamSubject{}, false
+			return false
 		}
 		c.JSON(http.StatusNotFound, gin.H{"error": "exam subject not found"})
-		return database.ExamSubject{}, false
+		return false
 	}
 	exam, err := s.store.GetExamByID(c.Request.Context(), examSubject.ExamID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load exam"})
-			return database.ExamSubject{}, false
+			return false
 		}
 		c.JSON(http.StatusNotFound, gin.H{"error": "exam subject not found"})
-		return database.ExamSubject{}, false
+		return false
 	}
 	class, err := s.store.GetClassByID(c.Request.Context(), exam.ClassID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load class"})
-			return database.ExamSubject{}, false
+			return false
 		}
 		c.JSON(http.StatusNotFound, gin.H{"error": "exam subject not found"})
-		return database.ExamSubject{}, false
+		return false
 	}
 	if class.CreatedBy != uid {
 		c.JSON(http.StatusNotFound, gin.H{"error": "exam subject not found"})
-		return database.ExamSubject{}, false
+		return false
 	}
-	return examSubject, true
+	return true
 }
 
 // scopedQuestion loads a Question and verifies it belongs to the given Exam

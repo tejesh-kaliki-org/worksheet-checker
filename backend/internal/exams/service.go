@@ -110,7 +110,7 @@ func (s *Service) ListExamSubjects(c *gin.Context, examID uuid.UUID) {
 	if !ok {
 		return
 	}
-	if _, ok := s.ownedExam(c, examID, uid); !ok {
+	if !s.ownedExam(c, examID, uid) {
 		return
 	}
 	list, err := s.store.ListExamSubjectsByExam(c.Request.Context(), examID)
@@ -127,7 +127,7 @@ func (s *Service) AddExamSubject(c *gin.Context, examID uuid.UUID) {
 	if !ok {
 		return
 	}
-	if _, ok := s.ownedExam(c, examID, uid); !ok {
+	if !s.ownedExam(c, examID, uid) {
 		return
 	}
 	var body gen.AddExamSubjectJSONRequestBody
@@ -185,23 +185,20 @@ func (s *Service) scopedExam(c *gin.Context, classID, examID uuid.UUID) (databas
 	return exam, true
 }
 
-// ownedExam loads an Exam by id and verifies the requesting user owns its
-// Class — used by routes scoped directly under /exams/{examId} rather than
+// ownedExam verifies the requesting user owns the Class of the Exam with the
+// given id — used by routes scoped directly under /exams/{examId} rather than
 // under a Class (see AddExamSubject/ListExamSubjects in api/services/exams.yaml).
-func (s *Service) ownedExam(c *gin.Context, examID, uid uuid.UUID) (database.Exam, bool) {
+func (s *Service) ownedExam(c *gin.Context, examID, uid uuid.UUID) bool {
 	exam, err := s.store.GetExamByID(c.Request.Context(), examID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load exam"})
-			return database.Exam{}, false
+			return false
 		}
 		c.JSON(http.StatusNotFound, gin.H{"error": "exam not found"})
-		return database.Exam{}, false
+		return false
 	}
-	if !s.ownsClass(c, exam.ClassID, uid) {
-		return database.Exam{}, false
-	}
-	return exam, true
+	return s.ownsClass(c, exam.ClassID, uid)
 }
 
 func toAPIExam(e database.Exam) gen.Exam {

@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Worksheet Checker API Reference</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <!--
+      Service-wise docs. `npm run docs:build` regenerates scalar/services/*.yaml
+      (one bundle per service) and scalar/sources.json (the list below).
+      Scalar renders a document-selector dropdown to switch between services.
+    -->
+  <div id="app"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+  <script>
+    fetch('sources.json')
+      .then((r) => r.json())
+      .then((services) => {
+        Scalar.createApiReference('#app', {
+          theme: 'purple',
+          layout: 'modern',
+          sources: services.map((s) => ({
+            slug: s.slug,
+            title: s.title,
+            url: s.url,
+          })),
+        })
+      })
+      .catch((err) => {
+        document.getElementById('app').innerHTML =
+          '<pre style="padding:2rem">Could not load scalar/sources.json.\n' +
+          'Run `npm run docs:build` from the api/ directory first.\n\n' +
+          err +
+          '</pre>'
+      })
+  </script>
+</body>
+
+</html>

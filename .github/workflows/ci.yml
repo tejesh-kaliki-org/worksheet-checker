@@ -82,7 +82,16 @@ jobs:
           find lib test -name '*.dart' -not -path 'lib/api/*' -not -path 'lib/icons/*' -print0 \
             | xargs -0 --no-run-if-empty dart format --output=none --set-exit-if-changed
           flutter analyze
-          dart run custom_lint
+      # custom_lint's isolate has a known flaky crash (unrelated to this repo's
+      # code — an analyzer/custom_lint version incompatibility, see issue #14)
+      # that has hung this job for 20+ minutes on unrelated PRs. Time-box it
+      # and don't block merges on it until the underlying flakiness is fixed;
+      # flutter analyze above still blocks on real analysis issues.
+      - name: Custom lint (riverpod_lint)
+        working-directory: frontend
+        timeout-minutes: 5
+        continue-on-error: true
+        run: dart run custom_lint
       - name: Test
         working-directory: frontend
         run: |

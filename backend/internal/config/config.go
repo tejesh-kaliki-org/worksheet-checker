@@ -43,6 +43,17 @@ type Config struct {
 	Observability ObservabilityConfig `yaml:"observability"`
 	Token         TokenConfig         `yaml:"token"`
 	Mail          MailConfig          `yaml:"mail"`
+	Bifrost       BifrostConfig       `yaml:"bifrost"`
+}
+
+// BifrostConfig points at the Bifrost LLM proxy used for grading. Dev points
+// at a shared instance; prod points at this repo's own project-owned
+// deployment. Model is the model identifier Bifrost routes on -- see
+// ADR 0008 (uniform LLM grading, no per-Question-Type routing yet).
+type BifrostConfig struct {
+	BaseURL string `yaml:"base_url"`
+	APIKey  string `yaml:"api_key"`
+	Model   string `yaml:"model"`
 }
 
 // TokenConfig holds JWT signing settings (used by the auth module).
@@ -118,6 +129,9 @@ func Load(path string) (*Config, error) {
 	envOverride(&cfg.Mail.SES.Region, "SES_REGION")
 	envOverride(&cfg.Mail.SES.AccessKeyID, "SES_ACCESS_KEY_ID")
 	envOverride(&cfg.Mail.SES.SecretAccessKey, "SES_SECRET_ACCESS_KEY")
+	envOverride(&cfg.Bifrost.BaseURL, "BIFROST_BASE_URL")
+	envOverride(&cfg.Bifrost.APIKey, "BIFROST_API_KEY")
+	envOverride(&cfg.Bifrost.Model, "BIFROST_MODEL")
 
 	if err := checkProductionSecret(cfg); err != nil {
 		return nil, err

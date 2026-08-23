@@ -7,6 +7,8 @@ tags:
     x-displayName: auth
   - name: classes
     x-displayName: classes
+  - name: evaluations
+    x-displayName: evaluations
   - name: exams
     x-displayName: exams
   - name: health_other
@@ -197,10 +199,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Class"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "409":
-          $ref: "#/components/responses/Conflict"
   /classes/{classId}:
     get:
       operationId: getClass
@@ -224,7 +222,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Class"
         "404":
-          $ref: "#/components/responses/NotFound"
+          description: Not found
     put:
       operationId: updateClass
       tags:
@@ -252,12 +250,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Class"
-        "400":
-          $ref: "#/components/responses/BadRequest"
         "404":
-          $ref: "#/components/responses/NotFound"
-        "409":
-          $ref: "#/components/responses/Conflict"
+          description: Not found
     delete:
       operationId: deleteClass
       tags:
@@ -276,7 +270,7 @@ paths:
         "204":
           description: Deleted
         "404":
-          $ref: "#/components/responses/NotFound"
+          description: Not found
   /classes/{classId}/subjects:
     get:
       operationId: listClassSubjects
@@ -300,19 +294,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/SubjectList"
         "404":
-          $ref: "#/components/responses/NotFound"
-  /classes/{classId}/subjects:bulk-select:
+          description: Not found
     post:
-      operationId: bulkSelectClassSubjects
+      operationId: addClassSubject
       tags:
         - classes
-      summary: Select Subjects for a Class
-      description: "The primary path for choosing a Class's Subjects: submit the whole
-        selection at once. Additive and idempotent — Subjects already selected
-        are left alone, never duplicated or errored on. Deselecting is done with
-        DELETE /classes/{classId}/subjects/{subjectId}. Every id must name a
-        Subject in the caller's own catalogue; otherwise the whole request 404s
-        and nothing is selected."
+      summary: Select a Subject for a Class
       security:
         - bearerAuth: []
       parameters:
@@ -327,28 +314,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/BulkSelectClassSubjectsRequest"
+              $ref: "#/components/schemas/AddClassSubjectRequest"
       responses:
         "201":
-          description: The Class's Subject selection after the request.
+          description: Selected
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/SubjectList"
-        "400":
-          $ref: "#/components/responses/BadRequest"
         "404":
-          $ref: "#/components/responses/NotFound"
+          description: Not found
   /classes/{classId}/subjects/{subjectId}:
     delete:
       operationId: removeClassSubject
       tags:
         - classes
       summary: Remove a Subject selection from a Class
-      description: Never cascades. Once downstream Exam Subject / Question / Answer
-        data exists, removing a selection that has such data underneath will
-        return 409; no such table exists yet, so today the operation cannot
-        conflict and 409 is deliberately not declared here.
       security:
         - bearerAuth: []
       parameters:
@@ -368,7 +349,96 @@ paths:
         "204":
           description: Removed
         "404":
-          $ref: "#/components/responses/NotFound"
+          description: Not found
+  /answers/{answerId}/evaluation-attempts:
+    post:
+      operationId: createEvaluationAttempt
+      tags:
+        - evaluations
+      summary: "Trigger an Evaluation Attempt for an Answer -- one try at having the
+        AI grade it (see CONTEXT.md — Evaluation Attempt). Defaults to `scoring`
+        Purpose; pass `experiment` for offline comparison runs that never affect
+        Effective Marks or Feedback. Runs synchronously for this issue's scope:
+        the response reflects the Attempt's terminal status (`succeeded` or
+        `failed`)."
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: answerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEvaluationAttemptRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationAttempt"
+        "404":
+          description: Answer not found
+    get:
+      operationId: listEvaluationAttempts
+      tags:
+        - evaluations
+      summary: List Evaluation Attempts for an Answer, most recent first
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: answerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationAttemptList"
+        "404":
+          description: Answer not found
+  /answers/{answerId}/evaluation-attempts/{attemptId}:
+    get:
+      operationId: getEvaluationAttempt
+      tags:
+        - evaluations
+      summary: Poll/read a single Evaluation Attempt, including its Evaluation (score,
+        marks, feedback) if it succeeded.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: answerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: attemptId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationAttempt"
+        "404":
+          description: Not found
   /classes/{classId}/exams:
     get:
       operationId: listExams
@@ -697,7 +767,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/StudentList"
         "404":
-          $ref: "#/components/responses/NotFound"
+          description: Class not found
     post:
       operationId: createStudent
       tags:
@@ -725,50 +795,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Student"
-        "400":
-          $ref: "#/components/responses/BadRequest"
         "404":
-          $ref: "#/components/responses/NotFound"
+          description: Class not found
         "409":
-          $ref: "#/components/responses/Conflict"
-  /classes/{classId}/students:bulk-upload:
-    post:
-      operationId: bulkUploadStudents
-      tags:
-        - students
-      summary: Add several Students to a Class in one request
-      description: "Submits a whole roster at once. All-or-nothing: if any entry is
-        invalid or its Roll Number collides with an existing Student (or another
-        entry in the same request), no Student is created. The response is the
-        Class's full roster after the upload."
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: classId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/BulkUploadStudentsRequest"
-      responses:
-        "201":
-          description: The Class's roster after the upload.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/StudentList"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "409":
-          $ref: "#/components/responses/Conflict"
+          description: Roll Number already used in this Class
   /classes/{classId}/students/{studentId}:
     get:
       operationId: getStudent
@@ -798,7 +828,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Student"
         "404":
-          $ref: "#/components/responses/NotFound"
+          description: Not found
     put:
       operationId: updateStudent
       tags:
@@ -832,12 +862,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Student"
-        "400":
-          $ref: "#/components/responses/BadRequest"
         "404":
-          $ref: "#/components/responses/NotFound"
+          description: Not found
         "409":
-          $ref: "#/components/responses/Conflict"
+          description: Roll Number already used in this Class
     delete:
       operationId: deleteStudent
       tags:
@@ -862,13 +890,13 @@ paths:
         "204":
           description: Deleted
         "404":
-          $ref: "#/components/responses/NotFound"
+          description: Not found
   /subjects:
     get:
       operationId: listSubjects
       tags:
         - subjects
-      summary: List the authenticated User's Subject catalogue
+      summary: List the global Subject catalogue
       security:
         - bearerAuth: []
       responses:
@@ -878,114 +906,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SubjectList"
-    post:
-      operationId: createSubject
-      tags:
-        - subjects
-      summary: Add a Subject to the authenticated User's catalogue
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateSubjectRequest"
-      responses:
-        "201":
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Subject"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "409":
-          $ref: "#/components/responses/Conflict"
-  /subjects:bulk-create:
-    post:
-      operationId: bulkCreateSubjects
-      tags:
-        - subjects
-      summary: Add several Subjects to the authenticated User's catalogue
-      description: "Idempotent by name: names the User already has are skipped rather
-        than rejected, so re-submitting the same list never errors. The response
-        is the User's full catalogue after the operation."
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/BulkCreateSubjectsRequest"
-      responses:
-        "201":
-          description: The User's catalogue after the requested names were added.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SubjectList"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-  /subjects/{subjectId}:
-    put:
-      operationId: updateSubject
-      tags:
-        - subjects
-      summary: Rename a Subject in the authenticated User's catalogue
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: subjectId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateSubjectRequest"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Subject"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "409":
-          $ref: "#/components/responses/Conflict"
-    delete:
-      operationId: deleteSubject
-      tags:
-        - subjects
-      summary: Remove a Subject from the authenticated User's catalogue
-      description: Never cascades. A Subject still selected by any Class (or
-        referenced by downstream Exam Subject / Question / Answer data) returns
-        409; remove those references first.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: subjectId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "204":
-          description: Deleted
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "409":
-          $ref: "#/components/responses/Conflict"
   /exam-subjects/{examSubjectId}/submissions:bulk-upload:
     post:
       operationId: bulkUploadSubmissions
@@ -1139,15 +1059,12 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
-    Error:
-      type: object
-      required:
-        - msg
-      properties:
-        msg:
-          type: string
-          description: Human-readable error message.
     User:
       type: object
       required:
@@ -1337,17 +1254,94 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Subject"
-    BulkSelectClassSubjectsRequest:
+    AddClassSubjectRequest:
       type: object
       required:
-        - subject_ids
+        - subject_id
       properties:
-        subject_ids:
+        subject_id:
+          type: string
+          format: uuid
+    EvaluationPurpose:
+      type: string
+      description: Whether an Evaluation Attempt counts toward a Student's real grade
+        (`scoring`) or exists only for offline comparison (`experiment`) -- see
+        CONTEXT.md.
+      enum:
+        - scoring
+        - experiment
+    EvaluationAttemptStatus:
+      type: string
+      enum:
+        - pending
+        - running
+        - succeeded
+        - failed
+    Evaluation:
+      type: object
+      required:
+        - id
+        - evaluation_attempt_id
+        - raw_score
+        - marks
+        - feedback
+      properties:
+        id:
+          type: string
+          format: uuid
+        evaluation_attempt_id:
+          type: string
+          format: uuid
+        raw_score:
+          description: The AI's normalized judgment of correctness, 0.00-1.00.
+          type: number
+          format: double
+        marks:
+          description: raw_score x Question.Maximum Marks.
+          type: number
+          format: double
+        feedback:
+          description: Targeted, student-facing prose explaining the score.
+          type: string
+    EvaluationAttempt:
+      type: object
+      required:
+        - id
+        - answer_id
+        - status
+        - purpose
+      properties:
+        id:
+          type: string
+          format: uuid
+        answer_id:
+          type: string
+          format: uuid
+        status:
+          $ref: "#/components/schemas/EvaluationAttemptStatus"
+        purpose:
+          $ref: "#/components/schemas/EvaluationPurpose"
+        error:
+          type: string
+          nullable: true
+        evaluation:
+          allOf:
+            - $ref: "#/components/schemas/Evaluation"
+          nullable: true
+    EvaluationAttemptList:
+      type: object
+      required:
+        - evaluation_attempts
+      properties:
+        evaluation_attempts:
           type: array
-          minItems: 1
           items:
-            type: string
-            format: uuid
+            $ref: "#/components/schemas/EvaluationAttempt"
+    CreateEvaluationAttemptRequest:
+      type: object
+      properties:
+        purpose:
+          $ref: "#/components/schemas/EvaluationPurpose"
     Exam:
       type: object
       required:
@@ -1531,16 +1525,6 @@ components:
         roll_number:
           type: string
           minLength: 1
-    BulkUploadStudentsRequest:
-      type: object
-      required:
-        - students
-      properties:
-        students:
-          type: array
-          minItems: 1
-          items:
-            $ref: "#/components/schemas/CreateStudentRequest"
     UpdateStudentRequest:
       type: object
       required:
@@ -1553,33 +1537,6 @@ components:
         roll_number:
           type: string
           minLength: 1
-    CreateSubjectRequest:
-      type: object
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          minLength: 1
-    UpdateSubjectRequest:
-      type: object
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          minLength: 1
-    BulkCreateSubjectsRequest:
-      type: object
-      required:
-        - names
-      properties:
-        names:
-          type: array
-          minItems: 1
-          items:
-            type: string
-            minLength: 1
     Submission:
       type: object
       required:
@@ -1675,33 +1632,6 @@ components:
       properties:
         raw_answer:
           type: string
-  responses:
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/Error"
-    NotFound:
-      description: The resource does not exist, or is not visible to the authenticated
-        User. Ownership failures are reported as 404, never 403, so the
-        existence of another User's data is never disclosed.
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/Error"
-    Conflict:
-      description: The request conflicts with existing data (a uniqueness constraint,
-        or dependent data that must be removed first — nothing cascades).
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/Error"
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
 x-tagGroups:
   - name: Worksheet Checker — auth
     tags:
@@ -1709,6 +1639,9 @@ x-tagGroups:
   - name: Worksheet Checker — classes
     tags:
       - classes
+  - name: Worksheet Checker — evaluations
+    tags:
+      - evaluations
   - name: Worksheet Checker — exams
     tags:
       - exams

@@ -7,6 +7,7 @@ import 'package:worksheet_checker/auth/auth_controller.dart';
 import 'package:worksheet_checker/router/app_shell.dart';
 import 'package:worksheet_checker/screens/class_detail_screen.dart';
 import 'package:worksheet_checker/screens/classes_screen.dart';
+import 'package:worksheet_checker/screens/evaluation_screen.dart';
 import 'package:worksheet_checker/screens/exam_detail_screen.dart';
 import 'package:worksheet_checker/screens/exam_subject_questions_screen.dart';
 import 'package:worksheet_checker/screens/login_screen.dart';
@@ -87,6 +88,12 @@ GoRouter appRouter(Ref ref) {
             builder: (_, state) => SubmissionsScreen(
               examSubjectId: state.pathParameters['examSubjectId']!,
               classId: state.extra as String? ?? '',
+            ),
+          ),
+          GoRoute(
+            path: '/answers/:answerId/evaluation',
+            builder: (_, state) => EvaluationScreen(
+              answerId: state.pathParameters['answerId']!,
             ),
           ),
         ],

@@ -1,0 +1,165 @@
+openapi: 3.0.3
+info:
+  title: Worksheet Checker — evaluations
+  version: 0.1.0
+paths:
+  /answers/{answerId}/evaluation-attempts:
+    post:
+      operationId: createEvaluationAttempt
+      tags: [evaluations]
+      summary: >-
+        Trigger an Evaluation Attempt for an Answer -- one try at having the
+        AI grade it (see CONTEXT.md — Evaluation Attempt). Defaults to
+        `scoring` Purpose; pass `experiment` for offline comparison runs that
+        never affect Effective Marks or Feedback. Runs synchronously for this
+        issue's scope: the response reflects the Attempt's terminal status
+        (`succeeded` or `failed`).
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: answerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEvaluationAttemptRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationAttempt"
+        "404":
+          description: Answer not found
+    get:
+      operationId: listEvaluationAttempts
+      tags: [evaluations]
+      summary: List Evaluation Attempts for an Answer, most recent first
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: answerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationAttemptList"
+        "404":
+          description: Answer not found
+  /answers/{answerId}/evaluation-attempts/{attemptId}:
+    get:
+      operationId: getEvaluationAttempt
+      tags: [evaluations]
+      summary: >-
+        Poll/read a single Evaluation Attempt, including its Evaluation
+        (score, marks, feedback) if it succeeded.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: answerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: attemptId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvaluationAttempt"
+        "404":
+          description: Not found
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    EvaluationPurpose:
+      type: string
+      description: >-
+        Whether an Evaluation Attempt counts toward a Student's real grade
+        (`scoring`) or exists only for offline comparison (`experiment`) --
+        see CONTEXT.md.
+      enum: [scoring, experiment]
+    EvaluationAttemptStatus:
+      type: string
+      enum: [pending, running, succeeded, failed]
+    Evaluation:
+      type: object
+      required: [id, evaluation_attempt_id, raw_score, marks, feedback]
+      properties:
+        id:
+          type: string
+          format: uuid
+        evaluation_attempt_id:
+          type: string
+          format: uuid
+        raw_score:
+          description: The AI's normalized judgment of correctness, 0.00-1.00.
+          type: number
+          format: double
+        marks:
+          description: raw_score x Question.Maximum Marks.
+          type: number
+          format: double
+        feedback:
+          description: Targeted, student-facing prose explaining the score.
+          type: string
+    EvaluationAttempt:
+      type: object
+      required: [id, answer_id, status, purpose]
+      properties:
+        id:
+          type: string
+          format: uuid
+        answer_id:
+          type: string
+          format: uuid
+        status:
+          $ref: "#/components/schemas/EvaluationAttemptStatus"
+        purpose:
+          $ref: "#/components/schemas/EvaluationPurpose"
+        error:
+          type: string
+          nullable: true
+        evaluation:
+          allOf:
+            - $ref: "#/components/schemas/Evaluation"
+          nullable: true
+    EvaluationAttemptList:
+      type: object
+      required: [evaluation_attempts]
+      properties:
+        evaluation_attempts:
+          type: array
+          items:
+            $ref: "#/components/schemas/EvaluationAttempt"
+    CreateEvaluationAttemptRequest:
+      type: object
+      properties:
+        purpose:
+          $ref: "#/components/schemas/EvaluationPurpose"

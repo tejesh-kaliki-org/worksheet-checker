@@ -305,5 +305,134 @@ final allSubjectsProvider = AutoDisposeFutureProvider<List<Subject>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AllSubjectsRef = AutoDisposeFutureProviderRef<List<Subject>>;
+String _$classExamsHash() => r'54eeaa1592f98b802ae2575d8eb3e464e83055c6';
+
+/// See also [classExams].
+@ProviderFor(classExams)
+const classExamsProvider = ClassExamsFamily();
+
+/// See also [classExams].
+class ClassExamsFamily extends Family<AsyncValue<List<Exam>>> {
+  /// See also [classExams].
+  const ClassExamsFamily();
+
+  /// See also [classExams].
+  ClassExamsProvider call(
+    String classId,
+  ) {
+    return ClassExamsProvider(
+      classId,
+    );
+  }
+
+  @override
+  ClassExamsProvider getProviderOverride(
+    covariant ClassExamsProvider provider,
+  ) {
+    return call(
+      provider.classId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'classExamsProvider';
+}
+
+/// See also [classExams].
+class ClassExamsProvider extends AutoDisposeFutureProvider<List<Exam>> {
+  /// See also [classExams].
+  ClassExamsProvider(
+    String classId,
+  ) : this._internal(
+          (ref) => classExams(
+            ref as ClassExamsRef,
+            classId,
+          ),
+          from: classExamsProvider,
+          name: r'classExamsProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$classExamsHash,
+          dependencies: ClassExamsFamily._dependencies,
+          allTransitiveDependencies:
+              ClassExamsFamily._allTransitiveDependencies,
+          classId: classId,
+        );
+
+  ClassExamsProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.classId,
+  }) : super.internal();
+
+  final String classId;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<Exam>> Function(ClassExamsRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ClassExamsProvider._internal(
+        (ref) => create(ref as ClassExamsRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        classId: classId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<Exam>> createElement() {
+    return _ClassExamsProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ClassExamsProvider && other.classId == classId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, classId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin ClassExamsRef on AutoDisposeFutureProviderRef<List<Exam>> {
+  /// The parameter `classId` of this provider.
+  String get classId;
+}
+
+class _ClassExamsProviderElement
+    extends AutoDisposeFutureProviderElement<List<Exam>> with ClassExamsRef {
+  _ClassExamsProviderElement(super.provider);
+
+  @override
+  String get classId => (origin as ClassExamsProvider).classId;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

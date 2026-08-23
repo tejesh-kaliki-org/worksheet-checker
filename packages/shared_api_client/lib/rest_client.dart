@@ -6,7 +6,9 @@ import 'package:dio/dio.dart';
 
 import 'auth/auth_client.dart';
 import 'classes/classes_client.dart';
+import 'exams/exams_client.dart';
 import 'health_other/health_other_client.dart';
+import 'questions/questions_client.dart';
 import 'students/students_client.dart';
 import 'subjects/subjects_client.dart';
 
@@ -25,7 +27,9 @@ class RestClient {
 
   AuthClient? _auth;
   ClassesClient? _classes;
+  ExamsClient? _exams;
   HealthOtherClient? _healthOther;
+  QuestionsClient? _questions;
   StudentsClient? _students;
   SubjectsClient? _subjects;
 
@@ -33,7 +37,11 @@ class RestClient {
 
   ClassesClient get classes => _classes ??= ClassesClient(_dio, baseUrl: _baseUrl);
 
+  ExamsClient get exams => _exams ??= ExamsClient(_dio, baseUrl: _baseUrl);
+
   HealthOtherClient get healthOther => _healthOther ??= HealthOtherClient(_dio, baseUrl: _baseUrl);
+
+  QuestionsClient get questions => _questions ??= QuestionsClient(_dio, baseUrl: _baseUrl);
 
   StudentsClient get students => _students ??= StudentsClient(_dio, baseUrl: _baseUrl);
 

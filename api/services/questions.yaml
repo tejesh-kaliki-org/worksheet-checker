@@ -1,0 +1,212 @@
+openapi: 3.0.3
+info:
+  title: Worksheet Checker — questions
+  version: 0.1.0
+paths:
+  /exam-subjects/{examSubjectId}/questions:
+    get:
+      operationId: listQuestions
+      tags: [questions]
+      summary: List Questions in an Exam Subject's catalogue
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examSubjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestionList"
+        "404":
+          description: Exam Subject not found
+    post:
+      operationId: createQuestion
+      tags: [questions]
+      summary: Author a Question in an Exam Subject's catalogue
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examSubjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateQuestionRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Question"
+        "400":
+          description: Invalid type-specific config
+        "404":
+          description: Exam Subject not found
+  /exam-subjects/{examSubjectId}/questions/{questionId}:
+    get:
+      operationId: getQuestion
+      tags: [questions]
+      summary: Get a Question in an Exam Subject's catalogue
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examSubjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: questionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Question"
+        "404":
+          description: Not found
+    put:
+      operationId: updateQuestion
+      tags: [questions]
+      summary: Update a Question in an Exam Subject's catalogue
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examSubjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: questionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateQuestionRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Question"
+        "400":
+          description: Invalid type-specific config
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteQuestion
+      tags: [questions]
+      summary: Remove a Question from an Exam Subject's catalogue
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examSubjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: questionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    QuestionType:
+      type: string
+      enum: [mcq, true_false, numeric, fill_in, open_response]
+    Question:
+      type: object
+      required: [id, exam_subject_id, type, config, schema_version, maximum_marks]
+      properties:
+        id:
+          type: string
+          format: uuid
+        exam_subject_id:
+          type: string
+          format: uuid
+        type:
+          $ref: "#/components/schemas/QuestionType"
+        config:
+          description: >-
+            Type-specific shape (see internal/questionconfig on the backend
+            for the validated Go structs this mirrors).
+          type: object
+          additionalProperties: true
+        schema_version:
+          type: integer
+        maximum_marks:
+          type: number
+          format: double
+    QuestionList:
+      type: object
+      required: [questions]
+      properties:
+        questions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Question"
+    CreateQuestionRequest:
+      type: object
+      required: [type, config, maximum_marks]
+      properties:
+        type:
+          $ref: "#/components/schemas/QuestionType"
+        config:
+          type: object
+          additionalProperties: true
+        maximum_marks:
+          type: number
+          format: double
+    UpdateQuestionRequest:
+      type: object
+      required: [type, config, maximum_marks]
+      properties:
+        type:
+          $ref: "#/components/schemas/QuestionType"
+        config:
+          type: object
+          additionalProperties: true
+        maximum_marks:
+          type: number
+          format: double

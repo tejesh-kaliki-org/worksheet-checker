@@ -5,7 +5,9 @@
 // Clients
 export 'auth/auth_client.dart';
 export 'classes/classes_client.dart';
+export 'exams/exams_client.dart';
 export 'health_other/health_other_client.dart';
+export 'questions/questions_client.dart';
 export 'students/students_client.dart';
 export 'subjects/subjects_client.dart';
 // Data classes
@@ -26,6 +28,17 @@ export 'models/update_class_request.dart';
 export 'models/subject.dart';
 export 'models/subject_list.dart';
 export 'models/bulk_select_class_subjects_request.dart';
+export 'models/exam.dart';
+export 'models/exam_list.dart';
+export 'models/create_exam_request.dart';
+export 'models/exam_subject.dart';
+export 'models/exam_subject_list.dart';
+export 'models/add_exam_subject_request.dart';
+export 'models/question_type.dart';
+export 'models/question.dart';
+export 'models/question_list.dart';
+export 'models/create_question_request.dart';
+export 'models/update_question_request.dart';
 export 'models/student.dart';
 export 'models/student_list.dart';
 export 'models/create_student_request.dart';

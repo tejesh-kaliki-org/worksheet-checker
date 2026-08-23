@@ -159,7 +159,9 @@ class ClassDetailScreen extends ConsumerWidget {
     );
     if (label == null || label.trim().isEmpty) return;
     await ref.read(examsClientProvider).createExam(
-        classId: classId, body: CreateExamRequest(label: label.trim()));
+          classId: classId,
+          body: CreateExamRequest(label: label.trim()),
+        );
     ref.invalidate(classExamsProvider(classId));
   }
 

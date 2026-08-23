@@ -54,7 +54,8 @@ class ExamSubjectQuestionsScreen extends ConsumerWidget {
                           for (final q in list)
                             ListTile(
                               title: Text(
-                                  '${q.type.name} — ${q.maximumMarks} marks'),
+                                '${q.type.name} — ${q.maximumMarks} marks',
+                              ),
                               subtitle: Text(q.config.toString()),
                               trailing: IconButton(
                                 icon: const Icon(Icons.delete_outline),

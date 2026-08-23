@@ -42,8 +42,10 @@ class ExamDetailScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 24),
-              Text('Exam Subjects',
-                  style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'Exam Subjects',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 8),
               switch ((allSubjectsAsync, examSubjectsAsync)) {
                 (

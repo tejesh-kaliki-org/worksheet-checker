@@ -5,8 +5,14 @@ info:
 tags:
   - name: auth
     x-displayName: auth
+  - name: classes
+    x-displayName: classes
   - name: health_other
     x-displayName: other
+  - name: students
+    x-displayName: students
+  - name: subjects
+    x-displayName: subjects
 paths:
   /auth/signup:
     post:
@@ -150,6 +156,192 @@ paths:
           description: Password updated
         "400":
           description: Invalid or expired token
+  /classes:
+    get:
+      operationId: listClasses
+      tags:
+        - classes
+      summary: List Classes owned by the authenticated user
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClassList"
+    post:
+      operationId: createClass
+      tags:
+        - classes
+      summary: Create a Class owned by the authenticated user
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateClassRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Class"
+  /classes/{classId}:
+    get:
+      operationId: getClass
+      tags:
+        - classes
+      summary: Get a Class owned by the authenticated user
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Class"
+        "404":
+          description: Not found
+    put:
+      operationId: updateClass
+      tags:
+        - classes
+      summary: Update a Class owned by the authenticated user
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateClassRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Class"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteClass
+      tags:
+        - classes
+      summary: Delete a Class owned by the authenticated user
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+  /classes/{classId}/subjects:
+    get:
+      operationId: listClassSubjects
+      tags:
+        - classes
+      summary: List Subjects selected for a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubjectList"
+        "404":
+          description: Not found
+    post:
+      operationId: addClassSubject
+      tags:
+        - classes
+      summary: Select a Subject for a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddClassSubjectRequest"
+      responses:
+        "201":
+          description: Selected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubjectList"
+        "404":
+          description: Not found
+  /classes/{classId}/subjects/{subjectId}:
+    delete:
+      operationId: removeClassSubject
+      tags:
+        - classes
+      summary: Remove a Subject selection from a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: subjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Removed
+        "404":
+          description: Not found
   /health:
     get:
       operationId: getHealth
@@ -166,6 +358,168 @@ paths:
                     type: string
       tags:
         - health_other
+  /classes/{classId}/students:
+    get:
+      operationId: listStudents
+      tags:
+        - students
+      summary: List Students in a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudentList"
+        "404":
+          description: Class not found
+    post:
+      operationId: createStudent
+      tags:
+        - students
+      summary: Add a Student to a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateStudentRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        "404":
+          description: Class not found
+        "409":
+          description: Roll Number already used in this Class
+  /classes/{classId}/students/{studentId}:
+    get:
+      operationId: getStudent
+      tags:
+        - students
+      summary: Get a Student in a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        "404":
+          description: Not found
+    put:
+      operationId: updateStudent
+      tags:
+        - students
+      summary: Update a Student in a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateStudentRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        "404":
+          description: Not found
+        "409":
+          description: Roll Number already used in this Class
+    delete:
+      operationId: deleteStudent
+      tags:
+        - students
+      summary: Remove a Student from a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+  /subjects:
+    get:
+      operationId: listSubjects
+      tags:
+        - subjects
+      summary: List the global Subject catalogue
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubjectList"
 components:
   securitySchemes:
     bearerAuth:
@@ -298,13 +652,145 @@ components:
           maxLength: 72
           description: 8-72 characters with an uppercase letter, a lowercase letter, a
             digit, and a symbol; no leading or trailing whitespace.
+    Class:
+      type: object
+      required:
+        - id
+        - name
+        - created_by
+        - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        created_by:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+    ClassList:
+      type: object
+      required:
+        - classes
+      properties:
+        classes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Class"
+    CreateClassRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+    UpdateClassRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+    Subject:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+    SubjectList:
+      type: object
+      required:
+        - subjects
+      properties:
+        subjects:
+          type: array
+          items:
+            $ref: "#/components/schemas/Subject"
+    AddClassSubjectRequest:
+      type: object
+      required:
+        - subject_id
+      properties:
+        subject_id:
+          type: string
+          format: uuid
+    Student:
+      type: object
+      required:
+        - id
+        - class_id
+        - name
+        - roll_number
+      properties:
+        id:
+          type: string
+          format: uuid
+        class_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        roll_number:
+          type: string
+    StudentList:
+      type: object
+      required:
+        - students
+      properties:
+        students:
+          type: array
+          items:
+            $ref: "#/components/schemas/Student"
+    CreateStudentRequest:
+      type: object
+      required:
+        - name
+        - roll_number
+      properties:
+        name:
+          type: string
+          minLength: 1
+        roll_number:
+          type: string
+          minLength: 1
+    UpdateStudentRequest:
+      type: object
+      required:
+        - name
+        - roll_number
+      properties:
+        name:
+          type: string
+          minLength: 1
+        roll_number:
+          type: string
+          minLength: 1
 x-tagGroups:
   - name: Worksheet Checker — auth
     tags:
       - auth
+  - name: Worksheet Checker — classes
+    tags:
+      - classes
   - name: Worksheet Checker API
     tags:
       - health_other
+  - name: Worksheet Checker — students
+    tags:
+      - students
+  - name: Worksheet Checker — subjects
+    tags:
+      - subjects
 servers:
   - url: http://localhost:8080
     description: Local

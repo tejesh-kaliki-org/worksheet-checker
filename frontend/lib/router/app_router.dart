@@ -5,7 +5,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:worksheet_checker/auth/auth_controller.dart';
 import 'package:worksheet_checker/router/app_shell.dart';
-import 'package:worksheet_checker/screens/home_screen.dart';
+import 'package:worksheet_checker/screens/class_detail_screen.dart';
+import 'package:worksheet_checker/screens/classes_screen.dart';
 import 'package:worksheet_checker/screens/login_screen.dart';
 import 'package:worksheet_checker/screens/otp_screen.dart';
 import 'package:worksheet_checker/screens/signup_screen.dart';
@@ -57,7 +58,13 @@ GoRouter appRouter(Ref ref) {
       ShellRoute(
         builder: (context, state, child) => AppShell(child: child),
         routes: [
-          GoRoute(path: '/', builder: (_, __) => const HomeScreen()),
+          GoRoute(path: '/', builder: (_, __) => const ClassesScreen()),
+          GoRoute(
+            path: '/classes/:classId',
+            builder: (_, state) => ClassDetailScreen(
+              classId: state.pathParameters['classId']!,
+            ),
+          ),
         ],
       ),
     ],

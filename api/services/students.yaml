@@ -1,0 +1,196 @@
+openapi: 3.0.3
+info:
+  title: Worksheet Checker — students
+  version: 0.1.0
+paths:
+  /classes/{classId}/students:
+    get:
+      operationId: listStudents
+      tags: [students]
+      summary: List Students in a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudentList"
+        "404":
+          description: Class not found
+    post:
+      operationId: createStudent
+      tags: [students]
+      summary: Add a Student to a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateStudentRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        "404":
+          description: Class not found
+        "409":
+          description: Roll Number already used in this Class
+  /classes/{classId}/students/{studentId}:
+    get:
+      operationId: getStudent
+      tags: [students]
+      summary: Get a Student in a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        "404":
+          description: Not found
+    put:
+      operationId: updateStudent
+      tags: [students]
+      summary: Update a Student in a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateStudentRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        "404":
+          description: Not found
+        "409":
+          description: Roll Number already used in this Class
+    delete:
+      operationId: deleteStudent
+      tags: [students]
+      summary: Remove a Student from a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Student:
+      type: object
+      required: [id, class_id, name, roll_number]
+      properties:
+        id:
+          type: string
+          format: uuid
+        class_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        roll_number:
+          type: string
+    StudentList:
+      type: object
+      required: [students]
+      properties:
+        students:
+          type: array
+          items:
+            $ref: "#/components/schemas/Student"
+    CreateStudentRequest:
+      type: object
+      required: [name, roll_number]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        roll_number:
+          type: string
+          minLength: 1
+    UpdateStudentRequest:
+      type: object
+      required: [name, roll_number]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        roll_number:
+          type: string
+          minLength: 1

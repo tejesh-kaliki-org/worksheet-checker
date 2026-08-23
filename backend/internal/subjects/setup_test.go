@@ -1,0 +1,65 @@
+package subjects_test
+
+import (
+	"context"
+	"os"
+	"testing"
+
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
+
+	subjectsgen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/subjects"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/auth"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/config"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/subjects"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/testsupport"
+)
+
+var (
+	testDB *testsupport.TestDB
+	router *gin.Engine
+	tokens *auth.TokenIssuer
+)
+
+func TestMain(m *testing.M) {
+	testDB = testsupport.Connect("test_subjects")
+
+	r, api := testsupport.NewRouter()
+	tokens = auth.NewTokenIssuer(config.TokenConfig{Secret: "test-secret", ExpiryHours: 1})
+	authSvc := auth.New(testDB.Pool, config.TokenConfig{Secret: "test-secret", ExpiryHours: 1}, noopMailer{})
+	authSvc.Register(api)
+	subjects.New(testDB.Pool).Register(api, subjectsgen.MiddlewareFunc(authSvc.ScopeAuth()))
+	router = r
+
+	os.Exit(m.Run())
+}
+
+type noopMailer struct{}
+
+func (noopMailer) SendVerification(context.Context, string, string) error  { return nil }
+func (noopMailer) SendPasswordReset(context.Context, string, string) error { return nil }
+
+func setupTest(t *testing.T) {
+	t.Helper()
+	// Subjects come from the fixed catalogue seeded by migration; truncating
+	// would remove the seed rows the tests rely on, so only reset users.
+	if _, err := testDB.Pool.Exec(context.Background(), `TRUNCATE users CASCADE`); err != nil {
+		t.Fatalf("truncate users: %v", err)
+	}
+}
+
+func createUser(t *testing.T, email string) (uuid.UUID, string) {
+	t.Helper()
+	var id uuid.UUID
+	err := testDB.Pool.QueryRow(context.Background(),
+		`INSERT INTO users (email, password_hash, name, role, verified) VALUES ($1, 'x', 'Test', 'user', true) RETURNING id`,
+		email).Scan(&id)
+	if err != nil {
+		t.Fatalf("create user: %v", err)
+	}
+	token, err := tokens.Issue(id.String(), "user")
+	if err != nil {
+		t.Fatalf("issue token: %v", err)
+	}
+	return id, token
+}

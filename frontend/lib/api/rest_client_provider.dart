@@ -91,3 +91,14 @@ RestClient restClient(Ref ref) =>
 
 @riverpod
 AuthClient authClient(Ref ref) => ref.watch(restClientProvider).auth;
+
+@riverpod
+ClassesClient classesClient(Ref ref) => ref.watch(restClientProvider).classes;
+
+@riverpod
+StudentsClient studentsClient(Ref ref) =>
+    ref.watch(restClientProvider).students;
+
+@riverpod
+SubjectsClient subjectsClient(Ref ref) =>
+    ref.watch(restClientProvider).subjects;

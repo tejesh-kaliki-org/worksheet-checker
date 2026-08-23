@@ -26,7 +26,7 @@ final pendingVerificationControllerProvider = NotifierProvider<
 );
 
 typedef _$PendingVerificationController = Notifier<PendingVerification?>;
-String _$authControllerHash() => r'ecc3924c2e90f908fd2422d611c7290a82808fd6';
+String _$authControllerHash() => r'a158d80f11fc042f5491cc45ab647082ee3dd462';
 
 /// Holds the authenticated [User] (or null when signed out). On startup it
 /// tries to load the current user from a persisted token.

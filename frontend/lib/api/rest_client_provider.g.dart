@@ -154,5 +154,23 @@ final questionsClientProvider = AutoDisposeProvider<QuestionsClient>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef QuestionsClientRef = AutoDisposeProviderRef<QuestionsClient>;
+String _$submissionsClientHash() => r'0ecc9463eb81d49050b78d21ac9dfe0ed1156acd';
+
+/// See also [submissionsClient].
+@ProviderFor(submissionsClient)
+final submissionsClientProvider =
+    AutoDisposeProvider<SubmissionsClient>.internal(
+  submissionsClient,
+  name: r'submissionsClientProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$submissionsClientHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef SubmissionsClientRef = AutoDisposeProviderRef<SubmissionsClient>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

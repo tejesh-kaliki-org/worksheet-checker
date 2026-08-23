@@ -11,6 +11,7 @@ import 'health_other/health_other_client.dart';
 import 'questions/questions_client.dart';
 import 'students/students_client.dart';
 import 'subjects/subjects_client.dart';
+import 'submissions/submissions_client.dart';
 
 /// Worksheet Checker API `v0.1.0`
 class RestClient {
@@ -32,6 +33,7 @@ class RestClient {
   QuestionsClient? _questions;
   StudentsClient? _students;
   SubjectsClient? _subjects;
+  SubmissionsClient? _submissions;
 
   AuthClient get auth => _auth ??= AuthClient(_dio, baseUrl: _baseUrl);
 
@@ -46,4 +48,6 @@ class RestClient {
   StudentsClient get students => _students ??= StudentsClient(_dio, baseUrl: _baseUrl);
 
   SubjectsClient get subjects => _subjects ??= SubjectsClient(_dio, baseUrl: _baseUrl);
+
+  SubmissionsClient get submissions => _submissions ??= SubmissionsClient(_dio, baseUrl: _baseUrl);
 }

@@ -24,9 +24,15 @@ Future<List<Subject>> examAllSubjects(Ref ref) async {
 /// Bare-functional Exam detail: attach Subjects to the Exam. Each attached
 /// Subject (Exam Subject) links to its own Question catalogue screen.
 class ExamDetailScreen extends ConsumerWidget {
-  const ExamDetailScreen({required this.examId, super.key});
+  const ExamDetailScreen({required this.examId, this.classId, super.key});
 
   final String examId;
+
+  /// The owning Class's id, forwarded from ClassDetailScreen via the route's
+  /// `extra` so the Exam Subject screen can in turn reach the Submissions
+  /// screen (which needs it to list the Class's Students). Null if this
+  /// screen was reached without that context (e.g. a deep link).
+  final String? classId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,6 +60,7 @@ class ExamDetailScreen extends ConsumerWidget {
                 ) =>
                   _SubjectAttacher(
                     examId: examId,
+                    classId: classId,
                     allSubjects: all,
                     attached: attached,
                   ),
@@ -73,11 +80,13 @@ class ExamDetailScreen extends ConsumerWidget {
 class _SubjectAttacher extends ConsumerWidget {
   const _SubjectAttacher({
     required this.examId,
+    required this.classId,
     required this.allSubjects,
     required this.attached,
   });
 
   final String examId;
+  final String? classId;
   final List<Subject> allSubjects;
   final List<ExamSubject> attached;
 
@@ -90,7 +99,8 @@ class _SubjectAttacher extends ConsumerWidget {
           ListTile(
             title: Text(subjectById[es.subjectId]?.name ?? es.subjectId),
             subtitle: const Text('Tap to manage its Questions'),
-            onTap: () => context.push('/exam-subjects/${es.id}'),
+            onTap: () =>
+                context.push('/exam-subjects/${es.id}', extra: classId),
           ),
         const Divider(),
         DropdownButton<String>(

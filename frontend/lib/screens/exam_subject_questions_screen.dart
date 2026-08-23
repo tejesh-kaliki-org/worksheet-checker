@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_api_client/export.dart';
 
@@ -22,9 +23,19 @@ Future<List<Question>> examSubjectQuestions(
 /// per Question Type with minimal type-appropriate config inputs, delete.
 /// No edit UX beyond what's needed to exercise the flow manually.
 class ExamSubjectQuestionsScreen extends ConsumerWidget {
-  const ExamSubjectQuestionsScreen({required this.examSubjectId, super.key});
+  const ExamSubjectQuestionsScreen({
+    required this.examSubjectId,
+    this.classId,
+    super.key,
+  });
 
   final String examSubjectId;
+
+  /// The owning Class's id, forwarded from ExamDetailScreen via the route's
+  /// `extra` so the Submissions screen can list the Class's Students. Null
+  /// if this screen was reached without that context (e.g. a deep link) --
+  /// in that case the "Bulk Upload Submissions" button is hidden.
+  final String? classId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -45,6 +56,16 @@ class ExamSubjectQuestionsScreen extends ConsumerWidget {
                 onPressed: () => _addQuestion(context, ref),
                 child: const Text('New Question'),
               ),
+              if (classId != null) ...[
+                const SizedBox(height: 8),
+                OutlinedButton(
+                  onPressed: () => context.push(
+                    '/exam-subjects/$examSubjectId/submissions',
+                    extra: classId,
+                  ),
+                  child: const Text('Bulk Upload Submissions'),
+                ),
+              ],
               const SizedBox(height: 16),
               questions.when(
                 data: (list) => list.isEmpty

@@ -1,0 +1,242 @@
+openapi: 3.0.3
+info:
+  title: Worksheet Checker — submissions
+  version: 0.1.0
+paths:
+  /exam-subjects/{examSubjectId}/submissions:bulk-upload:
+    post:
+      operationId: bulkUploadSubmissions
+      tags: [submissions]
+      summary: >-
+        Upload all Students' Answers for all Questions in an Exam Subject in
+        one call. Teacher-driven, not student self-serve (see CONTEXT.md —
+        Submission). Re-uploading is idempotent: an existing Submission for
+        the same Student is reused, and an existing Answer for the same
+        Question is overwritten.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examSubjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkUploadSubmissionsRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubmissionList"
+        "400":
+          description: Invalid request body
+        "404":
+          description: Exam Subject not found
+  /exam-subjects/{examSubjectId}/submissions:
+    get:
+      operationId: listSubmissions
+      tags: [submissions]
+      summary: List Submissions for an Exam Subject
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examSubjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubmissionList"
+        "404":
+          description: Exam Subject not found
+  /submissions/{submissionId}/answers:
+    get:
+      operationId: listAnswers
+      tags: [submissions]
+      summary: List Answers belonging to a Submission
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: submissionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnswerList"
+        "404":
+          description: Submission not found
+  /submissions/{submissionId}/answers/{answerId}:
+    get:
+      operationId: getAnswer
+      tags: [submissions]
+      summary: Get a single Answer
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: submissionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: answerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Answer"
+        "404":
+          description: Not found
+    put:
+      operationId: updateAnswer
+      tags: [submissions]
+      summary: >-
+        Edit an Answer -- a teacher correcting a mis-entered Answer after
+        bulk upload.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: submissionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: answerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateAnswerRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Answer"
+        "400":
+          description: Invalid request body
+        "404":
+          description: Not found
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Submission:
+      type: object
+      required: [id, exam_subject_id, student_id]
+      properties:
+        id:
+          type: string
+          format: uuid
+        exam_subject_id:
+          type: string
+          format: uuid
+        student_id:
+          type: string
+          format: uuid
+    SubmissionList:
+      type: object
+      required: [submissions]
+      properties:
+        submissions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Submission"
+    Answer:
+      type: object
+      required: [id, submission_id, question_id, raw_answer]
+      properties:
+        id:
+          type: string
+          format: uuid
+        submission_id:
+          type: string
+          format: uuid
+        question_id:
+          type: string
+          format: uuid
+        raw_answer:
+          description: >-
+            The Student's raw answer text/data for this Question, verbatim as
+            entered by the teacher.
+          type: string
+    AnswerList:
+      type: object
+      required: [answers]
+      properties:
+        answers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Answer"
+    AnswerInput:
+      type: object
+      required: [question_id, raw_answer]
+      properties:
+        question_id:
+          type: string
+          format: uuid
+        raw_answer:
+          type: string
+    StudentAnswersInput:
+      type: object
+      required: [student_id, answers]
+      properties:
+        student_id:
+          type: string
+          format: uuid
+        answers:
+          type: array
+          items:
+            $ref: "#/components/schemas/AnswerInput"
+    BulkUploadSubmissionsRequest:
+      type: object
+      required: [submissions]
+      properties:
+        submissions:
+          type: array
+          items:
+            $ref: "#/components/schemas/StudentAnswersInput"
+    UpdateAnswerRequest:
+      type: object
+      required: [raw_answer]
+      properties:
+        raw_answer:
+          type: string

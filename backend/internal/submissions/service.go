@@ -52,7 +52,7 @@ func (s *Service) ListSubmissions(c *gin.Context, examSubjectID uuid.UUID) {
 	if !ok {
 		return
 	}
-	if _, _, ok := s.ownedExamSubject(c, examSubjectID, uid); !ok {
+	if _, ok := s.ownedExamSubject(c, examSubjectID, uid); !ok {
 		return
 	}
 	list, err := s.store.ListSubmissionsByExamSubject(c.Request.Context(), examSubjectID)
@@ -73,7 +73,7 @@ func (s *Service) BulkUploadSubmissions(c *gin.Context, examSubjectID uuid.UUID)
 	if !ok {
 		return
 	}
-	_, exam, ok := s.ownedExamSubject(c, examSubjectID, uid)
+	exam, ok := s.ownedExamSubject(c, examSubjectID, uid)
 	if !ok {
 		return
 	}
@@ -86,35 +86,8 @@ func (s *Service) BulkUploadSubmissions(c *gin.Context, examSubjectID uuid.UUID)
 	// Validate every Student belongs to the Exam's Class before writing
 	// anything, so a bad row in a large bulk upload doesn't leave a partial
 	// result behind.
-	for _, studentInput := range body.Submissions {
-		student, err := s.store.GetStudentByID(c.Request.Context(), studentInput.StudentId)
-		if err != nil {
-			if !errors.Is(err, pgx.ErrNoRows) {
-				c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load student"})
-				return
-			}
-			c.JSON(http.StatusBadRequest, gin.H{"error": "unknown student: " + studentInput.StudentId.String()})
-			return
-		}
-		if student.ClassID != exam.ClassID {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "student does not belong to this exam's class: " + studentInput.StudentId.String()})
-			return
-		}
-		for _, answerInput := range studentInput.Answers {
-			question, err := s.store.GetQuestionByID(c.Request.Context(), answerInput.QuestionId)
-			if err != nil {
-				if !errors.Is(err, pgx.ErrNoRows) {
-					c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load question"})
-					return
-				}
-				c.JSON(http.StatusBadRequest, gin.H{"error": "unknown question: " + answerInput.QuestionId.String()})
-				return
-			}
-			if question.ExamSubjectID != examSubjectID {
-				c.JSON(http.StatusBadRequest, gin.H{"error": "question does not belong to this exam subject: " + answerInput.QuestionId.String()})
-				return
-			}
-		}
+	if !s.validateBulkUpload(c, examSubjectID, exam, body) {
+		return
 	}
 
 	submissions := make([]database.Submission, 0, len(body.Submissions))
@@ -139,13 +112,59 @@ func (s *Service) BulkUploadSubmissions(c *gin.Context, examSubjectID uuid.UUID)
 	c.JSON(http.StatusOK, gen.SubmissionList{Submissions: toAPISubmissions(submissions)})
 }
 
+// validateBulkUpload checks every Student in the payload belongs to the
+// Exam's Class, and every Question belongs to the given Exam Subject,
+// writing an error response and returning false on the first violation.
+func (s *Service) validateBulkUpload(c *gin.Context, examSubjectID uuid.UUID, exam database.Exam, body gen.BulkUploadSubmissionsJSONRequestBody) bool {
+	for _, studentInput := range body.Submissions {
+		student, err := s.store.GetStudentByID(c.Request.Context(), studentInput.StudentId)
+		if err != nil {
+			if !errors.Is(err, pgx.ErrNoRows) {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load student"})
+				return false
+			}
+			c.JSON(http.StatusBadRequest, gin.H{"error": "unknown student: " + studentInput.StudentId.String()})
+			return false
+		}
+		if student.ClassID != exam.ClassID {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "student does not belong to this exam's class: " + studentInput.StudentId.String()})
+			return false
+		}
+		if !s.validateAnswerQuestions(c, examSubjectID, studentInput.Answers) {
+			return false
+		}
+	}
+	return true
+}
+
+// validateAnswerQuestions checks every Answer's Question belongs to the
+// given Exam Subject.
+func (s *Service) validateAnswerQuestions(c *gin.Context, examSubjectID uuid.UUID, answers []gen.AnswerInput) bool {
+	for _, answerInput := range answers {
+		question, err := s.store.GetQuestionByID(c.Request.Context(), answerInput.QuestionId)
+		if err != nil {
+			if !errors.Is(err, pgx.ErrNoRows) {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load question"})
+				return false
+			}
+			c.JSON(http.StatusBadRequest, gin.H{"error": "unknown question: " + answerInput.QuestionId.String()})
+			return false
+		}
+		if question.ExamSubjectID != examSubjectID {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "question does not belong to this exam subject: " + answerInput.QuestionId.String()})
+			return false
+		}
+	}
+	return true
+}
+
 // ListAnswers implements gen.ServerInterface.
 func (s *Service) ListAnswers(c *gin.Context, submissionID uuid.UUID) {
 	uid, ok := userID(c)
 	if !ok {
 		return
 	}
-	if _, ok := s.ownedSubmission(c, submissionID, uid); !ok {
+	if !s.ownedSubmission(c, submissionID, uid) {
 		return
 	}
 	list, err := s.store.ListAnswersBySubmission(c.Request.Context(), submissionID)
@@ -162,7 +181,7 @@ func (s *Service) GetAnswer(c *gin.Context, submissionID uuid.UUID, answerID uui
 	if !ok {
 		return
 	}
-	if _, ok := s.ownedSubmission(c, submissionID, uid); !ok {
+	if !s.ownedSubmission(c, submissionID, uid) {
 		return
 	}
 	answer, ok := s.scopedAnswer(c, submissionID, answerID)
@@ -179,7 +198,7 @@ func (s *Service) UpdateAnswer(c *gin.Context, submissionID uuid.UUID, answerID 
 	if !ok {
 		return
 	}
-	if _, ok := s.ownedSubmission(c, submissionID, uid); !ok {
+	if !s.ownedSubmission(c, submissionID, uid) {
 		return
 	}
 	if _, ok := s.scopedAnswer(c, submissionID, answerID); !ok {
@@ -201,41 +220,41 @@ func (s *Service) UpdateAnswer(c *gin.Context, submissionID uuid.UUID, answerID 
 // ownedExamSubject verifies the requesting user owns the Class of the Exam
 // Subject with the given id, walking Exam Subject -> Exam -> Class -> owner
 // (see internal/questions for the identical pattern). It returns the loaded
-// Exam Subject and Exam so callers needing them (e.g. bulk upload's Student
-// Class check) don't have to reload them.
-func (s *Service) ownedExamSubject(c *gin.Context, examSubjectID, uid uuid.UUID) (database.ExamSubject, database.Exam, bool) {
+// Exam so callers needing it (e.g. bulk upload's Student Class check) don't
+// have to reload it.
+func (s *Service) ownedExamSubject(c *gin.Context, examSubjectID, uid uuid.UUID) (database.Exam, bool) {
 	examSubject, err := s.store.GetExamSubjectByID(c.Request.Context(), examSubjectID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load exam subject"})
-			return database.ExamSubject{}, database.Exam{}, false
+			return database.Exam{}, false
 		}
 		c.JSON(http.StatusNotFound, gin.H{"error": "exam subject not found"})
-		return database.ExamSubject{}, database.Exam{}, false
+		return database.Exam{}, false
 	}
 	exam, err := s.store.GetExamByID(c.Request.Context(), examSubject.ExamID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load exam"})
-			return database.ExamSubject{}, database.Exam{}, false
+			return database.Exam{}, false
 		}
 		c.JSON(http.StatusNotFound, gin.H{"error": "exam subject not found"})
-		return database.ExamSubject{}, database.Exam{}, false
+		return database.Exam{}, false
 	}
 	class, err := s.store.GetClassByID(c.Request.Context(), exam.ClassID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load class"})
-			return database.ExamSubject{}, database.Exam{}, false
+			return database.Exam{}, false
 		}
 		c.JSON(http.StatusNotFound, gin.H{"error": "exam subject not found"})
-		return database.ExamSubject{}, database.Exam{}, false
+		return database.Exam{}, false
 	}
 	if class.CreatedBy != uid {
 		c.JSON(http.StatusNotFound, gin.H{"error": "exam subject not found"})
-		return database.ExamSubject{}, database.Exam{}, false
+		return database.Exam{}, false
 	}
-	return examSubject, exam, true
+	return exam, true
 }
 
 // ownedSubmission loads a Submission and verifies the requesting user owns
@@ -243,48 +262,48 @@ func (s *Service) ownedExamSubject(c *gin.Context, examSubjectID, uid uuid.UUID)
 // failure along the chain -- including an exam subject that no longer
 // resolves or belongs to someone else -- reports as "submission not found",
 // so a 404 never hints at which link in the chain actually failed.
-func (s *Service) ownedSubmission(c *gin.Context, submissionID, uid uuid.UUID) (database.Submission, bool) {
+func (s *Service) ownedSubmission(c *gin.Context, submissionID, uid uuid.UUID) bool {
 	submission, err := s.store.GetSubmissionByID(c.Request.Context(), submissionID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load submission"})
-			return database.Submission{}, false
+			return false
 		}
 		c.JSON(http.StatusNotFound, gin.H{"error": "submission not found"})
-		return database.Submission{}, false
+		return false
 	}
 	examSubject, err := s.store.GetExamSubjectByID(c.Request.Context(), submission.ExamSubjectID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load exam subject"})
-			return database.Submission{}, false
+			return false
 		}
 		c.JSON(http.StatusNotFound, gin.H{"error": "submission not found"})
-		return database.Submission{}, false
+		return false
 	}
 	exam, err := s.store.GetExamByID(c.Request.Context(), examSubject.ExamID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load exam"})
-			return database.Submission{}, false
+			return false
 		}
 		c.JSON(http.StatusNotFound, gin.H{"error": "submission not found"})
-		return database.Submission{}, false
+		return false
 	}
 	class, err := s.store.GetClassByID(c.Request.Context(), exam.ClassID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load class"})
-			return database.Submission{}, false
+			return false
 		}
 		c.JSON(http.StatusNotFound, gin.H{"error": "submission not found"})
-		return database.Submission{}, false
+		return false
 	}
 	if class.CreatedBy != uid {
 		c.JSON(http.StatusNotFound, gin.H{"error": "submission not found"})
-		return database.Submission{}, false
+		return false
 	}
-	return submission, true
+	return true
 }
 
 // scopedAnswer loads an Answer and verifies it belongs to the given

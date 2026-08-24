@@ -2,6 +2,7 @@ package evaluations_test
 
 import (
 	"net/http"
+	"strings"
 	"testing"
 
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/testsupport"
@@ -10,11 +11,11 @@ import (
 func TestCreateEvaluationAttempt(t *testing.T) {
 	t.Run("success grades the answer and persists an Evaluation", func(t *testing.T) {
 		setupTest(t)
-		_, token := createUser(t, "owner@e.com")
+		uid, token := createUser(t, "owner@e.com")
 		classID := createClass(t, token, "C")
 		studentID := createStudent(t, token, classID, "Alice", "1")
 		examID := createExam(t, token, classID, "Term 1")
-		examSubjectID := createExamSubject(t, token, examID)
+		examSubjectID := createExamSubject(t, token, uid, examID)
 		questionID := createQuestion(t, token, examSubjectID)
 		answerID := createAnswer(t, token, examSubjectID, studentID, questionID, "42")
 
@@ -46,11 +47,11 @@ func TestCreateEvaluationAttempt(t *testing.T) {
 
 	t.Run("bifrost failure records a failed attempt, not a 500", func(t *testing.T) {
 		setupTest(t)
-		_, token := createUser(t, "owner@e.com")
+		uid, token := createUser(t, "owner@e.com")
 		classID := createClass(t, token, "C")
 		studentID := createStudent(t, token, classID, "Alice", "1")
 		examID := createExam(t, token, classID, "Term 1")
-		examSubjectID := createExamSubject(t, token, examID)
+		examSubjectID := createExamSubject(t, token, uid, examID)
 		questionID := createQuestion(t, token, examSubjectID)
 		answerID := createAnswer(t, token, examSubjectID, studentID, questionID, "42")
 
@@ -76,11 +77,11 @@ func TestCreateEvaluationAttempt(t *testing.T) {
 
 	t.Run("respects an explicit experiment purpose", func(t *testing.T) {
 		setupTest(t)
-		_, token := createUser(t, "owner@e.com")
+		uid, token := createUser(t, "owner@e.com")
 		classID := createClass(t, token, "C")
 		studentID := createStudent(t, token, classID, "Alice", "1")
 		examID := createExam(t, token, classID, "Term 1")
-		examSubjectID := createExamSubject(t, token, examID)
+		examSubjectID := createExamSubject(t, token, uid, examID)
 		questionID := createQuestion(t, token, examSubjectID)
 		answerID := createAnswer(t, token, examSubjectID, studentID, questionID, "42")
 
@@ -94,13 +95,29 @@ func TestCreateEvaluationAttempt(t *testing.T) {
 		}
 	})
 
+	t.Run("malformed request body is rejected", func(t *testing.T) {
+		setupTest(t)
+		uid, token := createUser(t, "owner@e.com")
+		classID := createClass(t, token, "C")
+		studentID := createStudent(t, token, classID, "Alice", "1")
+		examID := createExam(t, token, classID, "Term 1")
+		examSubjectID := createExamSubject(t, token, uid, examID)
+		questionID := createQuestion(t, token, examSubjectID)
+		answerID := createAnswer(t, token, examSubjectID, studentID, questionID, "42")
+
+		w := testsupport.DoJSONAuth(router, http.MethodPost, "/api/v1/answers/"+answerID+"/evaluation-attempts", `{"purpose":`, token)
+		if w.Code != http.StatusBadRequest {
+			t.Fatalf("status = %d, want 400 (%s)", w.Code, w.Body.String())
+		}
+	})
+
 	t.Run("answer belonging to another user's class is not found", func(t *testing.T) {
 		setupTest(t)
-		_, ownerToken := createUser(t, "owner@e.com")
+		ownerUID, ownerToken := createUser(t, "owner@e.com")
 		classID := createClass(t, ownerToken, "C")
 		studentID := createStudent(t, ownerToken, classID, "Alice", "1")
 		examID := createExam(t, ownerToken, classID, "Term 1")
-		examSubjectID := createExamSubject(t, ownerToken, examID)
+		examSubjectID := createExamSubject(t, ownerToken, ownerUID, examID)
 		questionID := createQuestion(t, ownerToken, examSubjectID)
 		answerID := createAnswer(t, ownerToken, examSubjectID, studentID, questionID, "42")
 
@@ -125,11 +142,11 @@ func TestCreateEvaluationAttempt(t *testing.T) {
 func TestListAndGetEvaluationAttempts(t *testing.T) {
 	t.Run("list and get round-trip a created attempt", func(t *testing.T) {
 		setupTest(t)
-		_, token := createUser(t, "owner@e.com")
+		uid, token := createUser(t, "owner@e.com")
 		classID := createClass(t, token, "C")
 		studentID := createStudent(t, token, classID, "Alice", "1")
 		examID := createExam(t, token, classID, "Term 1")
-		examSubjectID := createExamSubject(t, token, examID)
+		examSubjectID := createExamSubject(t, token, uid, examID)
 		questionID := createQuestion(t, token, examSubjectID)
 		answerID := createAnswer(t, token, examSubjectID, studentID, questionID, "42")
 
@@ -157,13 +174,71 @@ func TestListAndGetEvaluationAttempts(t *testing.T) {
 		}
 	})
 
+	t.Run("list is [], not null, when the Answer has no attempts yet", func(t *testing.T) {
+		setupTest(t)
+		uid, token := createUser(t, "owner@e.com")
+		classID := createClass(t, token, "C")
+		studentID := createStudent(t, token, classID, "Alice", "1")
+		examID := createExam(t, token, classID, "Term 1")
+		examSubjectID := createExamSubject(t, token, uid, examID)
+		questionID := createQuestion(t, token, examSubjectID)
+		answerID := createAnswer(t, token, examSubjectID, studentID, questionID, "42")
+
+		w := testsupport.DoJSONAuth(router, http.MethodGet, "/api/v1/answers/"+answerID+"/evaluation-attempts", "", token)
+		if w.Code != http.StatusOK {
+			t.Fatalf("list status = %d (%s)", w.Code, w.Body.String())
+		}
+		if !strings.Contains(w.Body.String(), `"evaluation_attempts":[]`) {
+			t.Fatalf("expected an empty array, got %s", w.Body.String())
+		}
+	})
+
+	t.Run("get 404s for an unknown attempt id", func(t *testing.T) {
+		setupTest(t)
+		uid, token := createUser(t, "owner@e.com")
+		classID := createClass(t, token, "C")
+		studentID := createStudent(t, token, classID, "Alice", "1")
+		examID := createExam(t, token, classID, "Term 1")
+		examSubjectID := createExamSubject(t, token, uid, examID)
+		questionID := createQuestion(t, token, examSubjectID)
+		answerID := createAnswer(t, token, examSubjectID, studentID, questionID, "42")
+
+		w := testsupport.DoJSONAuth(router, http.MethodGet,
+			"/api/v1/answers/"+answerID+"/evaluation-attempts/00000000-0000-0000-0000-000000000000", "", token)
+		if w.Code != http.StatusNotFound {
+			t.Fatalf("status = %d, want 404 (%s)", w.Code, w.Body.String())
+		}
+	})
+
+	t.Run("get 404s for an attempt id from a different answer", func(t *testing.T) {
+		setupTest(t)
+		uid, token := createUser(t, "owner@e.com")
+		classID := createClass(t, token, "C")
+		studentID := createStudent(t, token, classID, "Alice", "1")
+		otherStudentID := createStudent(t, token, classID, "Bob", "2")
+		examID := createExam(t, token, classID, "Term 1")
+		examSubjectID := createExamSubject(t, token, uid, examID)
+		questionID := createQuestion(t, token, examSubjectID)
+		answerID := createAnswer(t, token, examSubjectID, studentID, questionID, "42")
+		otherAnswerID := createAnswer(t, token, examSubjectID, otherStudentID, questionID, "43")
+
+		w := testsupport.DoJSONAuth(router, http.MethodPost, "/api/v1/answers/"+answerID+"/evaluation-attempts", "", token)
+		attemptID := decode(t, w.Body.Bytes())["id"].(string)
+
+		w = testsupport.DoJSONAuth(router, http.MethodGet,
+			"/api/v1/answers/"+otherAnswerID+"/evaluation-attempts/"+attemptID, "", token)
+		if w.Code != http.StatusNotFound {
+			t.Fatalf("status = %d, want 404 (%s)", w.Code, w.Body.String())
+		}
+	})
+
 	t.Run("get for another user's answer is not found", func(t *testing.T) {
 		setupTest(t)
-		_, ownerToken := createUser(t, "owner@e.com")
+		ownerUID, ownerToken := createUser(t, "owner@e.com")
 		classID := createClass(t, ownerToken, "C")
 		studentID := createStudent(t, ownerToken, classID, "Alice", "1")
 		examID := createExam(t, ownerToken, classID, "Term 1")
-		examSubjectID := createExamSubject(t, ownerToken, examID)
+		examSubjectID := createExamSubject(t, ownerToken, ownerUID, examID)
 		questionID := createQuestion(t, ownerToken, examSubjectID)
 		answerID := createAnswer(t, ownerToken, examSubjectID, studentID, questionID, "42")
 

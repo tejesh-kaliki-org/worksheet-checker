@@ -7,6 +7,7 @@ package students
 import (
 	"errors"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -45,7 +46,7 @@ func userID(c *gin.Context) (uuid.UUID, bool) {
 	raw := c.GetString("user_id")
 	id, err := uuid.Parse(raw)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "missing or invalid bearer token"})
+		c.JSON(http.StatusUnauthorized, gin.H{"msg": "missing or invalid bearer token"})
 		return uuid.UUID{}, false
 	}
 	return id, true
@@ -62,7 +63,7 @@ func (s *Service) ListStudents(c *gin.Context, classID uuid.UUID) {
 	}
 	list, err := s.store.ListStudentsByClass(c.Request.Context(), classID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not list students"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not list students"})
 		return
 	}
 	c.JSON(http.StatusOK, gen.StudentList{Students: toAPIStudents(list)})
@@ -79,11 +80,11 @@ func (s *Service) CreateStudent(c *gin.Context, classID uuid.UUID) {
 	}
 	var body gen.CreateStudentJSONRequestBody
 	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
 	if body.Name == "" || body.RollNumber == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "name and roll_number are required"})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "name and roll_number are required"})
 		return
 	}
 	student, err := s.store.CreateStudent(c.Request.Context(), database.CreateStudentParams{
@@ -93,13 +94,84 @@ func (s *Service) CreateStudent(c *gin.Context, classID uuid.UUID) {
 	})
 	if err != nil {
 		if isUniqueViolation(err) {
-			c.JSON(http.StatusConflict, gin.H{"error": "roll_number already used in this class"})
+			c.JSON(http.StatusConflict, gin.H{"msg": "roll_number already used in this class"})
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not create student"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not create student"})
 		return
 	}
 	c.JSON(http.StatusCreated, toAPIStudent(student))
+}
+
+// BulkUploadStudents implements gen.ServerInterface. The whole roster is
+// inserted by a single statement (sql/queries/students.sql), so the upload is
+// all-or-nothing: one Roll Number collision aborts the batch and no Student is
+// created.
+func (s *Service) BulkUploadStudents(c *gin.Context, classID uuid.UUID) {
+	uid, ok := userID(c)
+	if !ok {
+		return
+	}
+	if !s.ownsClass(c, classID, uid) {
+		return
+	}
+	var body gen.BulkUploadStudentsJSONRequestBody
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
+		return
+	}
+	names, rolls, ok := splitRoster(c, body.Students)
+	if !ok {
+		return
+	}
+	if _, err := s.store.BulkCreateStudents(c.Request.Context(), database.BulkCreateStudentsParams{
+		ClassID:     classID,
+		Names:       names,
+		RollNumbers: rolls,
+	}); err != nil {
+		if isUniqueViolation(err) {
+			c.JSON(http.StatusConflict, gin.H{"msg": "roll_number already used in this class"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not create students"})
+		return
+	}
+	list, err := s.store.ListStudentsByClass(c.Request.Context(), classID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not list students"})
+		return
+	}
+	c.JSON(http.StatusCreated, gen.StudentList{Students: toAPIStudents(list)})
+}
+
+// splitRoster validates the submitted roster and pivots it into the parallel
+// name/roll_number arrays the bulk insert takes, writing the 400 itself on an
+// empty list, a blank field, or a Roll Number repeated within the request
+// (which the DB constraint would otherwise report as a bare 409).
+func splitRoster(c *gin.Context, entries []gen.CreateStudentRequest) (names, rolls []string, ok bool) {
+	if len(entries) == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "students must not be empty"})
+		return nil, nil, false
+	}
+	seen := make(map[string]struct{}, len(entries))
+	names = make([]string, 0, len(entries))
+	rolls = make([]string, 0, len(entries))
+	for _, e := range entries {
+		name := strings.TrimSpace(e.Name)
+		roll := strings.TrimSpace(e.RollNumber)
+		if name == "" || roll == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"msg": "name and roll_number are required for every student"})
+			return nil, nil, false
+		}
+		if _, dup := seen[roll]; dup {
+			c.JSON(http.StatusBadRequest, gin.H{"msg": "roll_number repeated within the request: " + roll})
+			return nil, nil, false
+		}
+		seen[roll] = struct{}{}
+		names = append(names, name)
+		rolls = append(rolls, roll)
+	}
+	return names, rolls, true
 }
 
 // GetStudent implements gen.ServerInterface.
@@ -132,11 +204,11 @@ func (s *Service) UpdateStudent(c *gin.Context, classID uuid.UUID, studentID uui
 	}
 	var body gen.UpdateStudentJSONRequestBody
 	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
 	if body.Name == "" || body.RollNumber == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "name and roll_number are required"})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "name and roll_number are required"})
 		return
 	}
 	updated, err := s.store.UpdateStudent(c.Request.Context(), database.UpdateStudentParams{
@@ -146,10 +218,10 @@ func (s *Service) UpdateStudent(c *gin.Context, classID uuid.UUID, studentID uui
 	})
 	if err != nil {
 		if isUniqueViolation(err) {
-			c.JSON(http.StatusConflict, gin.H{"error": "roll_number already used in this class"})
+			c.JSON(http.StatusConflict, gin.H{"msg": "roll_number already used in this class"})
 			return
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not update student"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not update student"})
 		return
 	}
 	c.JSON(http.StatusOK, toAPIStudent(updated))
@@ -168,7 +240,7 @@ func (s *Service) DeleteStudent(c *gin.Context, classID uuid.UUID, studentID uui
 		return
 	}
 	if err := s.store.DeleteStudent(c.Request.Context(), studentID); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not delete student"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not delete student"})
 		return
 	}
 	c.Status(http.StatusNoContent)
@@ -181,14 +253,14 @@ func (s *Service) ownsClass(c *gin.Context, classID, uid uuid.UUID) bool {
 	class, err := s.store.GetClassByID(c.Request.Context(), classID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load class"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load class"})
 			return false
 		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "class not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "class not found"})
 		return false
 	}
 	if class.CreatedBy != uid {
-		c.JSON(http.StatusNotFound, gin.H{"error": "class not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "class not found"})
 		return false
 	}
 	return true
@@ -199,14 +271,14 @@ func (s *Service) scopedStudent(c *gin.Context, classID, studentID uuid.UUID) (d
 	student, err := s.store.GetStudentByID(c.Request.Context(), studentID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load student"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load student"})
 			return database.Student{}, false
 		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "student not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "student not found"})
 		return database.Student{}, false
 	}
 	if student.ClassID != classID {
-		c.JSON(http.StatusNotFound, gin.H{"error": "student not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "student not found"})
 		return database.Student{}, false
 	}
 	return student, true

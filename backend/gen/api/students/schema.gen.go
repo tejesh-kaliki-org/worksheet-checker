@@ -16,6 +16,11 @@ const (
 	BearerAuthScopes = "bearerAuth.Scopes"
 )
 
+// BulkUploadStudentsRequest defines model for BulkUploadStudentsRequest.
+type BulkUploadStudentsRequest struct {
+	Students []CreateStudentRequest `json:"students"`
+}
+
 // CreateStudentRequest defines model for CreateStudentRequest.
 type CreateStudentRequest struct {
 	Name       string `json:"name"`
@@ -47,6 +52,9 @@ type CreateStudentJSONRequestBody = CreateStudentRequest
 // UpdateStudentJSONRequestBody defines body for UpdateStudent for application/json ContentType.
 type UpdateStudentJSONRequestBody = UpdateStudentRequest
 
+// BulkUploadStudentsJSONRequestBody defines body for BulkUploadStudents for application/json ContentType.
+type BulkUploadStudentsJSONRequestBody = BulkUploadStudentsRequest
+
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
 	// List Students in a Class
@@ -64,6 +72,9 @@ type ServerInterface interface {
 	// Update a Student in a Class
 	// (PUT /classes/{classId}/students/{studentId})
 	UpdateStudent(c *gin.Context, classId openapi_types.UUID, studentId openapi_types.UUID)
+	// Add several Students to a Class in one request
+	// (POST /classes/{classId}/students:bulk-upload)
+	BulkUploadStudents(c *gin.Context, classId openapi_types.UUID)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -232,6 +243,32 @@ func (siw *ServerInterfaceWrapper) UpdateStudent(c *gin.Context) {
 	siw.Handler.UpdateStudent(c, classId, studentId)
 }
 
+// BulkUploadStudents operation middleware
+func (siw *ServerInterfaceWrapper) BulkUploadStudents(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "classId" -------------
+	var classId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "classId", c.Param("classId"), &classId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter classId: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	c.Set(BearerAuthScopes, []string{})
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.BulkUploadStudents(c, classId)
+}
+
 // GinServerOptions provides options for the Gin server.
 type GinServerOptions struct {
 	BaseURL      string
@@ -264,4 +301,5 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 	router.DELETE(options.BaseURL+"/classes/:classId/students/:studentId", wrapper.DeleteStudent)
 	router.GET(options.BaseURL+"/classes/:classId/students/:studentId", wrapper.GetStudent)
 	router.PUT(options.BaseURL+"/classes/:classId/students/:studentId", wrapper.UpdateStudent)
+	router.POST(options.BaseURL+"/classes/:classId/students:bulk-upload", wrapper.BulkUploadStudents)
 }

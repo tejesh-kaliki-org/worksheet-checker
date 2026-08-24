@@ -2,7 +2,26 @@
 
 - `TestListSubjects/success` — an authenticated User sees their own (seeded) Subject catalogue.
 - `TestListSubjects/authorization` — no bearer token → 401.
-
-## Known gap (tracked, not yet implemented)
-
-The `subjects` package currently only implements `GET /subjects` (list). Create/update/delete/bulk-create for Subjects, and their ownership-chain 404 tests, uniqueness-conflict tests, and empty-list-not-null tests, are **not yet implemented** — see the issue-4-academic-structure follow-up work.
+- `TestListSubjectsEmpty` — a User whose catalogue was never seeded gets `"subjects":[]`, never `null`.
+- `TestCreateSubject/success` — a new Subject is created in the caller's catalogue and returned.
+- `TestCreateSubject/name is trimmed` — surrounding whitespace is stripped before storing.
+- `TestCreateSubject/blank name is rejected` — a whitespace-only name → 400.
+- `TestCreateSubject/malformed body is rejected` — a wrongly typed `name` → 400.
+- `TestCreateSubject/duplicate name for the same owner conflicts` — the `(owner_id, name)` constraint surfaces as 409.
+- `TestCreateSubject/the same name for a different owner is allowed` — uniqueness is per-User, not global.
+- `TestCreateSubject/authorization` — no bearer token → 401.
+- `TestBulkCreateSubjects/creates all names and returns the full catalogue` — happy path for `POST /subjects:bulk-create`.
+- `TestBulkCreateSubjects/idempotent: existing names are skipped, never 409` — re-submitting a name the User already has is a no-op.
+- `TestBulkCreateSubjects/duplicates within one request collapse` — a name repeated in one payload creates a single Subject.
+- `TestBulkCreateSubjects/empty list is rejected` — `{"names":[]}` → 400.
+- `TestBulkCreateSubjects/blank entry rejects the whole request` — all-or-nothing: one blank name creates nothing.
+- `TestBulkCreateSubjects/scoped to the caller` — one User's bulk-create is invisible to another.
+- `TestUpdateSubject/success` — renaming a Subject persists and returns the new name.
+- `TestUpdateSubject/blank name is rejected` — a whitespace-only rename → 400.
+- `TestUpdateSubject/renaming onto an existing name conflicts` — 409 from the per-owner uniqueness constraint.
+- `TestUpdateSubject/another user's subject 404s` — ownership boundary (404, never 403).
+- `TestUpdateSubject/missing subject 404s` — a random UUID 404s.
+- `TestDeleteSubject/success` — deleting an unreferenced Subject removes it from the catalogue.
+- `TestDeleteSubject/subject still selected by a class conflicts` — deletion never cascades: a Subject referenced by `class_subjects` → 409, and the Subject is kept. (Exam Subject / Question / Answer tables do not exist on this schema yet; when they do, their references belong in the same check and in this test.)
+- `TestDeleteSubject/another user's subject 404s` — ownership boundary.
+- `TestDeleteSubject/missing subject 404s` — a random UUID 404s.

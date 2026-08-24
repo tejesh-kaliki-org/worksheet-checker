@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: Worksheet Checker — exams
+  version: 0.1.0
+paths:
+  /classes/{classId}/exams:
+    get:
+      operationId: listExams
+      tags: [exams]
+      summary: List Exams for a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExamList"
+        "404":
+          description: Class not found
+    post:
+      operationId: createExam
+      tags: [exams]
+      summary: Create an Exam for a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateExamRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exam"
+        "404":
+          description: Class not found
+  /classes/{classId}/exams/{examId}:
+    get:
+      operationId: getExam
+      tags: [exams]
+      summary: Get an Exam in a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: examId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exam"
+        "404":
+          description: Not found
+  /exams/{examId}/subjects:
+    get:
+      operationId: listExamSubjects
+      tags: [exams]
+      summary: List Exam Subjects attached to an Exam
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExamSubjectList"
+        "404":
+          description: Exam not found
+    post:
+      operationId: addExamSubject
+      tags: [exams]
+      summary: Attach a Subject to an Exam (creates its Exam Subject)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddExamSubjectRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExamSubject"
+        "404":
+          description: Exam or Subject not found
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Exam:
+      type: object
+      required: [id, class_id, label, created_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        class_id:
+          type: string
+          format: uuid
+        label:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    ExamList:
+      type: object
+      required: [exams]
+      properties:
+        exams:
+          type: array
+          items:
+            $ref: "#/components/schemas/Exam"
+    CreateExamRequest:
+      type: object
+      required: [label]
+      properties:
+        label:
+          type: string
+          minLength: 1
+    ExamSubject:
+      type: object
+      required: [id, exam_id, subject_id]
+      properties:
+        id:
+          type: string
+          format: uuid
+        exam_id:
+          type: string
+          format: uuid
+        subject_id:
+          type: string
+          format: uuid
+    ExamSubjectList:
+      type: object
+      required: [exam_subjects]
+      properties:
+        exam_subjects:
+          type: array
+          items:
+            $ref: "#/components/schemas/ExamSubject"
+    AddExamSubjectRequest:
+      type: object
+      required: [subject_id]
+      properties:
+        subject_id:
+          type: string
+          format: uuid

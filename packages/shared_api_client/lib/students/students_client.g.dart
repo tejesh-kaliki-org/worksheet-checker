@@ -83,6 +83,38 @@ class _StudentsClient implements StudentsClient {
   }
 
   @override
+  Future<StudentList> bulkUploadStudents({
+    required String classId,
+    required BulkUploadStudentsRequest body,
+    RequestOptions? options,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = body;
+    final newOptions = newRequestOptions(options);
+    newOptions.extra.addAll(_extra);
+    newOptions.headers.addAll(_dio.options.headers);
+    newOptions.headers.addAll(_headers);
+    final _options = newOptions.copyWith(
+      method: 'POST',
+      baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+      queryParameters: queryParameters,
+      path: '/classes/${classId}/students:bulk-upload',
+    )..data = _data;
+    final _result = await _dio.fetch<Map<String, Object?>>(_options);
+    late StudentList _value;
+    try {
+      _value = StudentList.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<Student> getStudent({
     required String classId,
     required String studentId,

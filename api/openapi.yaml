@@ -191,6 +191,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Class"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/Conflict"
   /classes/{classId}:
     get:
       operationId: getClass
@@ -214,7 +218,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Class"
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
     put:
       operationId: updateClass
       tags:
@@ -242,8 +246,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Class"
+        "400":
+          $ref: "#/components/responses/BadRequest"
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
     delete:
       operationId: deleteClass
       tags:
@@ -262,7 +270,7 @@ paths:
         "204":
           description: Deleted
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
   /classes/{classId}/subjects:
     get:
       operationId: listClassSubjects
@@ -286,12 +294,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/SubjectList"
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
+  /classes/{classId}/subjects:bulk-select:
     post:
-      operationId: addClassSubject
+      operationId: bulkSelectClassSubjects
       tags:
         - classes
-      summary: Select a Subject for a Class
+      summary: Select Subjects for a Class
+      description: "The primary path for choosing a Class's Subjects: submit the whole
+        selection at once. Additive and idempotent — Subjects already selected
+        are left alone, never duplicated or errored on. Deselecting is done with
+        DELETE /classes/{classId}/subjects/{subjectId}. Every id must name a
+        Subject in the caller's own catalogue; otherwise the whole request 404s
+        and nothing is selected."
       security:
         - bearerAuth: []
       parameters:
@@ -306,22 +321,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AddClassSubjectRequest"
+              $ref: "#/components/schemas/BulkSelectClassSubjectsRequest"
       responses:
         "201":
-          description: Selected
+          description: The Class's Subject selection after the request.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/SubjectList"
+        "400":
+          $ref: "#/components/responses/BadRequest"
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
   /classes/{classId}/subjects/{subjectId}:
     delete:
       operationId: removeClassSubject
       tags:
         - classes
       summary: Remove a Subject selection from a Class
+      description: Never cascades. Once downstream Exam Subject / Question / Answer
+        data exists, removing a selection that has such data underneath will
+        return 409; no such table exists yet, so today the operation cannot
+        conflict and 409 is deliberately not declared here.
       security:
         - bearerAuth: []
       parameters:
@@ -341,7 +362,7 @@ paths:
         "204":
           description: Removed
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
   /health:
     get:
       operationId: getHealth
@@ -381,7 +402,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/StudentList"
         "404":
-          description: Class not found
+          $ref: "#/components/responses/NotFound"
     post:
       operationId: createStudent
       tags:
@@ -409,10 +430,50 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Student"
+        "400":
+          $ref: "#/components/responses/BadRequest"
         "404":
-          description: Class not found
+          $ref: "#/components/responses/NotFound"
         "409":
-          description: Roll Number already used in this Class
+          $ref: "#/components/responses/Conflict"
+  /classes/{classId}/students:bulk-upload:
+    post:
+      operationId: bulkUploadStudents
+      tags:
+        - students
+      summary: Add several Students to a Class in one request
+      description: "Submits a whole roster at once. All-or-nothing: if any entry is
+        invalid or its Roll Number collides with an existing Student (or another
+        entry in the same request), no Student is created. The response is the
+        Class's full roster after the upload."
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkUploadStudentsRequest"
+      responses:
+        "201":
+          description: The Class's roster after the upload.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudentList"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
   /classes/{classId}/students/{studentId}:
     get:
       operationId: getStudent
@@ -442,7 +503,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Student"
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
     put:
       operationId: updateStudent
       tags:
@@ -476,10 +537,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Student"
+        "400":
+          $ref: "#/components/responses/BadRequest"
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
         "409":
-          description: Roll Number already used in this Class
+          $ref: "#/components/responses/Conflict"
     delete:
       operationId: deleteStudent
       tags:
@@ -504,13 +567,13 @@ paths:
         "204":
           description: Deleted
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
   /subjects:
     get:
       operationId: listSubjects
       tags:
         - subjects
-      summary: List the global Subject catalogue
+      summary: List the authenticated User's Subject catalogue
       security:
         - bearerAuth: []
       responses:
@@ -520,13 +583,124 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SubjectList"
+    post:
+      operationId: createSubject
+      tags:
+        - subjects
+      summary: Add a Subject to the authenticated User's catalogue
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSubjectRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subject"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/Conflict"
+  /subjects:bulk-create:
+    post:
+      operationId: bulkCreateSubjects
+      tags:
+        - subjects
+      summary: Add several Subjects to the authenticated User's catalogue
+      description: "Idempotent by name: names the User already has are skipped rather
+        than rejected, so re-submitting the same list never errors. The response
+        is the User's full catalogue after the operation."
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkCreateSubjectsRequest"
+      responses:
+        "201":
+          description: The User's catalogue after the requested names were added.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubjectList"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /subjects/{subjectId}:
+    put:
+      operationId: updateSubject
+      tags:
+        - subjects
+      summary: Rename a Subject in the authenticated User's catalogue
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: subjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSubjectRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subject"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+    delete:
+      operationId: deleteSubject
+      tags:
+        - subjects
+      summary: Remove a Subject from the authenticated User's catalogue
+      description: Never cascades. A Subject still selected by any Class (or
+        referenced by downstream Exam Subject / Question / Answer data) returns
+        409; remove those references first.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: subjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
   schemas:
+    Error:
+      type: object
+      required:
+        - msg
+      properties:
+        msg:
+          type: string
+          description: Human-readable error message.
     User:
       type: object
       required:
@@ -716,14 +890,17 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Subject"
-    AddClassSubjectRequest:
+    BulkSelectClassSubjectsRequest:
       type: object
       required:
-        - subject_id
+        - subject_ids
       properties:
-        subject_id:
-          type: string
-          format: uuid
+        subject_ids:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            format: uuid
     Student:
       type: object
       required:
@@ -763,6 +940,16 @@ components:
         roll_number:
           type: string
           minLength: 1
+    BulkUploadStudentsRequest:
+      type: object
+      required:
+        - students
+      properties:
+        students:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/CreateStudentRequest"
     UpdateStudentRequest:
       type: object
       required:
@@ -775,6 +962,60 @@ components:
         roll_number:
           type: string
           minLength: 1
+    CreateSubjectRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+    UpdateSubjectRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+    BulkCreateSubjectsRequest:
+      type: object
+      required:
+        - names
+      properties:
+        names:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            minLength: 1
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: The resource does not exist, or is not visible to the authenticated
+        User. Ownership failures are reported as 404, never 403, so the
+        existence of another User's data is never disclosed.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Conflict:
+      description: The request conflicts with existing data (a uniqueness constraint,
+        or dependent data that must be removed first — nothing cascades).
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 x-tagGroups:
   - name: Worksheet Checker — auth
     tags:

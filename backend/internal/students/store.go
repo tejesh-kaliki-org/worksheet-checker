@@ -16,6 +16,8 @@ type Store interface {
 	GetClassByID(ctx context.Context, id uuid.UUID) (database.Class, error)
 	// CreateStudent — sql/queries/students.sql
 	CreateStudent(ctx context.Context, arg database.CreateStudentParams) (database.Student, error)
+	// BulkCreateStudents — sql/queries/students.sql
+	BulkCreateStudents(ctx context.Context, arg database.BulkCreateStudentsParams) ([]database.Student, error)
 	// ListStudentsByClass — sql/queries/students.sql
 	ListStudentsByClass(ctx context.Context, classID uuid.UUID) ([]database.Student, error)
 	// GetStudentByID — sql/queries/students.sql

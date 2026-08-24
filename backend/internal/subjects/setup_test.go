@@ -70,3 +70,21 @@ func createUser(t *testing.T, email string) (uuid.UUID, string) {
 	}
 	return id, token
 }
+
+// createBareUser inserts a verified user WITHOUT seeding a default catalogue,
+// for tests that need to observe an empty Subject list.
+func createBareUser(t *testing.T, email string) (uuid.UUID, string) {
+	t.Helper()
+	var id uuid.UUID
+	err := testDB.Pool.QueryRow(context.Background(),
+		`INSERT INTO users (email, password_hash, name, role, verified) VALUES ($1, 'x', 'Test', 'user', true) RETURNING id`,
+		email).Scan(&id)
+	if err != nil {
+		t.Fatalf("create user: %v", err)
+	}
+	token, err := tokens.Issue(id.String(), "user")
+	if err != nil {
+		t.Fatalf("issue token: %v", err)
+	}
+	return id, token
+}

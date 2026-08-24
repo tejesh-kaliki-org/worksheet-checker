@@ -1,0 +1,52 @@
+openapi: 3.0.3
+info:
+  title: Worksheet Checker — shared components
+  version: 0.1.0
+# Shared, cross-domain response components. This file declares no paths: it
+# exists purely so every service spec can `$ref` one canonical error response
+# instead of hand-writing `description: Not found` per operation (see
+# CLAUDE.md — "every operation must declare every status code its handler can
+# actually return").
+#
+# `scripts/build-spec.mjs` joins this file *before* the service specs that
+# reference it (see the `priority` list there), so the joined `openapi.yaml`
+# resolves the refs internally. oapi-codegen resolves the same refs directly
+# off disk, per-service, via the relative `./shared.yaml#/...` path.
+#
+# The body schema matches what the Go server actually emits: the generated
+# `RegisterHandlersWithOptions` default error handler writes
+# `gin.H{"msg": err.Error()}`.
+paths: {}
+components:
+  schemas:
+    Error:
+      type: object
+      required: [msg]
+      properties:
+        msg:
+          type: string
+          description: Human-readable error message.
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: >-
+        The resource does not exist, or is not visible to the authenticated
+        User. Ownership failures are reported as 404, never 403, so the
+        existence of another User's data is never disclosed.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Conflict:
+      description: >-
+        The request conflicts with existing data (a uniqueness constraint, or
+        dependent data that must be removed first — nothing cascades).
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

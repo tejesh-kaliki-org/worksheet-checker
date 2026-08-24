@@ -5,6 +5,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../models/bulk_upload_students_request.dart';
 import '../models/create_student_request.dart';
 import '../models/student.dart';
 import '../models/student_list.dart';
@@ -28,6 +29,16 @@ abstract class StudentsClient {
   Future<Student> createStudent({
     @Path('classId') required String classId,
     @Body() required CreateStudentRequest body,
+    @DioOptions() RequestOptions? options,
+  });
+
+  /// Add several Students to a Class in one request.
+  ///
+  /// Submits a whole roster at once. All-or-nothing: if any entry is invalid or its Roll Number collides with an existing Student (or another entry in the same request), no Student is created. The response is the Class's full roster after the upload.
+  @POST('/classes/{classId}/students:bulk-upload')
+  Future<StudentList> bulkUploadStudents({
+    @Path('classId') required String classId,
+    @Body() required BulkUploadStudentsRequest body,
     @DioOptions() RequestOptions? options,
   });
 

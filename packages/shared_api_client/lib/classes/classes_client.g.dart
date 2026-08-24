@@ -196,9 +196,9 @@ class _ClassesClient implements ClassesClient {
   }
 
   @override
-  Future<SubjectList> addClassSubject({
+  Future<SubjectList> bulkSelectClassSubjects({
     required String classId,
-    required AddClassSubjectRequest body,
+    required BulkSelectClassSubjectsRequest body,
     RequestOptions? options,
   }) async {
     final _extra = <String, dynamic>{};
@@ -214,7 +214,7 @@ class _ClassesClient implements ClassesClient {
       method: 'POST',
       baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
       queryParameters: queryParameters,
-      path: '/classes/${classId}/subjects',
+      path: '/classes/${classId}/subjects:bulk-select',
     )..data = _data;
     final _result = await _dio.fetch<Map<String, Object?>>(_options);
     late SubjectList _value;

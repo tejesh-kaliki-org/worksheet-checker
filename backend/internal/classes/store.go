@@ -22,14 +22,14 @@ type Store interface {
 	UpdateClass(ctx context.Context, id uuid.UUID, name string) (database.Class, error)
 	// DeleteClass — sql/queries/classes.sql
 	DeleteClass(ctx context.Context, id uuid.UUID) error
-	// AddClassSubject — sql/queries/class_subjects.sql (2 params -> positional)
-	AddClassSubject(ctx context.Context, classID uuid.UUID, subjectID uuid.UUID) (database.ClassSubject, error)
+	// BulkAddClassSubjects — sql/queries/class_subjects.sql (2 params -> positional)
+	BulkAddClassSubjects(ctx context.Context, classID uuid.UUID, subjectIds []uuid.UUID) error
 	// RemoveClassSubject — sql/queries/class_subjects.sql (2 params -> positional)
 	RemoveClassSubject(ctx context.Context, classID uuid.UUID, subjectID uuid.UUID) error
 	// ListSubjectsByClass — sql/queries/class_subjects.sql
 	ListSubjectsByClass(ctx context.Context, classID uuid.UUID) ([]database.Subject, error)
-	// GetSubjectByID — sql/queries/subjects.sql
-	GetSubjectByID(ctx context.Context, id uuid.UUID) (database.Subject, error)
+	// CountOwnedSubjectsByIDs — sql/queries/subjects.sql (2 params -> positional)
+	CountOwnedSubjectsByIDs(ctx context.Context, ownerID uuid.UUID, ids []uuid.UUID) (int64, error)
 }
 
 var _ Store = (*database.Queries)(nil)

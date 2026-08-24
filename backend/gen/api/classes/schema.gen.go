@@ -17,9 +17,9 @@ const (
 	BearerAuthScopes = "bearerAuth.Scopes"
 )
 
-// AddClassSubjectRequest defines model for AddClassSubjectRequest.
-type AddClassSubjectRequest struct {
-	SubjectId openapi_types.UUID `json:"subject_id"`
+// BulkSelectClassSubjectsRequest defines model for BulkSelectClassSubjectsRequest.
+type BulkSelectClassSubjectsRequest struct {
+	SubjectIds []openapi_types.UUID `json:"subject_ids"`
 }
 
 // Class defines model for Class.
@@ -62,8 +62,8 @@ type CreateClassJSONRequestBody = CreateClassRequest
 // UpdateClassJSONRequestBody defines body for UpdateClass for application/json ContentType.
 type UpdateClassJSONRequestBody = UpdateClassRequest
 
-// AddClassSubjectJSONRequestBody defines body for AddClassSubject for application/json ContentType.
-type AddClassSubjectJSONRequestBody = AddClassSubjectRequest
+// BulkSelectClassSubjectsJSONRequestBody defines body for BulkSelectClassSubjects for application/json ContentType.
+type BulkSelectClassSubjectsJSONRequestBody = BulkSelectClassSubjectsRequest
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
@@ -85,12 +85,12 @@ type ServerInterface interface {
 	// List Subjects selected for a Class
 	// (GET /classes/{classId}/subjects)
 	ListClassSubjects(c *gin.Context, classId openapi_types.UUID)
-	// Select a Subject for a Class
-	// (POST /classes/{classId}/subjects)
-	AddClassSubject(c *gin.Context, classId openapi_types.UUID)
 	// Remove a Subject selection from a Class
 	// (DELETE /classes/{classId}/subjects/{subjectId})
 	RemoveClassSubject(c *gin.Context, classId openapi_types.UUID, subjectId openapi_types.UUID)
+	// Select Subjects for a Class
+	// (POST /classes/{classId}/subjects:bulk-select)
+	BulkSelectClassSubjects(c *gin.Context, classId openapi_types.UUID)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -236,32 +236,6 @@ func (siw *ServerInterfaceWrapper) ListClassSubjects(c *gin.Context) {
 	siw.Handler.ListClassSubjects(c, classId)
 }
 
-// AddClassSubject operation middleware
-func (siw *ServerInterfaceWrapper) AddClassSubject(c *gin.Context) {
-
-	var err error
-
-	// ------------- Path parameter "classId" -------------
-	var classId openapi_types.UUID
-
-	err = runtime.BindStyledParameterWithOptions("simple", "classId", c.Param("classId"), &classId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
-	if err != nil {
-		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter classId: %w", err), http.StatusBadRequest)
-		return
-	}
-
-	c.Set(BearerAuthScopes, []string{})
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		middleware(c)
-		if c.IsAborted() {
-			return
-		}
-	}
-
-	siw.Handler.AddClassSubject(c, classId)
-}
-
 // RemoveClassSubject operation middleware
 func (siw *ServerInterfaceWrapper) RemoveClassSubject(c *gin.Context) {
 
@@ -297,6 +271,32 @@ func (siw *ServerInterfaceWrapper) RemoveClassSubject(c *gin.Context) {
 	siw.Handler.RemoveClassSubject(c, classId, subjectId)
 }
 
+// BulkSelectClassSubjects operation middleware
+func (siw *ServerInterfaceWrapper) BulkSelectClassSubjects(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "classId" -------------
+	var classId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "classId", c.Param("classId"), &classId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter classId: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	c.Set(BearerAuthScopes, []string{})
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.BulkSelectClassSubjects(c, classId)
+}
+
 // GinServerOptions provides options for the Gin server.
 type GinServerOptions struct {
 	BaseURL      string
@@ -330,6 +330,6 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 	router.GET(options.BaseURL+"/classes/:classId", wrapper.GetClass)
 	router.PUT(options.BaseURL+"/classes/:classId", wrapper.UpdateClass)
 	router.GET(options.BaseURL+"/classes/:classId/subjects", wrapper.ListClassSubjects)
-	router.POST(options.BaseURL+"/classes/:classId/subjects", wrapper.AddClassSubject)
 	router.DELETE(options.BaseURL+"/classes/:classId/subjects/:subjectId", wrapper.RemoveClassSubject)
+	router.POST(options.BaseURL+"/classes/:classId/subjects:bulk-select", wrapper.BulkSelectClassSubjects)
 }

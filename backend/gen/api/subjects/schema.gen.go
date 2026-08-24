@@ -4,13 +4,27 @@
 package subjects_gen
 
 import (
+	"fmt"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
+	"github.com/oapi-codegen/runtime"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
 const (
 	BearerAuthScopes = "bearerAuth.Scopes"
 )
+
+// BulkCreateSubjectsRequest defines model for BulkCreateSubjectsRequest.
+type BulkCreateSubjectsRequest struct {
+	Names []string `json:"names"`
+}
+
+// CreateSubjectRequest defines model for CreateSubjectRequest.
+type CreateSubjectRequest struct {
+	Name string `json:"name"`
+}
 
 // Subject defines model for Subject.
 type Subject struct {
@@ -23,11 +37,37 @@ type SubjectList struct {
 	Subjects []Subject `json:"subjects"`
 }
 
+// UpdateSubjectRequest defines model for UpdateSubjectRequest.
+type UpdateSubjectRequest struct {
+	Name string `json:"name"`
+}
+
+// CreateSubjectJSONRequestBody defines body for CreateSubject for application/json ContentType.
+type CreateSubjectJSONRequestBody = CreateSubjectRequest
+
+// UpdateSubjectJSONRequestBody defines body for UpdateSubject for application/json ContentType.
+type UpdateSubjectJSONRequestBody = UpdateSubjectRequest
+
+// BulkCreateSubjectsJSONRequestBody defines body for BulkCreateSubjects for application/json ContentType.
+type BulkCreateSubjectsJSONRequestBody = BulkCreateSubjectsRequest
+
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
-	// List the global Subject catalogue
+	// List the authenticated User's Subject catalogue
 	// (GET /subjects)
 	ListSubjects(c *gin.Context)
+	// Add a Subject to the authenticated User's catalogue
+	// (POST /subjects)
+	CreateSubject(c *gin.Context)
+	// Remove a Subject from the authenticated User's catalogue
+	// (DELETE /subjects/{subjectId})
+	DeleteSubject(c *gin.Context, subjectId openapi_types.UUID)
+	// Rename a Subject in the authenticated User's catalogue
+	// (PUT /subjects/{subjectId})
+	UpdateSubject(c *gin.Context, subjectId openapi_types.UUID)
+	// Add several Subjects to the authenticated User's catalogue
+	// (POST /subjects:bulk-create)
+	BulkCreateSubjects(c *gin.Context)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -52,6 +92,88 @@ func (siw *ServerInterfaceWrapper) ListSubjects(c *gin.Context) {
 	}
 
 	siw.Handler.ListSubjects(c)
+}
+
+// CreateSubject operation middleware
+func (siw *ServerInterfaceWrapper) CreateSubject(c *gin.Context) {
+
+	c.Set(BearerAuthScopes, []string{})
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.CreateSubject(c)
+}
+
+// DeleteSubject operation middleware
+func (siw *ServerInterfaceWrapper) DeleteSubject(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "subjectId" -------------
+	var subjectId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "subjectId", c.Param("subjectId"), &subjectId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter subjectId: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	c.Set(BearerAuthScopes, []string{})
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteSubject(c, subjectId)
+}
+
+// UpdateSubject operation middleware
+func (siw *ServerInterfaceWrapper) UpdateSubject(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "subjectId" -------------
+	var subjectId openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "subjectId", c.Param("subjectId"), &subjectId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter subjectId: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	c.Set(BearerAuthScopes, []string{})
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.UpdateSubject(c, subjectId)
+}
+
+// BulkCreateSubjects operation middleware
+func (siw *ServerInterfaceWrapper) BulkCreateSubjects(c *gin.Context) {
+
+	c.Set(BearerAuthScopes, []string{})
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.BulkCreateSubjects(c)
 }
 
 // GinServerOptions provides options for the Gin server.
@@ -82,4 +204,8 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 	}
 
 	router.GET(options.BaseURL+"/subjects", wrapper.ListSubjects)
+	router.POST(options.BaseURL+"/subjects", wrapper.CreateSubject)
+	router.DELETE(options.BaseURL+"/subjects/:subjectId", wrapper.DeleteSubject)
+	router.PUT(options.BaseURL+"/subjects/:subjectId", wrapper.UpdateSubject)
+	router.POST(options.BaseURL+"/subjects:bulk-create", wrapper.BulkCreateSubjects)
 }

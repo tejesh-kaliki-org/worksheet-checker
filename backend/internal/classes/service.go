@@ -7,15 +7,23 @@ package classes
 import (
 	"errors"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	gen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/classes"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/database"
 )
+
+// uniqueViolation is Postgres' SQLSTATE for a unique constraint violation
+// (here: the classes (created_by, name) constraint added in
+// sql/schema/0009_classes_unique_name.sql). Surfaced as 409, matching how
+// internal/students reports a duplicate Roll Number.
+const uniqueViolation = "23505"
 
 type Service struct {
 	store Store
@@ -41,7 +49,7 @@ func userID(c *gin.Context) (uuid.UUID, bool) {
 	raw := c.GetString("user_id")
 	id, err := uuid.Parse(raw)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "missing or invalid bearer token"})
+		c.JSON(http.StatusUnauthorized, gin.H{"msg": "missing or invalid bearer token"})
 		return uuid.UUID{}, false
 	}
 	return id, true
@@ -55,7 +63,7 @@ func (s *Service) ListClasses(c *gin.Context) {
 	}
 	list, err := s.store.ListClassesByOwner(c.Request.Context(), uid)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not list classes"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not list classes"})
 		return
 	}
 	c.JSON(http.StatusOK, gen.ClassList{Classes: toAPIClasses(list)})
@@ -69,16 +77,21 @@ func (s *Service) CreateClass(c *gin.Context) {
 	}
 	var body gen.CreateClassJSONRequestBody
 	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
-	if body.Name == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "name is required"})
+	name := strings.TrimSpace(body.Name)
+	if name == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "name is required"})
 		return
 	}
-	class, err := s.store.CreateClass(c.Request.Context(), body.Name, uid)
+	class, err := s.store.CreateClass(c.Request.Context(), name, uid)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not create class"})
+		if isUniqueViolation(err) {
+			c.JSON(http.StatusConflict, gin.H{"msg": "you already have a class with that name"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not create class"})
 		return
 	}
 	c.JSON(http.StatusCreated, toAPIClass(class))
@@ -108,16 +121,21 @@ func (s *Service) UpdateClass(c *gin.Context, classID uuid.UUID) {
 	}
 	var body gen.UpdateClassJSONRequestBody
 	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
-	if body.Name == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "name is required"})
+	name := strings.TrimSpace(body.Name)
+	if name == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "name is required"})
 		return
 	}
-	updated, err := s.store.UpdateClass(c.Request.Context(), classID, body.Name)
+	updated, err := s.store.UpdateClass(c.Request.Context(), classID, name)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not update class"})
+		if isUniqueViolation(err) {
+			c.JSON(http.StatusConflict, gin.H{"msg": "you already have a class with that name"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not update class"})
 		return
 	}
 	c.JSON(http.StatusOK, toAPIClass(updated))
@@ -133,7 +151,7 @@ func (s *Service) DeleteClass(c *gin.Context, classID uuid.UUID) {
 		return
 	}
 	if err := s.store.DeleteClass(c.Request.Context(), classID); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not delete class"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not delete class"})
 		return
 	}
 	c.Status(http.StatusNoContent)
@@ -150,14 +168,18 @@ func (s *Service) ListClassSubjects(c *gin.Context, classID uuid.UUID) {
 	}
 	list, err := s.store.ListSubjectsByClass(c.Request.Context(), classID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not list subjects"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not list subjects"})
 		return
 	}
 	c.JSON(http.StatusOK, gen.SubjectList{Subjects: toAPISubjects(list)})
 }
 
-// AddClassSubject implements gen.ServerInterface.
-func (s *Service) AddClassSubject(c *gin.Context, classID uuid.UUID) {
+// BulkSelectClassSubjects implements gen.ServerInterface. This is the single
+// path for selecting Subjects on a Class: the whole selection is submitted at
+// once. It is additive and idempotent — already-selected Subjects are left
+// alone. There is deliberately no single-Subject add endpoint; a one-element
+// list covers that case, so there is only one code path to own.
+func (s *Service) BulkSelectClassSubjects(c *gin.Context, classID uuid.UUID) {
 	uid, ok := userID(c)
 	if !ok {
 		return
@@ -165,26 +187,48 @@ func (s *Service) AddClassSubject(c *gin.Context, classID uuid.UUID) {
 	if _, ok := s.ownedClass(c, classID, uid); !ok {
 		return
 	}
-	var body gen.AddClassSubjectJSONRequestBody
+	var body gen.BulkSelectClassSubjectsJSONRequestBody
 	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
-	subject, err := s.store.GetSubjectByID(c.Request.Context(), body.SubjectId)
-	if err != nil || subject.OwnerID != uid {
-		c.JSON(http.StatusNotFound, gin.H{"error": "subject not found"})
+	if len(body.SubjectIds) == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "subject_ids must not be empty"})
 		return
 	}
-	if _, err := s.store.AddClassSubject(c.Request.Context(), classID, body.SubjectId); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not select subject"})
+	if !s.allSubjectsOwned(c, body.SubjectIds, uid) {
+		return
+	}
+	if err := s.store.BulkAddClassSubjects(c.Request.Context(), classID, body.SubjectIds); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not select subjects"})
 		return
 	}
 	list, err := s.store.ListSubjectsByClass(c.Request.Context(), classID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not list subjects"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not list subjects"})
 		return
 	}
 	c.JSON(http.StatusCreated, gen.SubjectList{Subjects: toAPISubjects(list)})
+}
+
+// allSubjectsOwned verifies every requested Subject is in the caller's own
+// catalogue, writing a 404 (never 403) if any is missing or foreign — so a
+// partially valid request selects nothing.
+func (s *Service) allSubjectsOwned(c *gin.Context, ids []uuid.UUID, uid uuid.UUID) bool {
+	unique := make(map[uuid.UUID]struct{}, len(ids))
+	for _, id := range ids {
+		unique[id] = struct{}{}
+	}
+	found, err := s.store.CountOwnedSubjectsByIDs(c.Request.Context(), uid, ids)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load subjects"})
+		return false
+	}
+	if found != int64(len(unique)) {
+		c.JSON(http.StatusNotFound, gin.H{"msg": "subject not found"})
+		return false
+	}
+	return true
 }
 
 // RemoveClassSubject implements gen.ServerInterface.
@@ -197,7 +241,7 @@ func (s *Service) RemoveClassSubject(c *gin.Context, classID uuid.UUID, subjectI
 		return
 	}
 	if err := s.store.RemoveClassSubject(c.Request.Context(), classID, subjectID); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not remove subject"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not remove subject"})
 		return
 	}
 	c.Status(http.StatusNoContent)
@@ -210,17 +254,22 @@ func (s *Service) ownedClass(c *gin.Context, classID, uid uuid.UUID) (database.C
 	class, err := s.store.GetClassByID(c.Request.Context(), classID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load class"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load class"})
 			return database.Class{}, false
 		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "class not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "class not found"})
 		return database.Class{}, false
 	}
 	if class.CreatedBy != uid {
-		c.JSON(http.StatusNotFound, gin.H{"error": "class not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "class not found"})
 		return database.Class{}, false
 	}
 	return class, true
+}
+
+func isUniqueViolation(err error) bool {
+	var pgErr *pgconn.PgError
+	return errors.As(err, &pgErr) && pgErr.Code == uniqueViolation
 }
 
 func toAPIClass(cl database.Class) gen.Class {

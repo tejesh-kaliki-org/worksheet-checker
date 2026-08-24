@@ -18,6 +18,14 @@ type Store interface {
 	GetSubjectByID(ctx context.Context, id uuid.UUID) (database.Subject, error)
 	// CreateSubject — sql/queries/subjects.sql (2 params -> positional)
 	CreateSubject(ctx context.Context, name string, ownerID uuid.UUID) (database.Subject, error)
+	// BulkCreateSubjects — sql/queries/subjects.sql (2 params -> positional)
+	BulkCreateSubjects(ctx context.Context, ownerID uuid.UUID, names []string) ([]database.Subject, error)
+	// UpdateSubject — sql/queries/subjects.sql (2 params -> positional)
+	UpdateSubject(ctx context.Context, id uuid.UUID, name string) (database.Subject, error)
+	// DeleteSubject — sql/queries/subjects.sql
+	DeleteSubject(ctx context.Context, id uuid.UUID) error
+	// CountClassSubjectsBySubject — sql/queries/class_subjects.sql
+	CountClassSubjectsBySubject(ctx context.Context, subjectID uuid.UUID) (int64, error)
 }
 
 var _ Store = (*database.Queries)(nil)

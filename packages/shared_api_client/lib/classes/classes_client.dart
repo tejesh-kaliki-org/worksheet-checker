@@ -5,7 +5,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../models/add_class_subject_request.dart';
+import '../models/bulk_select_class_subjects_request.dart';
 import '../models/class.dart';
 import '../models/class_list.dart';
 import '../models/create_class_request.dart';
@@ -60,15 +60,19 @@ abstract class ClassesClient {
     @DioOptions() RequestOptions? options,
   });
 
-  /// Select a Subject for a Class
-  @POST('/classes/{classId}/subjects')
-  Future<SubjectList> addClassSubject({
+  /// Select Subjects for a Class.
+  ///
+  /// The primary path for choosing a Class's Subjects: submit the whole selection at once. Additive and idempotent — Subjects already selected are left alone, never duplicated or errored on. Deselecting is done with DELETE /classes/{classId}/subjects/{subjectId}. Every id must name a Subject in the caller's own catalogue; otherwise the whole request 404s and nothing is selected.
+  @POST('/classes/{classId}/subjects:bulk-select')
+  Future<SubjectList> bulkSelectClassSubjects({
     @Path('classId') required String classId,
-    @Body() required AddClassSubjectRequest body,
+    @Body() required BulkSelectClassSubjectsRequest body,
     @DioOptions() RequestOptions? options,
   });
 
-  /// Remove a Subject selection from a Class
+  /// Remove a Subject selection from a Class.
+  ///
+  /// Never cascades. Once downstream Exam Subject / Question / Answer data exists, removing a selection that has such data underneath will return 409; no such table exists yet, so today the operation cannot conflict and 409 is deliberately not declared here.
   @DELETE('/classes/{classId}/subjects/{subjectId}')
   Future<void> removeClassSubject({
     @Path('classId') required String classId,

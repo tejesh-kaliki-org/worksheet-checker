@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -18,10 +19,6 @@ import (
 	gen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/subjects"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/database"
 )
-
-// uniqueViolation is Postgres' SQLSTATE for a unique constraint violation
-// (here: the subjects (owner_id, name) constraint).
-const uniqueViolation = "23505"
 
 type Service struct {
 	store Store
@@ -224,7 +221,7 @@ func (s *Service) ownsSubject(c *gin.Context, subjectID, uid uuid.UUID) bool {
 
 func isUniqueViolation(err error) bool {
 	var pgErr *pgconn.PgError
-	return errors.As(err, &pgErr) && pgErr.Code == uniqueViolation
+	return errors.As(err, &pgErr) && pgErr.Code == pgerrcode.UniqueViolation
 }
 
 func toAPISubject(s database.Subject) gen.Subject {

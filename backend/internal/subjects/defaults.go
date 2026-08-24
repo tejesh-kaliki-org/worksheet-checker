@@ -33,10 +33,6 @@ var DefaultCatalogue = []string{
 // (see internal/auth.Service.Signup). Not idempotent by design — existing
 // users are never re-seeded or backfilled (see ADR 0009).
 func (s *Service) SeedDefaults(ctx context.Context, ownerID uuid.UUID) error {
-	for _, name := range DefaultCatalogue {
-		if _, err := s.store.CreateSubject(ctx, name, ownerID); err != nil {
-			return err
-		}
-	}
-	return nil
+	_, err := s.store.BulkCreateSubjects(ctx, ownerID, DefaultCatalogue)
+	return err
 }

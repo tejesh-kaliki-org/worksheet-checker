@@ -190,11 +190,6 @@ func TestClassSubjects(t *testing.T) {
 		}
 	})
 
-	// Reviewer follow-up: the original "add, list, remove" case only ever
-	// exercised a Subject the class owner also owned. Cover the ownership
-	// boundary explicitly: a Subject belonging to a different User must
-	// 404 (never 403 — see the ownedClass doc comment), and adding a
-	// nonexistent Subject must also 404.
 	t.Run("bulk-select subject owned by another user 404s", func(t *testing.T) {
 		setupTest(t)
 		_, token := createUser(t, "owner@b.com")

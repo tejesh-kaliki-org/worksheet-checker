@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -18,12 +19,6 @@ import (
 	gen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/classes"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/database"
 )
-
-// uniqueViolation is Postgres' SQLSTATE for a unique constraint violation
-// (here: the classes (created_by, name) constraint added in
-// sql/schema/0009_classes_unique_name.sql). Surfaced as 409, matching how
-// internal/students reports a duplicate Roll Number.
-const uniqueViolation = "23505"
 
 type Service struct {
 	store Store
@@ -269,7 +264,7 @@ func (s *Service) ownedClass(c *gin.Context, classID, uid uuid.UUID) (database.C
 
 func isUniqueViolation(err error) bool {
 	var pgErr *pgconn.PgError
-	return errors.As(err, &pgErr) && pgErr.Code == uniqueViolation
+	return errors.As(err, &pgErr) && pgErr.Code == pgerrcode.UniqueViolation
 }
 
 func toAPIClass(cl database.Class) gen.Class {

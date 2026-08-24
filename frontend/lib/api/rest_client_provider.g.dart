@@ -70,5 +70,56 @@ final authClientProvider = AutoDisposeProvider<AuthClient>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AuthClientRef = AutoDisposeProviderRef<AuthClient>;
+String _$classesClientHash() => r'baec34a753cb38b4006cc54671d01ebf845ac294';
+
+/// See also [classesClient].
+@ProviderFor(classesClient)
+final classesClientProvider = AutoDisposeProvider<ClassesClient>.internal(
+  classesClient,
+  name: r'classesClientProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$classesClientHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef ClassesClientRef = AutoDisposeProviderRef<ClassesClient>;
+String _$studentsClientHash() => r'b1c1f04e0cb0f8a8907034638fdf65755c4cd54b';
+
+/// See also [studentsClient].
+@ProviderFor(studentsClient)
+final studentsClientProvider = AutoDisposeProvider<StudentsClient>.internal(
+  studentsClient,
+  name: r'studentsClientProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$studentsClientHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef StudentsClientRef = AutoDisposeProviderRef<StudentsClient>;
+String _$subjectsClientHash() => r'c7a18c681072f41510722e6c9d8dbea7a110eb1b';
+
+/// See also [subjectsClient].
+@ProviderFor(subjectsClient)
+final subjectsClientProvider = AutoDisposeProvider<SubjectsClient>.internal(
+  subjectsClient,
+  name: r'subjectsClientProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$subjectsClientHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef SubjectsClientRef = AutoDisposeProviderRef<SubjectsClient>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

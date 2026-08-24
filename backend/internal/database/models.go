@@ -20,12 +20,42 @@ type AuthToken struct {
 	CreatedAt time.Time
 }
 
+type Class struct {
+	ID        uuid.UUID
+	Name      string
+	CreatedBy uuid.UUID
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
+
+type ClassSubject struct {
+	ClassID   uuid.UUID
+	SubjectID uuid.UUID
+	CreatedAt time.Time
+}
+
 type RefreshToken struct {
 	ID        uuid.UUID
 	UserID    uuid.UUID
 	TokenHash string
 	ExpiresAt time.Time
 	RevokedAt *time.Time
+	CreatedAt time.Time
+}
+
+type Student struct {
+	ID         uuid.UUID
+	ClassID    uuid.UUID
+	Name       string
+	RollNumber string
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+}
+
+type Subject struct {
+	ID        uuid.UUID
+	Name      string
+	OwnerID   uuid.UUID
 	CreatedAt time.Time
 }
 

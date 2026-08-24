@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/oapi-codegen/oapi-codegen/HEAD/configuration-schema.json
+package: classes_gen
+generate:
+  gin-server: true
+  models: true
+output: schema.gen.go
+output-options:
+  name-normalizer: ToCamelCase
+  nullable-type: true
+# Shared error responses live in api/services/shared.yaml and are $ref'd
+# across services. Mapping the external file to "-" tells oapi-codegen the
+# referenced components resolve within this same generated package, so the
+# refs are inlined instead of demanding a separate Go import.
+import-mapping:
+  ./shared.yaml: "-"

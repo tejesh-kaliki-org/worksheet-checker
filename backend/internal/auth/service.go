@@ -3,10 +3,13 @@
 package auth
 
 import (
+	"context"
+	"log"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 
@@ -16,11 +19,18 @@ import (
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/mail"
 )
 
+// SubjectSeeder seeds a newly created User's default Subject catalogue. See
+// internal/subjects.Service.SeedDefaults and ADR 0009.
+type SubjectSeeder interface {
+	SeedDefaults(ctx context.Context, ownerID uuid.UUID) error
+}
+
 type Service struct {
 	store      Store
 	tokens     *TokenIssuer
 	refreshTTL time.Duration
 	mailer     mail.Mailer
+	subjects   SubjectSeeder
 }
 
 func refreshTTL(cfg config.TokenConfig) time.Duration {
@@ -31,12 +41,13 @@ func refreshTTL(cfg config.TokenConfig) time.Duration {
 	return time.Duration(h) * time.Hour
 }
 
-func New(pool *pgxpool.Pool, cfg config.TokenConfig, mailer mail.Mailer) *Service {
+func New(pool *pgxpool.Pool, cfg config.TokenConfig, mailer mail.Mailer, subjects SubjectSeeder) *Service {
 	return &Service{
 		store:      NewStore(pool),
 		tokens:     NewTokenIssuer(cfg),
 		refreshTTL: refreshTTL(cfg),
 		mailer:     mailer,
+		subjects:   subjects,
 	}
 }
 
@@ -84,6 +95,15 @@ func (s *Service) Signup(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusConflict, gin.H{"error": "email already registered"})
 		return
+	}
+
+	// Seed the new User's default Subject catalogue (ADR 0009). Best-effort:
+	// an empty catalogue is recoverable (the user can add Subjects later) so
+	// this never fails signup, only logs.
+	if s.subjects != nil {
+		if err := s.subjects.SeedDefaults(c.Request.Context(), user.ID); err != nil {
+			log.Printf("auth: seed default subjects for user %s: %v", user.ID, err)
+		}
 	}
 
 	// Account starts unverified. Issue a verification credential and email it.

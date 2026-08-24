@@ -19,7 +19,7 @@ A student's identifier within their Class, used to correlate Answers back to a S
 _Avoid_: Student ID, admission number
 
 **Subject**:
-An entry in the global, fixed curriculum catalogue (e.g. Mathematics, Science). Subjects are shared across all Classes; a Class selects which Subjects apply to it.
+An entry in a User's own curriculum catalogue (e.g. Mathematics, Science), scoped to the User who owns it — not shared globally. Seeded with a default Indian-curriculum list at account creation; the owning User may add, rename, or remove entries from there. A Class selects which of its owner's Subjects apply to it (see ADR 0009).
 _Avoid_: Course, paper (paper is reserved for the exam-instance sense, see Exam Subject)
 
 **Exam**:

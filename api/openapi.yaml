@@ -5,8 +5,14 @@ info:
 tags:
   - name: auth
     x-displayName: auth
+  - name: classes
+    x-displayName: classes
   - name: health_other
     x-displayName: other
+  - name: students
+    x-displayName: students
+  - name: subjects
+    x-displayName: subjects
 paths:
   /auth/signup:
     post:
@@ -150,6 +156,213 @@ paths:
           description: Password updated
         "400":
           description: Invalid or expired token
+  /classes:
+    get:
+      operationId: listClasses
+      tags:
+        - classes
+      summary: List Classes owned by the authenticated user
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClassList"
+    post:
+      operationId: createClass
+      tags:
+        - classes
+      summary: Create a Class owned by the authenticated user
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateClassRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Class"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/Conflict"
+  /classes/{classId}:
+    get:
+      operationId: getClass
+      tags:
+        - classes
+      summary: Get a Class owned by the authenticated user
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Class"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      operationId: updateClass
+      tags:
+        - classes
+      summary: Update a Class owned by the authenticated user
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateClassRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Class"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+    delete:
+      operationId: deleteClass
+      tags:
+        - classes
+      summary: Delete a Class owned by the authenticated user
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /classes/{classId}/subjects:
+    get:
+      operationId: listClassSubjects
+      tags:
+        - classes
+      summary: List Subjects selected for a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubjectList"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /classes/{classId}/subjects:bulk-select:
+    post:
+      operationId: bulkSelectClassSubjects
+      tags:
+        - classes
+      summary: Select Subjects for a Class
+      description: "The primary path for choosing a Class's Subjects: submit the whole
+        selection at once. Additive and idempotent — Subjects already selected
+        are left alone, never duplicated or errored on. Deselecting is done with
+        DELETE /classes/{classId}/subjects/{subjectId}. Every id must name a
+        Subject in the caller's own catalogue; otherwise the whole request 404s
+        and nothing is selected."
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkSelectClassSubjectsRequest"
+      responses:
+        "201":
+          description: The Class's Subject selection after the request.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubjectList"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /classes/{classId}/subjects/{subjectId}:
+    delete:
+      operationId: removeClassSubject
+      tags:
+        - classes
+      summary: Remove a Subject selection from a Class
+      description: Never cascades. Once downstream Exam Subject / Question / Answer
+        data exists, removing a selection that has such data underneath will
+        return 409; no such table exists yet, so today the operation cannot
+        conflict and 409 is deliberately not declared here.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: subjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Removed
+        "404":
+          $ref: "#/components/responses/NotFound"
   /health:
     get:
       operationId: getHealth
@@ -166,13 +379,328 @@ paths:
                     type: string
       tags:
         - health_other
+  /classes/{classId}/students:
+    get:
+      operationId: listStudents
+      tags:
+        - students
+      summary: List Students in a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudentList"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    post:
+      operationId: createStudent
+      tags:
+        - students
+      summary: Add a Student to a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateStudentRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+  /classes/{classId}/students:bulk-upload:
+    post:
+      operationId: bulkUploadStudents
+      tags:
+        - students
+      summary: Add several Students to a Class in one request
+      description: "Submits a whole roster at once. All-or-nothing: if any entry is
+        invalid or its Roll Number collides with an existing Student (or another
+        entry in the same request), no Student is created. The response is the
+        Class's full roster after the upload."
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkUploadStudentsRequest"
+      responses:
+        "201":
+          description: The Class's roster after the upload.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudentList"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+  /classes/{classId}/students/{studentId}:
+    get:
+      operationId: getStudent
+      tags:
+        - students
+      summary: Get a Student in a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      operationId: updateStudent
+      tags:
+        - students
+      summary: Update a Student in a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateStudentRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+    delete:
+      operationId: deleteStudent
+      tags:
+        - students
+      summary: Remove a Student from a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /subjects:
+    get:
+      operationId: listSubjects
+      tags:
+        - subjects
+      summary: List the authenticated User's Subject catalogue
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubjectList"
+    post:
+      operationId: createSubject
+      tags:
+        - subjects
+      summary: Add a Subject to the authenticated User's catalogue
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSubjectRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subject"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/Conflict"
+  /subjects:bulk-create:
+    post:
+      operationId: bulkCreateSubjects
+      tags:
+        - subjects
+      summary: Add several Subjects to the authenticated User's catalogue
+      description: "Idempotent by name: names the User already has are skipped rather
+        than rejected, so re-submitting the same list never errors. The response
+        is the User's full catalogue after the operation."
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkCreateSubjectsRequest"
+      responses:
+        "201":
+          description: The User's catalogue after the requested names were added.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubjectList"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /subjects/{subjectId}:
+    put:
+      operationId: updateSubject
+      tags:
+        - subjects
+      summary: Rename a Subject in the authenticated User's catalogue
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: subjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSubjectRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subject"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+    delete:
+      operationId: deleteSubject
+      tags:
+        - subjects
+      summary: Remove a Subject from the authenticated User's catalogue
+      description: Never cascades. A Subject still selected by any Class (or
+        referenced by downstream Exam Subject / Question / Answer data) returns
+        409; remove those references first.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: subjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
   schemas:
+    Error:
+      type: object
+      required:
+        - msg
+      properties:
+        msg:
+          type: string
+          description: Human-readable error message.
     User:
       type: object
       required:
@@ -298,13 +826,212 @@ components:
           maxLength: 72
           description: 8-72 characters with an uppercase letter, a lowercase letter, a
             digit, and a symbol; no leading or trailing whitespace.
+    Class:
+      type: object
+      required:
+        - id
+        - name
+        - created_by
+        - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        created_by:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+    ClassList:
+      type: object
+      required:
+        - classes
+      properties:
+        classes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Class"
+    CreateClassRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+    UpdateClassRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+    Subject:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+    SubjectList:
+      type: object
+      required:
+        - subjects
+      properties:
+        subjects:
+          type: array
+          items:
+            $ref: "#/components/schemas/Subject"
+    BulkSelectClassSubjectsRequest:
+      type: object
+      required:
+        - subject_ids
+      properties:
+        subject_ids:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            format: uuid
+    Student:
+      type: object
+      required:
+        - id
+        - class_id
+        - name
+        - roll_number
+      properties:
+        id:
+          type: string
+          format: uuid
+        class_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        roll_number:
+          type: string
+    StudentList:
+      type: object
+      required:
+        - students
+      properties:
+        students:
+          type: array
+          items:
+            $ref: "#/components/schemas/Student"
+    CreateStudentRequest:
+      type: object
+      required:
+        - name
+        - roll_number
+      properties:
+        name:
+          type: string
+          minLength: 1
+        roll_number:
+          type: string
+          minLength: 1
+    BulkUploadStudentsRequest:
+      type: object
+      required:
+        - students
+      properties:
+        students:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/CreateStudentRequest"
+    UpdateStudentRequest:
+      type: object
+      required:
+        - name
+        - roll_number
+      properties:
+        name:
+          type: string
+          minLength: 1
+        roll_number:
+          type: string
+          minLength: 1
+    CreateSubjectRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+    UpdateSubjectRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+    BulkCreateSubjectsRequest:
+      type: object
+      required:
+        - names
+      properties:
+        names:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            minLength: 1
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: The resource does not exist, or is not visible to the authenticated
+        User. Ownership failures are reported as 404, never 403, so the
+        existence of another User's data is never disclosed.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Conflict:
+      description: The request conflicts with existing data (a uniqueness constraint,
+        or dependent data that must be removed first — nothing cascades).
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 x-tagGroups:
   - name: Worksheet Checker — auth
     tags:
       - auth
+  - name: Worksheet Checker — classes
+    tags:
+      - classes
   - name: Worksheet Checker API
     tags:
       - health_other
+  - name: Worksheet Checker — students
+    tags:
+      - students
+  - name: Worksheet Checker — subjects
+    tags:
+      - subjects
 servers:
   - url: http://localhost:8080
     description: Local

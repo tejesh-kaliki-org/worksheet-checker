@@ -46,6 +46,17 @@ func TestSignup(t *testing.T) {
 		if hash == "" || hash == "Password123!" {
 			t.Fatalf("password not hashed: %q", hash)
 		}
+		// Signup seeds the new user's default Subject catalogue (ADR 0009).
+		var subjectCount int
+		if err := testDB.Pool.QueryRow(context.Background(),
+			`SELECT count(*) FROM subjects s JOIN users u ON u.id = s.owner_id WHERE u.email = $1`,
+			"a@b.com").Scan(&subjectCount); err != nil {
+			t.Fatalf("query: %v", err)
+		}
+		if subjectCount == 0 {
+			t.Fatal("expected default subjects to be seeded on signup")
+		}
+
 		// The verification credential is emailed, never returned in the response.
 		if body["code"] != nil || body["verify_token"] != nil {
 			t.Fatal("credential must not be returned in the response")

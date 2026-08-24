@@ -17,11 +17,17 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 
+	classesGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/classes"
+	studentsGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/students"
+	subjectsGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/subjects"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/auth"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/classes"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/config"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/mail"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/migrate"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/observability"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/students"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/subjects"
 )
 
 func Run() {
@@ -70,8 +76,23 @@ func Run() {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
 	api := r.Group("/api/v1")
-	authSvc := auth.New(pool, cfg.Token, mail.New(cfg.Mail))
+	// subjectsSvc is constructed first so auth.New can take it as the
+	// SubjectSeeder that seeds a new User's default Subject catalogue on
+	// signup (see internal/subjects/defaults.go, ADR 0009).
+	subjectsSvc := subjects.New(pool)
+	authSvc := auth.New(pool, cfg.Token, mail.New(cfg.Mail), subjectsSvc)
 	authSvc.Register(api)
+
+	// The academic-structure domains (classes, students, subjects) share the
+	// same auth ScopeAuth middleware as auth itself: it keys off the
+	// bearerAuth.Scopes context value that any oapi-codegen gen package emits
+	// for `security: bearerAuth` operations, regardless of which domain's spec
+	// declared them (see internal/auth/middleware.go).
+	classesSvc := classes.New(pool)
+	classesSvc.Register(api, classesGen.MiddlewareFunc(authSvc.ScopeAuth()))
+	studentsSvc := students.New(pool)
+	studentsSvc.Register(api, studentsGen.MiddlewareFunc(authSvc.ScopeAuth()))
+	subjectsSvc.Register(api, subjectsGen.MiddlewareFunc(authSvc.ScopeAuth()))
 
 	srv := &http.Server{
 		Addr:              ":" + cfg.Server.Port,

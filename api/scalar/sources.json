@@ -1,0 +1,42 @@
+[
+  {
+    "slug": "auth",
+    "title": "Worksheet Checker — auth",
+    "url": "services/auth.yaml"
+  },
+  {
+    "slug": "classes",
+    "title": "Worksheet Checker — classes",
+    "url": "services/classes.yaml"
+  },
+  {
+    "slug": "exams",
+    "title": "Worksheet Checker — exams",
+    "url": "services/exams.yaml"
+  },
+  {
+    "slug": "health",
+    "title": "Worksheet Checker API",
+    "url": "services/health.yaml"
+  },
+  {
+    "slug": "questions",
+    "title": "Worksheet Checker — questions",
+    "url": "services/questions.yaml"
+  },
+  {
+    "slug": "students",
+    "title": "Worksheet Checker — students",
+    "url": "services/students.yaml"
+  },
+  {
+    "slug": "subjects",
+    "title": "Worksheet Checker — subjects",
+    "url": "services/subjects.yaml"
+  },
+  {
+    "slug": "submissions",
+    "title": "Worksheet Checker — submissions",
+    "url": "services/submissions.yaml"
+  }
+]

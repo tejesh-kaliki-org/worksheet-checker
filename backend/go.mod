@@ -11,6 +11,7 @@ require (
 	github.com/gin-gonic/gin v1.12.0
 	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/google/uuid v1.6.0
+	github.com/jackc/pgerrcode v0.0.0-20250907135507-afb5586c32a6
 	github.com/jackc/pgx/v5 v5.9.2
 	github.com/oapi-codegen/runtime v1.6.0
 	github.com/pressly/goose/v3 v3.26.0
@@ -24,6 +25,7 @@ require (
 )
 
 require (
+	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.32 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.32 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.32 // indirect

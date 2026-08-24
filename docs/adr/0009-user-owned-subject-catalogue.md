@@ -1,0 +1,9 @@
+# User-owned Subject catalogue, seeded with curriculum defaults at signup
+
+Status: accepted
+
+Subjects are scoped to the User who owns them (`subjects.owner_id`, `UNIQUE (owner_id, name)`), not a single catalogue shared across all Users. Every new User's catalogue is seeded at account creation with the same ~15-entry Indian-curriculum default list (Mathematics, Science, English, Social Studies, Hindi, Computer Science, Environmental Studies, Physics, Chemistry, Biology, History, Geography, Civics, Economics, Sanskrit) that the original migration seeded once, globally. From there each User may add, rename, or remove their own Subjects freely; a Class only ever selects from its owner's catalogue (enforced the same way as every other cross-resource reference in this codebase: a 404, never a 403, on an ownership mismatch — see `ownedClass` in `internal/classes/service.go`).
+
+This supersedes ADR-era design in the original `0007_subjects.sql` migration, which treated Subject as "the global, fixed curriculum catalogue... shared across all Classes" — global uniqueness on `name`, no owner column, not user-editable. That shape didn't survive contact with real usage: two teachers legitimately want different catalogues (a teacher who only teaches Math and Physics has no use for Sanskrit cluttering their class-subject picker, and a teacher outside the assumed Indian curriculum wants to name Subjects their own way). A per-user catalogue seeded with sane defaults gets both: zero-setup usability for the common case, and full editability for everyone else.
+
+No backfill/migration path was written for existing `subjects` rows — this is a pre-release, local/dev-only database with no real user data, so the migration simply changes the schema going forward (see `backend/sql/schema/0007_subjects.sql`).

@@ -1,0 +1,21 @@
+# Tests — students
+
+- `TestCreateStudent/success` — creating a Student under the owner's Class succeeds.
+- `TestCreateStudent/conflict on duplicate roll_number` — a duplicate Roll Number within the same Class conflicts.
+- `TestCreateStudent/not_found for another owner's class` — creating a Student under a Class you don't own 404s.
+- `TestCreateStudent/validation` — missing/invalid fields → 400.
+- `TestListStudents/success` — a Class's Students are listed.
+- `TestListStudentsEmpty` — a Class with no Students returns `"students":[]`, never `null`.
+- `TestGetStudent/success` — the owner can fetch a Student.
+- `TestGetStudent/not_found` — a nonexistent/foreign Student 404s.
+- `TestUpdateStudent/success` — updating a Student persists.
+- `TestDeleteStudent/success` — deleting a Student removes it.
+- `TestBulkUploadStudents/creates the whole roster and returns it` — happy path for `POST /classes/{classId}/students:bulk-upload`.
+- `TestBulkUploadStudents/empty list is rejected` — `{"students":[]}` → 400.
+- `TestBulkUploadStudents/malformed body is rejected` — a wrongly typed `students` → 400.
+- `TestBulkUploadStudents/a blank field rejects the whole upload` — all-or-nothing: one blank name creates nothing.
+- `TestBulkUploadStudents/a roll number repeated within the request is rejected` — an in-payload Roll Number collision → 400, nothing created.
+- `TestBulkUploadStudents/a roll number colliding with an existing Student conflicts` — 409 from the per-Class constraint, and the valid entry in the same payload is not created either.
+- `TestBulkUploadStudents/another owner's class 404s` — ownership boundary (404, never 403).
+- `TestBulkUploadStudents/missing class 404s` — a random Class id 404s.
+- `TestBulkUploadStudents/authorization` — no bearer token → 401.

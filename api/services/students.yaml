@@ -1,0 +1,247 @@
+openapi: 3.0.3
+info:
+  title: Worksheet Checker — students
+  version: 0.1.0
+paths:
+  /classes/{classId}/students:
+    get:
+      operationId: listStudents
+      tags: [students]
+      summary: List Students in a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudentList"
+        "404":
+          $ref: "./shared.yaml#/components/responses/NotFound"
+    post:
+      operationId: createStudent
+      tags: [students]
+      summary: Add a Student to a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateStudentRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        "400":
+          $ref: "./shared.yaml#/components/responses/BadRequest"
+        "404":
+          $ref: "./shared.yaml#/components/responses/NotFound"
+        "409":
+          $ref: "./shared.yaml#/components/responses/Conflict"
+  /classes/{classId}/students:bulk-upload:
+    post:
+      operationId: bulkUploadStudents
+      tags: [students]
+      summary: Add several Students to a Class in one request
+      description: >-
+        Submits a whole roster at once. All-or-nothing: if any entry is invalid
+        or its Roll Number collides with an existing Student (or another entry
+        in the same request), no Student is created. The response is the
+        Class's full roster after the upload.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkUploadStudentsRequest"
+      responses:
+        "201":
+          description: The Class's roster after the upload.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudentList"
+        "400":
+          $ref: "./shared.yaml#/components/responses/BadRequest"
+        "404":
+          $ref: "./shared.yaml#/components/responses/NotFound"
+        "409":
+          $ref: "./shared.yaml#/components/responses/Conflict"
+  /classes/{classId}/students/{studentId}:
+    get:
+      operationId: getStudent
+      tags: [students]
+      summary: Get a Student in a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        "404":
+          $ref: "./shared.yaml#/components/responses/NotFound"
+    put:
+      operationId: updateStudent
+      tags: [students]
+      summary: Update a Student in a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateStudentRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        "400":
+          $ref: "./shared.yaml#/components/responses/BadRequest"
+        "404":
+          $ref: "./shared.yaml#/components/responses/NotFound"
+        "409":
+          $ref: "./shared.yaml#/components/responses/Conflict"
+    delete:
+      operationId: deleteStudent
+      tags: [students]
+      summary: Remove a Student from a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          $ref: "./shared.yaml#/components/responses/NotFound"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Student:
+      type: object
+      required: [id, class_id, name, roll_number]
+      properties:
+        id:
+          type: string
+          format: uuid
+        class_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        roll_number:
+          type: string
+    StudentList:
+      type: object
+      required: [students]
+      properties:
+        students:
+          type: array
+          items:
+            $ref: "#/components/schemas/Student"
+    CreateStudentRequest:
+      type: object
+      required: [name, roll_number]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        roll_number:
+          type: string
+          minLength: 1
+    BulkUploadStudentsRequest:
+      type: object
+      required: [students]
+      properties:
+        students:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/CreateStudentRequest"
+    UpdateStudentRequest:
+      type: object
+      required: [name, roll_number]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        roll_number:
+          type: string
+          minLength: 1

@@ -170,7 +170,8 @@ func (s *Service) AddClassSubject(c *gin.Context, classID uuid.UUID) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if _, err := s.store.GetSubjectByID(c.Request.Context(), body.SubjectId); err != nil {
+	subject, err := s.store.GetSubjectByID(c.Request.Context(), body.SubjectId)
+	if err != nil || subject.OwnerID != uid {
 		c.JSON(http.StatusNotFound, gin.H{"error": "subject not found"})
 		return
 	}

@@ -9,6 +9,7 @@ import (
 
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/auth"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/config"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/subjects"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/testsupport"
 )
 
@@ -45,7 +46,7 @@ func TestMain(m *testing.M) {
 
 	r, api := testsupport.NewRouter()
 	mailer = newRecordingMailer()
-	auth.New(testDB.Pool, config.TokenConfig{Secret: "test-secret", ExpiryHours: 1}, mailer).Register(api)
+	auth.New(testDB.Pool, config.TokenConfig{Secret: "test-secret", ExpiryHours: 1}, mailer, subjects.New(testDB.Pool)).Register(api)
 	router = r
 
 	os.Exit(m.Run())

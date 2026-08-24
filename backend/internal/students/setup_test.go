@@ -30,7 +30,7 @@ func TestMain(m *testing.M) {
 
 	r, api := testsupport.NewRouter()
 	tokens = auth.NewTokenIssuer(config.TokenConfig{Secret: "test-secret", ExpiryHours: 1})
-	authSvc := auth.New(testDB.Pool, config.TokenConfig{Secret: "test-secret", ExpiryHours: 1}, noopMailer{})
+	authSvc := auth.New(testDB.Pool, config.TokenConfig{Secret: "test-secret", ExpiryHours: 1}, noopMailer{}, nil)
 	authSvc.Register(api)
 	classes.New(testDB.Pool).Register(api, classesgen.MiddlewareFunc(authSvc.ScopeAuth()))
 	students.New(testDB.Pool).Register(api, studentsgen.MiddlewareFunc(authSvc.ScopeAuth()))

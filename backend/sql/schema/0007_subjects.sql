@@ -1,28 +1,16 @@
 -- +goose Up
--- Subject: the global, fixed curriculum catalogue, shared across all Classes.
--- Seeded with a reasonable Indian school curriculum list; not user-editable.
+-- Subject: part of a User's own curriculum catalogue (see ADR 0009 — Subjects
+-- are user-owned, not a single global catalogue). Seeded with a reasonable
+-- Indian school curriculum list at account creation; user-editable thereafter.
 CREATE TABLE subjects (
     id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name       TEXT NOT NULL UNIQUE,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    name       TEXT NOT NULL,
+    owner_id   UUID NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    UNIQUE (owner_id, name)
 );
 
-INSERT INTO subjects (name) VALUES
-    ('Mathematics'),
-    ('Science'),
-    ('English'),
-    ('Social Studies'),
-    ('Hindi'),
-    ('Computer Science'),
-    ('Environmental Studies'),
-    ('Physics'),
-    ('Chemistry'),
-    ('Biology'),
-    ('History'),
-    ('Geography'),
-    ('Civics'),
-    ('Economics'),
-    ('Sanskrit');
+CREATE INDEX idx_subjects_owner_id ON subjects (owner_id);
 
 -- +goose Down
 DROP TABLE subjects;

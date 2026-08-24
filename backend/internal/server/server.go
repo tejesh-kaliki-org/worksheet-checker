@@ -76,7 +76,11 @@ func Run() {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
 	api := r.Group("/api/v1")
-	authSvc := auth.New(pool, cfg.Token, mail.New(cfg.Mail))
+	// subjectsSvc is constructed first so auth.New can take it as the
+	// SubjectSeeder that seeds a new User's default Subject catalogue on
+	// signup (see internal/subjects/defaults.go, ADR 0009).
+	subjectsSvc := subjects.New(pool)
+	authSvc := auth.New(pool, cfg.Token, mail.New(cfg.Mail), subjectsSvc)
 	authSvc.Register(api)
 
 	// The academic-structure domains (classes, students, subjects) share the
@@ -88,7 +92,6 @@ func Run() {
 	classesSvc.Register(api, classesGen.MiddlewareFunc(authSvc.ScopeAuth()))
 	studentsSvc := students.New(pool)
 	studentsSvc.Register(api, studentsGen.MiddlewareFunc(authSvc.ScopeAuth()))
-	subjectsSvc := subjects.New(pool)
 	subjectsSvc.Register(api, subjectsGen.MiddlewareFunc(authSvc.ScopeAuth()))
 
 	srv := &http.Server{

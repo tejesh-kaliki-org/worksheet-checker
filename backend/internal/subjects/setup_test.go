@@ -26,7 +26,7 @@ func TestMain(m *testing.M) {
 
 	r, api := testsupport.NewRouter()
 	tokens = auth.NewTokenIssuer(config.TokenConfig{Secret: "test-secret", ExpiryHours: 1})
-	authSvc := auth.New(testDB.Pool, config.TokenConfig{Secret: "test-secret", ExpiryHours: 1}, noopMailer{})
+	authSvc := auth.New(testDB.Pool, config.TokenConfig{Secret: "test-secret", ExpiryHours: 1}, noopMailer{}, nil)
 	authSvc.Register(api)
 	subjects.New(testDB.Pool).Register(api, subjectsgen.MiddlewareFunc(authSvc.ScopeAuth()))
 	router = r
@@ -41,13 +41,17 @@ func (noopMailer) SendPasswordReset(context.Context, string, string) error { ret
 
 func setupTest(t *testing.T) {
 	t.Helper()
-	// Subjects come from the fixed catalogue seeded by migration; truncating
-	// would remove the seed rows the tests rely on, so only reset users.
+	// Subjects cascade-delete with their owning user (owner_id ON DELETE
+	// CASCADE), so truncating users is enough to reset both.
 	if _, err := testDB.Pool.Exec(context.Background(), `TRUNCATE users CASCADE`); err != nil {
 		t.Fatalf("truncate users: %v", err)
 	}
 }
 
+// createUser inserts a verified user directly (bypassing signup) and seeds
+// its default Subject catalogue the same way auth.Service.Signup does (see
+// ADR 0009), since tests need Subjects without going through the full
+// signup flow.
 func createUser(t *testing.T, email string) (uuid.UUID, string) {
 	t.Helper()
 	var id uuid.UUID
@@ -56,6 +60,9 @@ func createUser(t *testing.T, email string) (uuid.UUID, string) {
 		email).Scan(&id)
 	if err != nil {
 		t.Fatalf("create user: %v", err)
+	}
+	if err := subjects.New(testDB.Pool).SeedDefaults(context.Background(), id); err != nil {
+		t.Fatalf("seed default subjects: %v", err)
 	}
 	token, err := tokens.Issue(id.String(), "user")
 	if err != nil {

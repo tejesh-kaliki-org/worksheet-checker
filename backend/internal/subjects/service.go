@@ -1,12 +1,14 @@
-// Package subjects exposes the global, fixed Subject catalogue. It is
-// read-only: Subjects are seeded by migration (see sql/schema/0007_subjects.sql)
-// and never created/edited/deleted through the API.
+// Package subjects exposes each User's own Subject catalogue (see ADR 0009).
+// Every User's catalogue is seeded with a default curriculum list at account
+// creation (see SeedDefaults / internal/auth.Service.Signup) and is
+// user-editable thereafter.
 package subjects
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	gen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/subjects"
@@ -30,14 +32,31 @@ func (s *Service) Register(r gin.IRouter, middlewares ...gen.MiddlewareFunc) {
 	})
 }
 
+// userID reads the authenticated user id set by auth.ScopeAuth. Every
+// operation in this domain requires it (all are `security: bearerAuth`), so a
+// missing/invalid value means the auth middleware wasn't wired.
+func userID(c *gin.Context) (uuid.UUID, bool) {
+	raw := c.GetString("user_id")
+	id, err := uuid.Parse(raw)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "missing or invalid bearer token"})
+		return uuid.UUID{}, false
+	}
+	return id, true
+}
+
 // ListSubjects implements gen.ServerInterface.
 func (s *Service) ListSubjects(c *gin.Context) {
-	subjects, err := s.store.ListSubjects(c.Request.Context())
+	uid, ok := userID(c)
+	if !ok {
+		return
+	}
+	list, err := s.store.ListSubjectsByOwner(c.Request.Context(), uid)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not list subjects"})
 		return
 	}
-	c.JSON(http.StatusOK, gen.SubjectList{Subjects: toAPISubjects(subjects)})
+	c.JSON(http.StatusOK, gen.SubjectList{Subjects: toAPISubjects(list)})
 }
 
 func toAPISubject(s database.Subject) gen.Subject {

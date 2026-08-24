@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/google/uuid"
+
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/testsupport"
 )
 
@@ -148,15 +150,15 @@ func TestDeleteClass(t *testing.T) {
 func TestClassSubjects(t *testing.T) {
 	t.Run("add, list, remove", func(t *testing.T) {
 		setupTest(t)
-		_, token := createUser(t, "owner@b.com")
+		ownerID, token := createUser(t, "owner@b.com")
 		created := decode(t, testsupport.DoJSONAuth(router, http.MethodPost, "/api/v1/classes", `{"name":"C"}`, token).Body.Bytes())
 		classID := created["id"].(string)
 
-		// setupTest truncates every table (including the seeded subjects
-		// catalogue), so insert one directly rather than relying on the seed.
+		// setupTest truncates every table, so insert an owner-scoped subject
+		// directly rather than relying on signup-time seeding.
 		var subjectID string
 		err := testDB.Pool.QueryRow(context.Background(),
-			`INSERT INTO subjects (name) VALUES ('Mathematics') RETURNING id`).Scan(&subjectID)
+			`INSERT INTO subjects (name, owner_id) VALUES ('Mathematics', $1) RETURNING id`, ownerID).Scan(&subjectID)
 		if err != nil {
 			t.Fatalf("insert subject: %v", err)
 		}
@@ -184,6 +186,58 @@ func TestClassSubjects(t *testing.T) {
 		w = testsupport.DoJSONAuth(router, http.MethodDelete, "/api/v1/classes/"+classID+"/subjects/"+subjectID, "", token)
 		if w.Code != http.StatusNoContent {
 			t.Fatalf("status = %d, want 204", w.Code)
+		}
+	})
+
+	// Reviewer follow-up: the original "add, list, remove" case only ever
+	// exercised a Subject the class owner also owned. Cover the ownership
+	// boundary explicitly: a Subject belonging to a different User must
+	// 404 (never 403 — see the ownedClass doc comment), and adding a
+	// nonexistent Subject must also 404.
+	t.Run("add subject owned by another user 404s", func(t *testing.T) {
+		setupTest(t)
+		_, token := createUser(t, "owner@b.com")
+		otherID, _ := createUser(t, "other@b.com")
+		created := decode(t, testsupport.DoJSONAuth(router, http.MethodPost, "/api/v1/classes", `{"name":"C"}`, token).Body.Bytes())
+		classID := created["id"].(string)
+
+		var subjectID string
+		err := testDB.Pool.QueryRow(context.Background(),
+			`INSERT INTO subjects (name, owner_id) VALUES ('Mathematics', $1) RETURNING id`, otherID).Scan(&subjectID)
+		if err != nil {
+			t.Fatalf("insert subject: %v", err)
+		}
+
+		w := testsupport.DoJSONAuth(router, http.MethodPost, "/api/v1/classes/"+classID+"/subjects",
+			`{"subject_id":"`+subjectID+`"}`, token)
+		if w.Code != http.StatusNotFound {
+			t.Fatalf("status = %d, want 404 (%s)", w.Code, w.Body.String())
+		}
+	})
+
+	t.Run("add nonexistent subject 404s", func(t *testing.T) {
+		setupTest(t)
+		_, token := createUser(t, "owner@b.com")
+		created := decode(t, testsupport.DoJSONAuth(router, http.MethodPost, "/api/v1/classes", `{"name":"C"}`, token).Body.Bytes())
+		classID := created["id"].(string)
+
+		w := testsupport.DoJSONAuth(router, http.MethodPost, "/api/v1/classes/"+classID+"/subjects",
+			`{"subject_id":"`+uuid.NewString()+`"}`, token)
+		if w.Code != http.StatusNotFound {
+			t.Fatalf("status = %d, want 404 (%s)", w.Code, w.Body.String())
+		}
+	})
+
+	t.Run("subjects on class owned by another user 404s", func(t *testing.T) {
+		setupTest(t)
+		_, token := createUser(t, "owner@b.com")
+		_, otherToken := createUser(t, "other@b.com")
+		created := decode(t, testsupport.DoJSONAuth(router, http.MethodPost, "/api/v1/classes", `{"name":"C"}`, token).Body.Bytes())
+		classID := created["id"].(string)
+
+		w := testsupport.DoJSONAuth(router, http.MethodGet, "/api/v1/classes/"+classID+"/subjects", "", otherToken)
+		if w.Code != http.StatusNotFound {
+			t.Fatalf("status = %d, want 404", w.Code)
 		}
 	})
 }

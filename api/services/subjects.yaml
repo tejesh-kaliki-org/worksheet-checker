@@ -7,7 +7,7 @@ paths:
     get:
       operationId: listSubjects
       tags: [subjects]
-      summary: List the global Subject catalogue
+      summary: List the authenticated User's Subject catalogue
       security:
         - bearerAuth: []
       responses:

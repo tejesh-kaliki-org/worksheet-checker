@@ -21,6 +21,7 @@ import (
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/exams"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/questions"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/students"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/subjects"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/submissions"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/testsupport"
 )
@@ -36,7 +37,7 @@ func TestMain(m *testing.M) {
 
 	r, api := testsupport.NewRouter()
 	tokens = auth.NewTokenIssuer(config.TokenConfig{Secret: "test-secret", ExpiryHours: 1})
-	authSvc := auth.New(testDB.Pool, config.TokenConfig{Secret: "test-secret", ExpiryHours: 1}, noopMailer{})
+	authSvc := auth.New(testDB.Pool, config.TokenConfig{Secret: "test-secret", ExpiryHours: 1}, noopMailer{}, nil)
 	authSvc.Register(api)
 	classes.New(testDB.Pool).Register(api, classesgen.MiddlewareFunc(authSvc.ScopeAuth()))
 	students.New(testDB.Pool).Register(api, studentsgen.MiddlewareFunc(authSvc.ScopeAuth()))
@@ -53,6 +54,8 @@ type noopMailer struct{}
 func (noopMailer) SendVerification(context.Context, string, string) error  { return nil }
 func (noopMailer) SendPasswordReset(context.Context, string, string) error { return nil }
 
+// setupTest truncates users; Subjects cascade-delete with their owning user
+// (owner_id ON DELETE CASCADE), so truncating users is enough to reset both.
 func setupTest(t *testing.T) {
 	t.Helper()
 	if _, err := testDB.Pool.Exec(context.Background(), `TRUNCATE users CASCADE`); err != nil {
@@ -60,6 +63,10 @@ func setupTest(t *testing.T) {
 	}
 }
 
+// createUser inserts a verified user directly (bypassing signup) and seeds
+// its default Subject catalogue the same way auth.Service.Signup does (see
+// ADR 0009), since Subjects are now a per-user catalogue rather than a
+// global one.
 func createUser(t *testing.T, email string) (uuid.UUID, string) {
 	t.Helper()
 	var id uuid.UUID
@@ -68,6 +75,9 @@ func createUser(t *testing.T, email string) (uuid.UUID, string) {
 		email).Scan(&id)
 	if err != nil {
 		t.Fatalf("create user: %v", err)
+	}
+	if err := subjects.New(testDB.Pool).SeedDefaults(context.Background(), id); err != nil {
+		t.Fatalf("seed default subjects: %v", err)
 	}
 	token, err := tokens.Issue(id.String(), "user")
 	if err != nil {
@@ -105,13 +115,16 @@ func createExam(t *testing.T, token, classID, label string) string {
 	return decode(t, w.Body.Bytes())["id"].(string)
 }
 
-// createExamSubject attaches the seeded "Mathematics" Subject to the given
-// Exam and returns the resulting Exam Subject's id.
-func createExamSubject(t *testing.T, token, examID string) string {
+// createExamSubject attaches the caller's own seeded "Mathematics" Subject
+// (ownerID) to the given Exam and returns the resulting Exam Subject's id.
+// Subjects are a per-user catalogue (ADR 0009), so the lookup must be scoped
+// by owner -- otherwise it's ambiguous once more than one user's "Mathematics"
+// exists.
+func createExamSubject(t *testing.T, token string, ownerID uuid.UUID, examID string) string {
 	t.Helper()
 	var subjectID uuid.UUID
 	err := testDB.Pool.QueryRow(context.Background(),
-		`SELECT id FROM subjects WHERE name = 'Mathematics'`).Scan(&subjectID)
+		`SELECT id FROM subjects WHERE name = 'Mathematics' AND owner_id = $1`, ownerID).Scan(&subjectID)
 	if err != nil {
 		t.Fatalf("load seeded subject: %v", err)
 	}

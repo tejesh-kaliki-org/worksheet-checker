@@ -16,7 +16,7 @@ import (
 	"fmt"
 )
 
-// Type mirrors the question_type Postgres enum (sql/schema/0011_questions.sql).
+// Type mirrors the question_type Postgres enum (sql/schema/0012_questions.sql).
 type Type string
 
 const (

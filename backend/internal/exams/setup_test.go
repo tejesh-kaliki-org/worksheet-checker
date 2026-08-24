@@ -16,6 +16,7 @@ import (
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/classes"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/config"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/exams"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/subjects"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/testsupport"
 )
 
@@ -30,7 +31,7 @@ func TestMain(m *testing.M) {
 
 	r, api := testsupport.NewRouter()
 	tokens = auth.NewTokenIssuer(config.TokenConfig{Secret: "test-secret", ExpiryHours: 1})
-	authSvc := auth.New(testDB.Pool, config.TokenConfig{Secret: "test-secret", ExpiryHours: 1}, noopMailer{})
+	authSvc := auth.New(testDB.Pool, config.TokenConfig{Secret: "test-secret", ExpiryHours: 1}, noopMailer{}, nil)
 	authSvc.Register(api)
 	classes.New(testDB.Pool).Register(api, classesgen.MiddlewareFunc(authSvc.ScopeAuth()))
 	exams.New(testDB.Pool).Register(api, examsgen.MiddlewareFunc(authSvc.ScopeAuth()))
@@ -46,13 +47,17 @@ func (noopMailer) SendPasswordReset(context.Context, string, string) error { ret
 
 func setupTest(t *testing.T) {
 	t.Helper()
-	// Subjects come from the fixed catalogue seeded by migration; truncating
-	// would remove the seed rows tests rely on, so reset everything else.
+	// Subjects cascade-delete with their owning user (owner_id ON DELETE
+	// CASCADE), so truncating users is enough to reset both.
 	if _, err := testDB.Pool.Exec(context.Background(), `TRUNCATE users CASCADE`); err != nil {
 		t.Fatalf("truncate users: %v", err)
 	}
 }
 
+// createUser inserts a verified user directly (bypassing signup) and seeds
+// its default Subject catalogue the same way auth.Service.Signup does (see
+// ADR 0009), since Subjects are now a per-user catalogue rather than a global
+// one.
 func createUser(t *testing.T, email string) (uuid.UUID, string) {
 	t.Helper()
 	var id uuid.UUID
@@ -61,6 +66,9 @@ func createUser(t *testing.T, email string) (uuid.UUID, string) {
 		email).Scan(&id)
 	if err != nil {
 		t.Fatalf("create user: %v", err)
+	}
+	if err := subjects.New(testDB.Pool).SeedDefaults(context.Background(), id); err != nil {
+		t.Fatalf("seed default subjects: %v", err)
 	}
 	token, err := tokens.Issue(id.String(), "user")
 	if err != nil {
@@ -78,12 +86,14 @@ func createClass(t *testing.T, token, name string) string {
 	return decode(t, w.Body.Bytes())["id"].(string)
 }
 
-// mathematicsSubjectID returns the id of the seeded "Mathematics" Subject.
-func mathematicsSubjectID(t *testing.T) string {
+// mathematicsSubjectID returns the id of the given owner's seeded
+// "Mathematics" Subject. Subjects are a per-user catalogue (ADR 0009), so
+// every owner has their own row with this name.
+func mathematicsSubjectID(t *testing.T, ownerID uuid.UUID) string {
 	t.Helper()
 	var id uuid.UUID
 	err := testDB.Pool.QueryRow(context.Background(),
-		`SELECT id FROM subjects WHERE name = 'Mathematics'`).Scan(&id)
+		`SELECT id FROM subjects WHERE name = 'Mathematics' AND owner_id = $1`, ownerID).Scan(&id)
 	if err != nil {
 		t.Fatalf("load seeded subject: %v", err)
 	}

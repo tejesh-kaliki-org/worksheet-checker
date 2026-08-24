@@ -135,7 +135,19 @@ func (s *Service) AddExamSubject(c *gin.Context, examID uuid.UUID) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if _, err := s.store.GetSubjectByID(c.Request.Context(), body.SubjectId); err != nil {
+	subject, err := s.store.GetSubjectByID(c.Request.Context(), body.SubjectId)
+	if err != nil {
+		if !errors.Is(err, pgx.ErrNoRows) {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load subject"})
+			return
+		}
+		c.JSON(http.StatusNotFound, gin.H{"error": "subject not found"})
+		return
+	}
+	// Subjects are a per-user catalogue (ADR 0009): a Subject owned by another
+	// User must 404 here exactly as a missing one would — its existence is not
+	// disclosed, and it must not be attachable to this User's Exam.
+	if subject.OwnerID != uid {
 		c.JSON(http.StatusNotFound, gin.H{"error": "subject not found"})
 		return
 	}

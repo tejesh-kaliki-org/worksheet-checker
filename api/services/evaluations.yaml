@@ -36,8 +36,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EvaluationAttempt"
+        "400":
+          $ref: "./shared.yaml#/components/responses/BadRequest"
         "404":
-          description: Answer not found
+          $ref: "./shared.yaml#/components/responses/NotFound"
     get:
       operationId: listEvaluationAttempts
       tags: [evaluations]
@@ -59,7 +61,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/EvaluationAttemptList"
         "404":
-          description: Answer not found
+          $ref: "./shared.yaml#/components/responses/NotFound"
   /answers/{answerId}/evaluation-attempts/{attemptId}:
     get:
       operationId: getEvaluationAttempt
@@ -90,7 +92,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/EvaluationAttempt"
         "404":
-          description: Not found
+          $ref: "./shared.yaml#/components/responses/NotFound"
 components:
   securitySchemes:
     bearerAuth:

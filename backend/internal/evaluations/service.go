@@ -37,7 +37,7 @@ func userID(c *gin.Context) (uuid.UUID, bool) {
 	raw := c.GetString("user_id")
 	id, err := uuid.Parse(raw)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "missing or invalid bearer token"})
+		c.JSON(http.StatusUnauthorized, gin.H{"msg": "missing or invalid bearer token"})
 		return uuid.UUID{}, false
 	}
 	return id, true
@@ -63,7 +63,7 @@ func (s *Service) CreateEvaluationAttempt(c *gin.Context, answerID uuid.UUID) {
 	var body gen.CreateEvaluationAttemptJSONRequestBody
 	if c.Request.ContentLength > 0 {
 		if err := c.ShouldBindJSON(&body); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 			return
 		}
 		if body.Purpose != nil {
@@ -73,13 +73,13 @@ func (s *Service) CreateEvaluationAttempt(c *gin.Context, answerID uuid.UUID) {
 
 	question, err := s.store.GetQuestionByID(c.Request.Context(), answer.QuestionID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load question"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load question"})
 		return
 	}
 
 	attempt, err := s.store.CreateEvaluationAttempt(c.Request.Context(), answerID, purpose)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not create evaluation attempt"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not create evaluation attempt"})
 		return
 	}
 
@@ -108,7 +108,7 @@ func (s *Service) runAttempt(c *gin.Context, attempt database.EvaluationAttempt,
 			ID: attempt.ID, Status: database.EvaluationAttemptStatusFailed, Error: &msg,
 		})
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not record evaluation failure"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not record evaluation failure"})
 			return attempt, nil, false
 		}
 		return updated, nil, true
@@ -122,24 +122,24 @@ func (s *Service) runAttempt(c *gin.Context, attempt database.EvaluationAttempt,
 		TokensOut:           result.tokensOut,
 		LatencyMs:           result.latencyMs,
 	}); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not log llm call"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not log llm call"})
 		return attempt, nil, false
 	}
 
 	maxMarks, err := float64FromNumeric(question.MaximumMarks)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not read maximum marks"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not read maximum marks"})
 		return attempt, nil, false
 	}
 	marksFloat := result.grade.RawScore * maxMarks
 	rawScoreNum, err := numericFromFloat64(result.grade.RawScore)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not encode raw score"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not encode raw score"})
 		return attempt, nil, false
 	}
 	marksNum, err := numericFromFloat64(marksFloat)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not encode marks"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not encode marks"})
 		return attempt, nil, false
 	}
 
@@ -150,7 +150,7 @@ func (s *Service) runAttempt(c *gin.Context, attempt database.EvaluationAttempt,
 		Feedback:            result.grade.Feedback,
 	})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not save evaluation"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not save evaluation"})
 		return attempt, nil, false
 	}
 
@@ -158,7 +158,7 @@ func (s *Service) runAttempt(c *gin.Context, attempt database.EvaluationAttempt,
 		ID: attempt.ID, Status: database.EvaluationAttemptStatusSucceeded, Error: nil,
 	})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not finalize evaluation attempt"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not finalize evaluation attempt"})
 		return attempt, nil, false
 	}
 	return updated, &evaluation, true
@@ -175,7 +175,7 @@ func (s *Service) ListEvaluationAttempts(c *gin.Context, answerID uuid.UUID) {
 	}
 	attempts, err := s.store.ListEvaluationAttemptsByAnswer(c.Request.Context(), answerID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not list evaluation attempts"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not list evaluation attempts"})
 		return
 	}
 	out := make([]gen.EvaluationAttempt, 0, len(attempts))
@@ -184,7 +184,7 @@ func (s *Service) ListEvaluationAttempts(c *gin.Context, answerID uuid.UUID) {
 		if a.Status == database.EvaluationAttemptStatusSucceeded {
 			e, err := s.store.GetEvaluationByAttemptID(c.Request.Context(), a.ID)
 			if err != nil && !errors.Is(err, pgx.ErrNoRows) {
-				c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load evaluation"})
+				c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load evaluation"})
 				return
 			}
 			if err == nil {
@@ -208,14 +208,14 @@ func (s *Service) GetEvaluationAttempt(c *gin.Context, answerID uuid.UUID, attem
 	attempt, err := s.store.GetEvaluationAttemptByID(c.Request.Context(), attemptID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load evaluation attempt"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load evaluation attempt"})
 			return
 		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "evaluation attempt not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "evaluation attempt not found"})
 		return
 	}
 	if attempt.AnswerID != answerID {
-		c.JSON(http.StatusNotFound, gin.H{"error": "evaluation attempt not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "evaluation attempt not found"})
 		return
 	}
 
@@ -223,7 +223,7 @@ func (s *Service) GetEvaluationAttempt(c *gin.Context, answerID uuid.UUID, attem
 	if attempt.Status == database.EvaluationAttemptStatusSucceeded {
 		e, err := s.store.GetEvaluationByAttemptID(c.Request.Context(), attempt.ID)
 		if err != nil && !errors.Is(err, pgx.ErrNoRows) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load evaluation"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load evaluation"})
 			return
 		}
 		if err == nil {
@@ -243,50 +243,50 @@ func (s *Service) ownedAnswer(c *gin.Context, answerID, uid uuid.UUID) (database
 	answer, err := s.store.GetAnswerByID(c.Request.Context(), answerID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load answer"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load answer"})
 			return database.Answer{}, false
 		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "answer not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "answer not found"})
 		return database.Answer{}, false
 	}
 	submission, err := s.store.GetSubmissionByID(c.Request.Context(), answer.SubmissionID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load submission"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load submission"})
 			return database.Answer{}, false
 		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "answer not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "answer not found"})
 		return database.Answer{}, false
 	}
 	examSubject, err := s.store.GetExamSubjectByID(c.Request.Context(), submission.ExamSubjectID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load exam subject"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load exam subject"})
 			return database.Answer{}, false
 		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "answer not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "answer not found"})
 		return database.Answer{}, false
 	}
 	exam, err := s.store.GetExamByID(c.Request.Context(), examSubject.ExamID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load exam"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load exam"})
 			return database.Answer{}, false
 		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "answer not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "answer not found"})
 		return database.Answer{}, false
 	}
 	class, err := s.store.GetClassByID(c.Request.Context(), exam.ClassID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load class"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load class"})
 			return database.Answer{}, false
 		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "answer not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "answer not found"})
 		return database.Answer{}, false
 	}
 	if class.CreatedBy != uid {
-		c.JSON(http.StatusNotFound, gin.H{"error": "answer not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "answer not found"})
 		return database.Answer{}, false
 	}
 	return answer, true

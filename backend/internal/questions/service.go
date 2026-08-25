@@ -45,7 +45,7 @@ func userID(c *gin.Context) (uuid.UUID, bool) {
 	raw := c.GetString("user_id")
 	id, err := uuid.Parse(raw)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "missing or invalid bearer token"})
+		c.JSON(http.StatusUnauthorized, gin.H{"msg": "missing or invalid bearer token"})
 		return uuid.UUID{}, false
 	}
 	return id, true
@@ -62,12 +62,12 @@ func (s *Service) ListQuestions(c *gin.Context, examSubjectID uuid.UUID) {
 	}
 	list, err := s.store.ListQuestionsByExamSubject(c.Request.Context(), examSubjectID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not list questions"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not list questions"})
 		return
 	}
 	out, err := toAPIQuestions(list)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not decode stored questions"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not decode stored questions"})
 		return
 	}
 	c.JSON(http.StatusOK, gen.QuestionList{Questions: out})
@@ -84,17 +84,17 @@ func (s *Service) CreateQuestion(c *gin.Context, examSubjectID uuid.UUID) {
 	}
 	var body gen.CreateQuestionJSONRequestBody
 	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
 	configBytes, err := decodeConfig(body.Type, body.Config)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
 	marks, err := numericFromFloat64(body.MaximumMarks)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
 	question, err := s.store.CreateQuestion(c.Request.Context(), database.CreateQuestionParams{
@@ -105,12 +105,12 @@ func (s *Service) CreateQuestion(c *gin.Context, examSubjectID uuid.UUID) {
 		MaximumMarks:  marks,
 	})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not create question"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not create question"})
 		return
 	}
 	out, err := toAPIQuestion(question)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not decode stored question"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not decode stored question"})
 		return
 	}
 	c.JSON(http.StatusCreated, out)
@@ -131,7 +131,7 @@ func (s *Service) GetQuestion(c *gin.Context, examSubjectID uuid.UUID, questionI
 	}
 	out, err := toAPIQuestion(question)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not decode stored question"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not decode stored question"})
 		return
 	}
 	c.JSON(http.StatusOK, out)
@@ -151,17 +151,17 @@ func (s *Service) UpdateQuestion(c *gin.Context, examSubjectID uuid.UUID, questi
 	}
 	var body gen.UpdateQuestionJSONRequestBody
 	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
 	configBytes, err := decodeConfig(body.Type, body.Config)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
 	marks, err := numericFromFloat64(body.MaximumMarks)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
 	updated, err := s.store.UpdateQuestion(c.Request.Context(), database.UpdateQuestionParams{
@@ -172,12 +172,12 @@ func (s *Service) UpdateQuestion(c *gin.Context, examSubjectID uuid.UUID, questi
 		MaximumMarks:  marks,
 	})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not update question"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not update question"})
 		return
 	}
 	out, err := toAPIQuestion(updated)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not decode stored question"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not decode stored question"})
 		return
 	}
 	c.JSON(http.StatusOK, out)
@@ -196,7 +196,7 @@ func (s *Service) DeleteQuestion(c *gin.Context, examSubjectID uuid.UUID, questi
 		return
 	}
 	if err := s.store.DeleteQuestion(c.Request.Context(), questionID); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not delete question"})
+		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not delete question"})
 		return
 	}
 	c.Status(http.StatusNoContent)
@@ -225,32 +225,32 @@ func (s *Service) ownedExamSubject(c *gin.Context, examSubjectID, uid uuid.UUID)
 	examSubject, err := s.store.GetExamSubjectByID(c.Request.Context(), examSubjectID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load exam subject"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load exam subject"})
 			return false
 		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "exam subject not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "exam subject not found"})
 		return false
 	}
 	exam, err := s.store.GetExamByID(c.Request.Context(), examSubject.ExamID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load exam"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load exam"})
 			return false
 		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "exam subject not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "exam subject not found"})
 		return false
 	}
 	class, err := s.store.GetClassByID(c.Request.Context(), exam.ClassID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load class"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load class"})
 			return false
 		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "exam subject not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "exam subject not found"})
 		return false
 	}
 	if class.CreatedBy != uid {
-		c.JSON(http.StatusNotFound, gin.H{"error": "exam subject not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "exam subject not found"})
 		return false
 	}
 	return true
@@ -262,14 +262,14 @@ func (s *Service) scopedQuestion(c *gin.Context, examSubjectID, questionID uuid.
 	question, err := s.store.GetQuestionByID(c.Request.Context(), questionID)
 	if err != nil {
 		if !errors.Is(err, pgx.ErrNoRows) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "could not load question"})
+			c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not load question"})
 			return database.Question{}, false
 		}
-		c.JSON(http.StatusNotFound, gin.H{"error": "question not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "question not found"})
 		return database.Question{}, false
 	}
 	if question.ExamSubjectID != examSubjectID {
-		c.JSON(http.StatusNotFound, gin.H{"error": "question not found"})
+		c.JSON(http.StatusNotFound, gin.H{"msg": "question not found"})
 		return database.Question{}, false
 	}
 	return question, true

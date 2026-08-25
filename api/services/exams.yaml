@@ -25,7 +25,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ExamList"
         "404":
-          description: Class not found
+          $ref: "./shared.yaml#/components/responses/NotFound"
     post:
       operationId: createExam
       tags: [exams]
@@ -52,8 +52,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exam"
+        "400":
+          $ref: "./shared.yaml#/components/responses/BadRequest"
         "404":
-          description: Class not found
+          $ref: "./shared.yaml#/components/responses/NotFound"
   /classes/{classId}/exams/{examId}:
     get:
       operationId: getExam
@@ -82,7 +84,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Exam"
         "404":
-          description: Not found
+          $ref: "./shared.yaml#/components/responses/NotFound"
   /exams/{examId}/subjects:
     get:
       operationId: listExamSubjects
@@ -105,7 +107,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ExamSubjectList"
         "404":
-          description: Exam not found
+          $ref: "./shared.yaml#/components/responses/NotFound"
     post:
       operationId: addExamSubject
       tags: [exams]
@@ -132,8 +134,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ExamSubject"
+        "400":
+          $ref: "./shared.yaml#/components/responses/BadRequest"
         "404":
-          description: Exam or Subject not found
+          $ref: "./shared.yaml#/components/responses/NotFound"
 components:
   securitySchemes:
     bearerAuth:

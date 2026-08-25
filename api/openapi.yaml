@@ -390,7 +390,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ExamList"
         "404":
-          description: Class not found
+          $ref: "#/components/responses/NotFound"
     post:
       operationId: createExam
       tags:
@@ -418,8 +418,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Exam"
+        "400":
+          $ref: "#/components/responses/BadRequest"
         "404":
-          description: Class not found
+          $ref: "#/components/responses/NotFound"
   /classes/{classId}/exams/{examId}:
     get:
       operationId: getExam
@@ -449,7 +451,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Exam"
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
   /exams/{examId}/subjects:
     get:
       operationId: listExamSubjects
@@ -473,7 +475,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ExamSubjectList"
         "404":
-          description: Exam not found
+          $ref: "#/components/responses/NotFound"
     post:
       operationId: addExamSubject
       tags:
@@ -501,8 +503,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ExamSubject"
+        "400":
+          $ref: "#/components/responses/BadRequest"
         "404":
-          description: Exam or Subject not found
+          $ref: "#/components/responses/NotFound"
   /health:
     get:
       operationId: getHealth
@@ -542,7 +546,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/QuestionList"
         "404":
-          description: Exam Subject not found
+          $ref: "#/components/responses/NotFound"
     post:
       operationId: createQuestion
       tags:
@@ -571,9 +575,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/Question"
         "400":
-          description: Invalid type-specific config
+          $ref: "#/components/responses/BadRequest"
         "404":
-          description: Exam Subject not found
+          $ref: "#/components/responses/NotFound"
   /exam-subjects/{examSubjectId}/questions/{questionId}:
     get:
       operationId: getQuestion
@@ -603,7 +607,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Question"
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
     put:
       operationId: updateQuestion
       tags:
@@ -640,7 +644,7 @@ paths:
         "400":
           description: Invalid type-specific config
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
     delete:
       operationId: deleteQuestion
       tags:
@@ -665,7 +669,7 @@ paths:
         "204":
           description: Deleted
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
   /classes/{classId}/students:
     get:
       operationId: listStudents

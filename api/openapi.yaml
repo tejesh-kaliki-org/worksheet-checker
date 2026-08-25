@@ -1019,9 +1019,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/SubmissionList"
         "400":
-          description: Invalid request body
+          $ref: "#/components/responses/BadRequest"
         "404":
-          description: Exam Subject not found
+          $ref: "#/components/responses/NotFound"
   /exam-subjects/{examSubjectId}/submissions:
     get:
       operationId: listSubmissions
@@ -1045,7 +1045,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/SubmissionList"
         "404":
-          description: Exam Subject not found
+          $ref: "#/components/responses/NotFound"
   /submissions/{submissionId}/answers:
     get:
       operationId: listAnswers
@@ -1069,7 +1069,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/AnswerList"
         "404":
-          description: Submission not found
+          $ref: "#/components/responses/NotFound"
   /submissions/{submissionId}/answers/{answerId}:
     get:
       operationId: getAnswer
@@ -1099,7 +1099,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Answer"
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
     put:
       operationId: updateAnswer
       tags:
@@ -1135,9 +1135,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/Answer"
         "400":
-          description: Invalid request body
+          $ref: "#/components/responses/BadRequest"
         "404":
-          description: Not found
+          $ref: "#/components/responses/NotFound"
 components:
   schemas:
     Error:

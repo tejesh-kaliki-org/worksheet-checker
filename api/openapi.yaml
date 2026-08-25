@@ -642,7 +642,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Question"
         "400":
-          description: Invalid type-specific config
+          $ref: "#/components/responses/BadRequest"
         "404":
           $ref: "#/components/responses/NotFound"
     delete:

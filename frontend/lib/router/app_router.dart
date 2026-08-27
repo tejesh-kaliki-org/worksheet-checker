@@ -12,6 +12,7 @@ import 'package:worksheet_checker/screens/exam_subject_questions_screen.dart';
 import 'package:worksheet_checker/screens/login_screen.dart';
 import 'package:worksheet_checker/screens/otp_screen.dart';
 import 'package:worksheet_checker/screens/signup_screen.dart';
+import 'package:worksheet_checker/screens/submissions_screen.dart';
 
 part 'app_router.g.dart';
 
@@ -71,12 +72,21 @@ GoRouter appRouter(Ref ref) {
             path: '/exams/:examId',
             builder: (_, state) => ExamDetailScreen(
               examId: state.pathParameters['examId']!,
+              classId: state.extra as String?,
             ),
           ),
           GoRoute(
             path: '/exam-subjects/:examSubjectId',
             builder: (_, state) => ExamSubjectQuestionsScreen(
               examSubjectId: state.pathParameters['examSubjectId']!,
+              classId: state.extra as String?,
+            ),
+          ),
+          GoRoute(
+            path: '/exam-subjects/:examSubjectId/submissions',
+            builder: (_, state) => SubmissionsScreen(
+              examSubjectId: state.pathParameters['examSubjectId']!,
+              classId: state.extra as String? ?? '',
             ),
           ),
         ],

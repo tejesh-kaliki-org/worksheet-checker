@@ -22,6 +22,7 @@ import (
 	questionsGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/questions"
 	studentsGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/students"
 	subjectsGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/subjects"
+	submissionsGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/submissions"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/auth"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/classes"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/config"
@@ -32,6 +33,7 @@ import (
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/questions"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/students"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/subjects"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/submissions"
 )
 
 func Run() {
@@ -101,6 +103,8 @@ func Run() {
 	examsSvc.Register(api, examsGen.MiddlewareFunc(authSvc.ScopeAuth()))
 	questionsSvc := questions.New(pool)
 	questionsSvc.Register(api, questionsGen.MiddlewareFunc(authSvc.ScopeAuth()))
+	submissionsSvc := submissions.New(pool)
+	submissionsSvc.Register(api, submissionsGen.MiddlewareFunc(authSvc.ScopeAuth()))
 
 	srv := &http.Server{
 		Addr:              ":" + cfg.Server.Port,

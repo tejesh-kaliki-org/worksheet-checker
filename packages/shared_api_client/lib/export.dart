@@ -10,6 +10,7 @@ export 'health_other/health_other_client.dart';
 export 'questions/questions_client.dart';
 export 'students/students_client.dart';
 export 'subjects/subjects_client.dart';
+export 'submissions/submissions_client.dart';
 // Data classes
 export 'models/error.dart';
 export 'models/user.dart';
@@ -47,6 +48,14 @@ export 'models/update_student_request.dart';
 export 'models/create_subject_request.dart';
 export 'models/update_subject_request.dart';
 export 'models/bulk_create_subjects_request.dart';
+export 'models/submission.dart';
+export 'models/submission_list.dart';
+export 'models/answer.dart';
+export 'models/answer_list.dart';
+export 'models/answer_input.dart';
+export 'models/student_answers_input.dart';
+export 'models/bulk_upload_submissions_request.dart';
+export 'models/update_answer_request.dart';
 export 'models/get_health_response.dart';
 // Root client
 export 'rest_client.dart';

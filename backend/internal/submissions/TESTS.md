@@ -1,0 +1,22 @@
+# Tests — submissions
+
+- `TestBulkUploadSubmissions/success creates submissions and answers` — a bulk upload creates one Submission per Student and one Answer per Question.
+- `TestBulkUploadSubmissions/re-upload is idempotent (upsert)` — re-uploading reuses the existing Submission for the same Student and overwrites the existing Answer for the same Question, rather than duplicating either.
+- `TestBulkUploadSubmissions/student from a different class rejected` — a Student who doesn't belong to the Exam's Class → 400, and nothing is written.
+- `TestBulkUploadSubmissions/unknown student rejected` — a random UUID as `student_id` → 400.
+- `TestBulkUploadSubmissions/unknown question rejected` — a random UUID as `question_id` → 400.
+- `TestBulkUploadSubmissions/question from a different exam subject rejected` — a Question that exists but belongs to a sibling Exam Subject → 400: Answers are scoped to one Exam Subject's Questions, never reused.
+- `TestBulkUploadSubmissions/not_found for another owner's exam subject` — the Exam Subject belongs to a different User's Class (walking Exam Subject -> Exam -> Class -> owner) → 404.
+- `TestListSubmissions/success` — lists the Submissions under the caller's own Exam Subject.
+- `TestListSubmissions/empty is [], not null` — an Exam Subject with no Submissions returns `"submissions":[]`, never `null`.
+- `TestListSubmissions/not_found for another owner's exam subject` — listing under an Exam Subject owned by a different User 404s.
+- `TestListAnswers/success` — lists the Answers under the caller's own Submission.
+- `TestListAnswers/empty is [], not null` — a Submission with no Answers returns `"answers":[]`, never `null`.
+- `TestListAnswers/not_found for another owner's submission` — listing under a Submission owned by a different User (walking Submission -> Exam Subject -> Exam -> Class -> owner) 404s.
+- `TestGetAndUpdateAnswer/get answer` — fetching a single Answer by id.
+- `TestGetAndUpdateAnswer/get 404s for an unknown answer id` — a random UUID → 404.
+- `TestGetAndUpdateAnswer/get 404s for an answer id from a different submission` — an Answer that exists but belongs to a sibling Submission (same owner) still 404s when addressed through the wrong Submission: Answers are scoped to one Submission, never reused.
+- `TestGetAndUpdateAnswer/teacher corrects a mis-entered answer` — `PUT` overwrites `raw_answer` and the change persists.
+- `TestGetAndUpdateAnswer/update 404s for an unknown answer id` — a random UUID → 404.
+- `TestGetAndUpdateAnswer/not_found for another owner` — `GET` 404s for a different User's Submission (ownership boundary, never 403).
+- `TestGetAndUpdateAnswer/update not_found for another owner` — `PUT` 404s for a different User's Submission.

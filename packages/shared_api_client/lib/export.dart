@@ -5,6 +5,7 @@
 // Clients
 export 'auth/auth_client.dart';
 export 'classes/classes_client.dart';
+export 'evaluations/evaluations_client.dart';
 export 'exams/exams_client.dart';
 export 'health_other/health_other_client.dart';
 export 'questions/questions_client.dart';
@@ -29,6 +30,12 @@ export 'models/update_class_request.dart';
 export 'models/subject.dart';
 export 'models/subject_list.dart';
 export 'models/bulk_select_class_subjects_request.dart';
+export 'models/evaluation_purpose.dart';
+export 'models/evaluation_attempt_status.dart';
+export 'models/evaluation.dart';
+export 'models/evaluation_attempt.dart';
+export 'models/evaluation_attempt_list.dart';
+export 'models/create_evaluation_attempt_request.dart';
 export 'models/exam.dart';
 export 'models/exam_list.dart';
 export 'models/create_exam_request.dart';

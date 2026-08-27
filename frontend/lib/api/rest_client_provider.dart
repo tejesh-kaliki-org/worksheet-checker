@@ -113,3 +113,7 @@ QuestionsClient questionsClient(Ref ref) =>
 @riverpod
 SubmissionsClient submissionsClient(Ref ref) =>
     ref.watch(restClientProvider).submissions;
+
+@riverpod
+EvaluationsClient evaluationsClient(Ref ref) =>
+    ref.watch(restClientProvider).evaluations;

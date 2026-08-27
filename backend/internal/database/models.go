@@ -13,6 +13,128 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type EvaluationAttemptStatus string
+
+const (
+	EvaluationAttemptStatusPending   EvaluationAttemptStatus = "pending"
+	EvaluationAttemptStatusRunning   EvaluationAttemptStatus = "running"
+	EvaluationAttemptStatusSucceeded EvaluationAttemptStatus = "succeeded"
+	EvaluationAttemptStatusFailed    EvaluationAttemptStatus = "failed"
+)
+
+func (e *EvaluationAttemptStatus) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = EvaluationAttemptStatus(s)
+	case string:
+		*e = EvaluationAttemptStatus(s)
+	default:
+		return fmt.Errorf("unsupported scan type for EvaluationAttemptStatus: %T", src)
+	}
+	return nil
+}
+
+type NullEvaluationAttemptStatus struct {
+	EvaluationAttemptStatus EvaluationAttemptStatus
+	Valid                   bool // Valid is true if EvaluationAttemptStatus is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullEvaluationAttemptStatus) Scan(value interface{}) error {
+	if value == nil {
+		ns.EvaluationAttemptStatus, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.EvaluationAttemptStatus.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullEvaluationAttemptStatus) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.EvaluationAttemptStatus), nil
+}
+
+func (e EvaluationAttemptStatus) Valid() bool {
+	switch e {
+	case EvaluationAttemptStatusPending,
+		EvaluationAttemptStatusRunning,
+		EvaluationAttemptStatusSucceeded,
+		EvaluationAttemptStatusFailed:
+		return true
+	}
+	return false
+}
+
+func AllEvaluationAttemptStatusValues() []EvaluationAttemptStatus {
+	return []EvaluationAttemptStatus{
+		EvaluationAttemptStatusPending,
+		EvaluationAttemptStatusRunning,
+		EvaluationAttemptStatusSucceeded,
+		EvaluationAttemptStatusFailed,
+	}
+}
+
+type EvaluationPurpose string
+
+const (
+	EvaluationPurposeScoring    EvaluationPurpose = "scoring"
+	EvaluationPurposeExperiment EvaluationPurpose = "experiment"
+)
+
+func (e *EvaluationPurpose) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = EvaluationPurpose(s)
+	case string:
+		*e = EvaluationPurpose(s)
+	default:
+		return fmt.Errorf("unsupported scan type for EvaluationPurpose: %T", src)
+	}
+	return nil
+}
+
+type NullEvaluationPurpose struct {
+	EvaluationPurpose EvaluationPurpose
+	Valid             bool // Valid is true if EvaluationPurpose is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullEvaluationPurpose) Scan(value interface{}) error {
+	if value == nil {
+		ns.EvaluationPurpose, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.EvaluationPurpose.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullEvaluationPurpose) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.EvaluationPurpose), nil
+}
+
+func (e EvaluationPurpose) Valid() bool {
+	switch e {
+	case EvaluationPurposeScoring,
+		EvaluationPurposeExperiment:
+		return true
+	}
+	return false
+}
+
+func AllEvaluationPurposeValues() []EvaluationPurpose {
+	return []EvaluationPurpose{
+		EvaluationPurposeScoring,
+		EvaluationPurposeExperiment,
+	}
+}
+
 type QuestionType string
 
 const (
@@ -113,6 +235,26 @@ type ClassSubject struct {
 	CreatedAt time.Time
 }
 
+type Evaluation struct {
+	ID                  uuid.UUID
+	EvaluationAttemptID uuid.UUID
+	RawScore            pgtype.Numeric
+	Marks               pgtype.Numeric
+	Feedback            string
+	Breakdown           []byte
+	CreatedAt           time.Time
+}
+
+type EvaluationAttempt struct {
+	ID        uuid.UUID
+	AnswerID  uuid.UUID
+	Status    EvaluationAttemptStatus
+	Purpose   EvaluationPurpose
+	Error     *string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
+
 type Exam struct {
 	ID        uuid.UUID
 	ClassID   uuid.UUID
@@ -126,6 +268,19 @@ type ExamSubject struct {
 	ExamID    uuid.UUID
 	SubjectID uuid.UUID
 	CreatedAt time.Time
+}
+
+type LlmCall struct {
+	ID                  uuid.UUID
+	EvaluationAttemptID uuid.UUID
+	CorrelationID       uuid.UUID
+	Model               string
+	TokensIn            int32
+	TokensOut           int32
+	CachedTokens        *int32
+	ThinkingTokens      *int32
+	LatencyMs           int32
+	CreatedAt           time.Time
 }
 
 type Question struct {

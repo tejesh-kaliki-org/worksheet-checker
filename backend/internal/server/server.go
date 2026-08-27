@@ -18,6 +18,7 @@ import (
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 
 	classesGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/classes"
+	evaluationsGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/evaluations"
 	examsGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/exams"
 	questionsGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/questions"
 	studentsGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/students"
@@ -26,6 +27,7 @@ import (
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/auth"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/classes"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/config"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/evaluations"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/exams"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/mail"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/migrate"
@@ -105,6 +107,8 @@ func Run() {
 	questionsSvc.Register(api, questionsGen.MiddlewareFunc(authSvc.ScopeAuth()))
 	submissionsSvc := submissions.New(pool)
 	submissionsSvc.Register(api, submissionsGen.MiddlewareFunc(authSvc.ScopeAuth()))
+	evaluationsSvc := evaluations.New(pool, cfg.Bifrost)
+	evaluationsSvc.Register(api, evaluationsGen.MiddlewareFunc(authSvc.ScopeAuth()))
 
 	srv := &http.Server{
 		Addr:              ":" + cfg.Server.Port,

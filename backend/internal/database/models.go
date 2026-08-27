@@ -5,10 +5,80 @@
 package database
 
 import (
+	"database/sql/driver"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 )
+
+type QuestionType string
+
+const (
+	QuestionTypeMcq          QuestionType = "mcq"
+	QuestionTypeTrueFalse    QuestionType = "true_false"
+	QuestionTypeNumeric      QuestionType = "numeric"
+	QuestionTypeFillIn       QuestionType = "fill_in"
+	QuestionTypeOpenResponse QuestionType = "open_response"
+)
+
+func (e *QuestionType) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = QuestionType(s)
+	case string:
+		*e = QuestionType(s)
+	default:
+		return fmt.Errorf("unsupported scan type for QuestionType: %T", src)
+	}
+	return nil
+}
+
+type NullQuestionType struct {
+	QuestionType QuestionType
+	Valid        bool // Valid is true if QuestionType is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullQuestionType) Scan(value interface{}) error {
+	if value == nil {
+		ns.QuestionType, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.QuestionType.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullQuestionType) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.QuestionType), nil
+}
+
+func (e QuestionType) Valid() bool {
+	switch e {
+	case QuestionTypeMcq,
+		QuestionTypeTrueFalse,
+		QuestionTypeNumeric,
+		QuestionTypeFillIn,
+		QuestionTypeOpenResponse:
+		return true
+	}
+	return false
+}
+
+func AllQuestionTypeValues() []QuestionType {
+	return []QuestionType{
+		QuestionTypeMcq,
+		QuestionTypeTrueFalse,
+		QuestionTypeNumeric,
+		QuestionTypeFillIn,
+		QuestionTypeOpenResponse,
+	}
+}
 
 type AuthToken struct {
 	ID        uuid.UUID
@@ -32,6 +102,32 @@ type ClassSubject struct {
 	ClassID   uuid.UUID
 	SubjectID uuid.UUID
 	CreatedAt time.Time
+}
+
+type Exam struct {
+	ID        uuid.UUID
+	ClassID   uuid.UUID
+	Label     string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
+
+type ExamSubject struct {
+	ID        uuid.UUID
+	ExamID    uuid.UUID
+	SubjectID uuid.UUID
+	CreatedAt time.Time
+}
+
+type Question struct {
+	ID            uuid.UUID
+	ExamSubjectID uuid.UUID
+	Type          QuestionType
+	Config        []byte
+	SchemaVersion int32
+	MaximumMarks  pgtype.Numeric
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
 }
 
 type RefreshToken struct {

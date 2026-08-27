@@ -7,6 +7,8 @@ import 'package:worksheet_checker/auth/auth_controller.dart';
 import 'package:worksheet_checker/router/app_shell.dart';
 import 'package:worksheet_checker/screens/class_detail_screen.dart';
 import 'package:worksheet_checker/screens/classes_screen.dart';
+import 'package:worksheet_checker/screens/exam_detail_screen.dart';
+import 'package:worksheet_checker/screens/exam_subject_questions_screen.dart';
 import 'package:worksheet_checker/screens/login_screen.dart';
 import 'package:worksheet_checker/screens/otp_screen.dart';
 import 'package:worksheet_checker/screens/signup_screen.dart';
@@ -63,6 +65,18 @@ GoRouter appRouter(Ref ref) {
             path: '/classes/:classId',
             builder: (_, state) => ClassDetailScreen(
               classId: state.pathParameters['classId']!,
+            ),
+          ),
+          GoRoute(
+            path: '/exams/:examId',
+            builder: (_, state) => ExamDetailScreen(
+              examId: state.pathParameters['examId']!,
+            ),
+          ),
+          GoRoute(
+            path: '/exam-subjects/:examSubjectId',
+            builder: (_, state) => ExamSubjectQuestionsScreen(
+              examSubjectId: state.pathParameters['examSubjectId']!,
             ),
           ),
         ],

@@ -18,14 +18,18 @@ import (
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 
 	classesGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/classes"
+	examsGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/exams"
+	questionsGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/questions"
 	studentsGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/students"
 	subjectsGen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/subjects"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/auth"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/classes"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/config"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/exams"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/mail"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/migrate"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/observability"
+	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/questions"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/students"
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/subjects"
 )
@@ -93,6 +97,10 @@ func Run() {
 	studentsSvc := students.New(pool)
 	studentsSvc.Register(api, studentsGen.MiddlewareFunc(authSvc.ScopeAuth()))
 	subjectsSvc.Register(api, subjectsGen.MiddlewareFunc(authSvc.ScopeAuth()))
+	examsSvc := exams.New(pool)
+	examsSvc.Register(api, examsGen.MiddlewareFunc(authSvc.ScopeAuth()))
+	questionsSvc := questions.New(pool)
+	questionsSvc.Register(api, questionsGen.MiddlewareFunc(authSvc.ScopeAuth()))
 
 	srv := &http.Server{
 		Addr:              ":" + cfg.Server.Port,

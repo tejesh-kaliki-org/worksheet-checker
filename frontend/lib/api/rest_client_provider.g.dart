@@ -121,5 +121,38 @@ final subjectsClientProvider = AutoDisposeProvider<SubjectsClient>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef SubjectsClientRef = AutoDisposeProviderRef<SubjectsClient>;
+String _$examsClientHash() => r'586556a0470d92ee057a684d0c1267204b930941';
+
+/// See also [examsClient].
+@ProviderFor(examsClient)
+final examsClientProvider = AutoDisposeProvider<ExamsClient>.internal(
+  examsClient,
+  name: r'examsClientProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$examsClientHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef ExamsClientRef = AutoDisposeProviderRef<ExamsClient>;
+String _$questionsClientHash() => r'2f02db9e76a0c76d096849218d7170cc6aa44cd0';
+
+/// See also [questionsClient].
+@ProviderFor(questionsClient)
+final questionsClientProvider = AutoDisposeProvider<QuestionsClient>.internal(
+  questionsClient,
+  name: r'questionsClientProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$questionsClientHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef QuestionsClientRef = AutoDisposeProviderRef<QuestionsClient>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

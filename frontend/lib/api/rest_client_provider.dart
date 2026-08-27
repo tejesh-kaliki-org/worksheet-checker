@@ -102,3 +102,10 @@ StudentsClient studentsClient(Ref ref) =>
 @riverpod
 SubjectsClient subjectsClient(Ref ref) =>
     ref.watch(restClientProvider).subjects;
+
+@riverpod
+ExamsClient examsClient(Ref ref) => ref.watch(restClientProvider).exams;
+
+@riverpod
+QuestionsClient questionsClient(Ref ref) =>
+    ref.watch(restClientProvider).questions;

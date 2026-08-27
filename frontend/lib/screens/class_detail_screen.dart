@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_api_client/export.dart';
 
@@ -26,6 +27,13 @@ Future<List<Subject>> classSubjects(Ref ref, String classId) async {
 Future<List<Subject>> allSubjects(Ref ref) async {
   final result = await ref.watch(subjectsClientProvider).listSubjects();
   return result.subjects;
+}
+
+@riverpod
+Future<List<Exam>> classExams(Ref ref, String classId) async {
+  final result =
+      await ref.watch(examsClientProvider).listExams(classId: classId);
+  return result.exams;
 }
 
 /// Bare-functional Class detail: add Students, pick Subjects. No edit/delete
@@ -97,11 +105,64 @@ class ClassDetailScreen extends ConsumerWidget {
                   Text('Error: $error'),
                 _ => const CircularProgressIndicator(),
               },
+              const SizedBox(height: 24),
+              Text('Exams', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 8),
+              FilledButton(
+                onPressed: () => _createExam(context, ref),
+                child: const Text('New Exam'),
+              ),
+              const SizedBox(height: 8),
+              ref.watch(classExamsProvider(classId)).when(
+                    data: (list) => list.isEmpty
+                        ? const Text('No Exams yet.')
+                        : Column(
+                            children: [
+                              for (final e in list)
+                                ListTile(
+                                  title: Text(e.label),
+                                  onTap: () => context.push('/exams/${e.id}'),
+                                ),
+                            ],
+                          ),
+                    loading: () => const CircularProgressIndicator(),
+                    error: (e, _) => Text('Error: $e'),
+                  ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _createExam(BuildContext context, WidgetRef ref) async {
+    final controller = TextEditingController();
+    final label = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('New Exam'),
+        content: TextField(
+          controller: controller,
+          decoration: const InputDecoration(labelText: 'Label'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, controller.text),
+            child: const Text('Create'),
+          ),
+        ],
+      ),
+    );
+    if (label == null || label.trim().isEmpty) return;
+    await ref.read(examsClientProvider).createExam(
+          classId: classId,
+          body: CreateExamRequest(label: label.trim()),
+        );
+    ref.invalidate(classExamsProvider(classId));
   }
 
   Future<void> _addStudent(BuildContext context, WidgetRef ref) async {

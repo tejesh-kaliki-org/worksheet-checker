@@ -7,8 +7,12 @@ tags:
     x-displayName: auth
   - name: classes
     x-displayName: classes
+  - name: exams
+    x-displayName: exams
   - name: health_other
     x-displayName: other
+  - name: questions
+    x-displayName: questions
   - name: students
     x-displayName: students
   - name: subjects
@@ -363,6 +367,148 @@ paths:
           description: Removed
         "404":
           $ref: "#/components/responses/NotFound"
+  /classes/{classId}/exams:
+    get:
+      operationId: listExams
+      tags:
+        - exams
+      summary: List Exams for a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExamList"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    post:
+      operationId: createExam
+      tags:
+        - exams
+      summary: Create an Exam for a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateExamRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exam"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+  /classes/{classId}/exams/{examId}:
+    get:
+      operationId: getExam
+      tags:
+        - exams
+      summary: Get an Exam in a Class
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: examId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exam"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /exams/{examId}/subjects:
+    get:
+      operationId: listExamSubjects
+      tags:
+        - exams
+      summary: List Exam Subjects attached to an Exam
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExamSubjectList"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    post:
+      operationId: addExamSubject
+      tags:
+        - exams
+      summary: Attach a Subject to an Exam (creates its Exam Subject)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddExamSubjectRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExamSubject"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /health:
     get:
       operationId: getHealth
@@ -379,6 +525,153 @@ paths:
                     type: string
       tags:
         - health_other
+  /exam-subjects/{examSubjectId}/questions:
+    get:
+      operationId: listQuestions
+      tags:
+        - questions
+      summary: List Questions in an Exam Subject's catalogue
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examSubjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestionList"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    post:
+      operationId: createQuestion
+      tags:
+        - questions
+      summary: Author a Question in an Exam Subject's catalogue
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examSubjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateQuestionRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Question"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /exam-subjects/{examSubjectId}/questions/{questionId}:
+    get:
+      operationId: getQuestion
+      tags:
+        - questions
+      summary: Get a Question in an Exam Subject's catalogue
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examSubjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: questionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Question"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    put:
+      operationId: updateQuestion
+      tags:
+        - questions
+      summary: Update a Question in an Exam Subject's catalogue
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examSubjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: questionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateQuestionRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Question"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      operationId: deleteQuestion
+      tags:
+        - questions
+      summary: Remove a Question from an Exam Subject's catalogue
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: examSubjectId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: questionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
   /classes/{classId}/students:
     get:
       operationId: listStudents
@@ -901,6 +1194,150 @@ components:
           items:
             type: string
             format: uuid
+    Exam:
+      type: object
+      required:
+        - id
+        - class_id
+        - label
+        - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+        class_id:
+          type: string
+          format: uuid
+        label:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    ExamList:
+      type: object
+      required:
+        - exams
+      properties:
+        exams:
+          type: array
+          items:
+            $ref: "#/components/schemas/Exam"
+    CreateExamRequest:
+      type: object
+      required:
+        - label
+      properties:
+        label:
+          type: string
+          minLength: 1
+    ExamSubject:
+      type: object
+      required:
+        - id
+        - exam_id
+        - subject_id
+      properties:
+        id:
+          type: string
+          format: uuid
+        exam_id:
+          type: string
+          format: uuid
+        subject_id:
+          type: string
+          format: uuid
+    ExamSubjectList:
+      type: object
+      required:
+        - exam_subjects
+      properties:
+        exam_subjects:
+          type: array
+          items:
+            $ref: "#/components/schemas/ExamSubject"
+    AddExamSubjectRequest:
+      type: object
+      required:
+        - subject_id
+      properties:
+        subject_id:
+          type: string
+          format: uuid
+    QuestionType:
+      type: string
+      enum:
+        - mcq
+        - true_false
+        - numeric
+        - fill_in
+        - open_response
+    Question:
+      type: object
+      required:
+        - id
+        - exam_subject_id
+        - type
+        - config
+        - schema_version
+        - maximum_marks
+      properties:
+        id:
+          type: string
+          format: uuid
+        exam_subject_id:
+          type: string
+          format: uuid
+        type:
+          $ref: "#/components/schemas/QuestionType"
+        config:
+          description: Type-specific shape (see internal/questionconfig on the backend for
+            the validated Go structs this mirrors).
+          type: object
+          additionalProperties: true
+        schema_version:
+          type: integer
+        maximum_marks:
+          type: number
+          format: double
+    QuestionList:
+      type: object
+      required:
+        - questions
+      properties:
+        questions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Question"
+    CreateQuestionRequest:
+      type: object
+      required:
+        - type
+        - config
+        - maximum_marks
+      properties:
+        type:
+          $ref: "#/components/schemas/QuestionType"
+        config:
+          type: object
+          additionalProperties: true
+        maximum_marks:
+          type: number
+          format: double
+    UpdateQuestionRequest:
+      type: object
+      required:
+        - type
+        - config
+        - maximum_marks
+      properties:
+        type:
+          $ref: "#/components/schemas/QuestionType"
+        config:
+          type: object
+          additionalProperties: true
+        maximum_marks:
+          type: number
+          format: double
     Student:
       type: object
       required:
@@ -1023,9 +1460,15 @@ x-tagGroups:
   - name: Worksheet Checker — classes
     tags:
       - classes
+  - name: Worksheet Checker — exams
+    tags:
+      - exams
   - name: Worksheet Checker API
     tags:
       - health_other
+  - name: Worksheet Checker — questions
+    tags:
+      - questions
   - name: Worksheet Checker — students
     tags:
       - students

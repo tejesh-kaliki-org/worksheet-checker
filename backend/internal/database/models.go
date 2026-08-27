@@ -80,6 +80,15 @@ func AllQuestionTypeValues() []QuestionType {
 	}
 }
 
+type Answer struct {
+	ID           uuid.UUID
+	SubmissionID uuid.UUID
+	QuestionID   uuid.UUID
+	RawAnswer    string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+}
+
 type AuthToken struct {
 	ID        uuid.UUID
 	UserID    uuid.UUID
@@ -153,6 +162,14 @@ type Subject struct {
 	Name      string
 	OwnerID   uuid.UUID
 	CreatedAt time.Time
+}
+
+type Submission struct {
+	ID            uuid.UUID
+	ExamSubjectID uuid.UUID
+	StudentID     uuid.UUID
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
 }
 
 type User struct {

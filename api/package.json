@@ -7,10 +7,16 @@
     "build": "npm run build:local",
     "build:local": "node scripts/build-spec.mjs config/servers-local.yaml",
     "lint": "redocly lint openapi.yaml",
-    "preview": "npm run build:local && redocly preview-docs openapi.yaml"
+    "preview": "npm run build:local && redocly preview-docs openapi.yaml",
+    "docs:build": "node scripts/build-scalar.js",
+    "docs": "npm run docs:build && serve -l 9090 scalar",
+    "docs:watch": "npm run docs:build && (chokidar 'services/*.yaml' -c 'npm run docs:build' & serve -l 9090 scalar)"
   },
   "devDependencies": {
     "@redocly/cli": "^2.14.5",
+    "chokidar-cli": "^3.0.0",
+    "js-yaml": "^4.1.0",
+    "serve": "^14.2.4",
     "yaml": "^2.5.0"
   }
 }

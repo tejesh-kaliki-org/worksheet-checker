@@ -14,3 +14,5 @@ pubspec.lock
 
 # API
 api/node_modules
+api/scalar/services/
+api/scalar/sources.json

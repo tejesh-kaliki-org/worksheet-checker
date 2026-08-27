@@ -121,7 +121,10 @@ class ClassDetailScreen extends ConsumerWidget {
                               for (final e in list)
                                 ListTile(
                                   title: Text(e.label),
-                                  onTap: () => context.push('/exams/${e.id}'),
+                                  onTap: () => context.push(
+                                    '/exams/${e.id}',
+                                    extra: classId,
+                                  ),
                                 ),
                             ],
                           ),

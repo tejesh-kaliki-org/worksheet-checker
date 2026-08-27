@@ -8,22 +8,39 @@ import (
 	"github.com/tejesh-kaliki/worksheet-checker/backend/internal/testsupport"
 )
 
+// questionTypeConfigs is a valid config for every QuestionType, used to loop
+// create/update tests over all types rather than testing each one-off.
+var questionTypeConfigs = []struct {
+	qType  string
+	config string
+}{
+	{"mcq", `{"options":{"A":"one","B":"two"},"correct_answer":"A"}`},
+	{"true_false", `{"correct_answer":true}`},
+	{"numeric", `{"correct_answer":10,"tolerance":0.1}`},
+	{"fill_in", `{"correct_answer":"chlorophyll"}`},
+	{"open_response", `{"rubric_points":["a","b"]}`},
+}
+
 func TestCreateQuestion(t *testing.T) {
-	t.Run("mcq success", func(t *testing.T) {
+	t.Run("all question types accepted", func(t *testing.T) {
 		setupTest(t)
 		uid, token := createUser(t, "owner@b.com")
 		classID := createClass(t, token, "C")
 		examID := createExam(t, token, classID, "Term 1")
 		examSubjectID := createExamSubject(t, token, uid, examID)
 
-		w := testsupport.DoJSONAuth(router, http.MethodPost, "/api/v1/exam-subjects/"+examSubjectID+"/questions",
-			`{"type":"mcq","maximum_marks":2,"config":{"options":{"A":"one","B":"two"},"correct_answer":"A"}}`, token)
-		if w.Code != http.StatusCreated {
-			t.Fatalf("status = %d, want 201 (%s)", w.Code, w.Body.String())
-		}
-		body := decode(t, w.Body.Bytes())
-		if body["type"] != "mcq" {
-			t.Fatalf("body = %+v", body)
+		for _, tc := range questionTypeConfigs {
+			t.Run(tc.qType, func(t *testing.T) {
+				w := testsupport.DoJSONAuth(router, http.MethodPost, "/api/v1/exam-subjects/"+examSubjectID+"/questions",
+					`{"type":"`+tc.qType+`","maximum_marks":2,"config":`+tc.config+`}`, token)
+				if w.Code != http.StatusCreated {
+					t.Fatalf("status = %d, want 201 (%s)", w.Code, w.Body.String())
+				}
+				body := decode(t, w.Body.Bytes())
+				if body["type"] != tc.qType {
+					t.Fatalf("body = %+v", body)
+				}
+			})
 		}
 	})
 
@@ -41,7 +58,7 @@ func TestCreateQuestion(t *testing.T) {
 		}
 	})
 
-	t.Run("open_response success", func(t *testing.T) {
+	t.Run("invalid type rejected", func(t *testing.T) {
 		setupTest(t)
 		uid, token := createUser(t, "owner@b.com")
 		classID := createClass(t, token, "C")
@@ -49,9 +66,9 @@ func TestCreateQuestion(t *testing.T) {
 		examSubjectID := createExamSubject(t, token, uid, examID)
 
 		w := testsupport.DoJSONAuth(router, http.MethodPost, "/api/v1/exam-subjects/"+examSubjectID+"/questions",
-			`{"type":"open_response","maximum_marks":3,"config":{"rubric_points":["a","b"]}}`, token)
-		if w.Code != http.StatusCreated {
-			t.Fatalf("status = %d, want 201 (%s)", w.Code, w.Body.String())
+			`{"type":"essay","maximum_marks":2,"config":{}}`, token)
+		if w.Code != http.StatusBadRequest {
+			t.Fatalf("status = %d, want 400 (%s)", w.Code, w.Body.String())
 		}
 	})
 
@@ -229,5 +246,31 @@ func TestUpdateQuestion_validation(t *testing.T) {
 		`{"type":"mcq","maximum_marks":2,"config":{"options":{"A":"one"},"correct_answer":"Z"}}`, token)
 	if w.Code != http.StatusBadRequest {
 		t.Fatalf("status = %d, want 400 (%s)", w.Code, w.Body.String())
+	}
+}
+
+func TestUpdateQuestion_allTypesAccepted(t *testing.T) {
+	setupTest(t)
+	uid, token := createUser(t, "owner@b.com")
+	classID := createClass(t, token, "C")
+	examID := createExam(t, token, classID, "Term 1")
+	examSubjectID := createExamSubject(t, token, uid, examID)
+	created := decode(t, testsupport.DoJSONAuth(router, http.MethodPost, "/api/v1/exam-subjects/"+examSubjectID+"/questions",
+		`{"type":"fill_in","maximum_marks":1,"config":{"correct_answer":"chlorophyll"}}`, token).Body.Bytes())
+	questionID := created["id"].(string)
+
+	for _, tc := range questionTypeConfigs {
+		t.Run(tc.qType, func(t *testing.T) {
+			w := testsupport.DoJSONAuth(router, http.MethodPut,
+				"/api/v1/exam-subjects/"+examSubjectID+"/questions/"+questionID,
+				`{"type":"`+tc.qType+`","maximum_marks":2,"config":`+tc.config+`}`, token)
+			if w.Code != http.StatusOK {
+				t.Fatalf("status = %d, want 200 (%s)", w.Code, w.Body.String())
+			}
+			body := decode(t, w.Body.Bytes())
+			if body["type"] != tc.qType {
+				t.Fatalf("body = %+v", body)
+			}
+		})
 	}
 }

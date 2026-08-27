@@ -56,6 +56,8 @@ paths:
           $ref: "./shared.yaml#/components/responses/BadRequest"
         "404":
           $ref: "./shared.yaml#/components/responses/NotFound"
+        "409":
+          $ref: "./shared.yaml#/components/responses/Conflict"
   /classes/{classId}/exams/{examId}:
     get:
       operationId: getExam

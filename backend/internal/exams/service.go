@@ -10,7 +10,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	gen "github.com/tejesh-kaliki/worksheet-checker/backend/gen/api/exams"
@@ -82,6 +84,10 @@ func (s *Service) CreateExam(c *gin.Context, classID uuid.UUID) {
 	}
 	exam, err := s.store.CreateExam(c.Request.Context(), classID, body.Label)
 	if err != nil {
+		if isUniqueViolation(err) {
+			c.JSON(http.StatusConflict, gin.H{"msg": "an exam with that label already exists in this class"})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"msg": "could not create exam"})
 		return
 	}
@@ -211,6 +217,11 @@ func (s *Service) ownedExam(c *gin.Context, examID, uid uuid.UUID) bool {
 		return false
 	}
 	return s.ownsClass(c, exam.ClassID, uid)
+}
+
+func isUniqueViolation(err error) bool {
+	var pgErr *pgconn.PgError
+	return errors.As(err, &pgErr) && pgErr.Code == pgerrcode.UniqueViolation
 }
 
 func toAPIExam(e database.Exam) gen.Exam {
